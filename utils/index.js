@@ -1,2 +1,2 @@
-export { downloadCloduinaryImagesFromDMCProducts } from './download.js';
-export { normalizeDMCProduct } from './normalize.js';
+export { downloadImagesFromDMCProducts } from './resourceFetchers.js';
+export { normalizeDMCProduct, normalizeDMC } from './normalize.js';
