@@ -1,7 +1,7 @@
 
 import { createNormalizedDMC, createNormalizedDMCProduct, createNormalizedAffiliate } from "./normalizedFactories.js";
 
-function normalizeDMCProduct(products) {
+export function normalizeDMCProduct(products) {
     let normalizedProducts = []
     products.forEach(product => {
         normalizedProducts.push(
@@ -12,7 +12,7 @@ function normalizeDMCProduct(products) {
 
 }; 
     
-function normalizeDMC(dmcs) {
+export function normalizeDMC(dmcs) {
     let normalizedDMCs = []
     dmcs.forEach(dmc => {
         normalizedDMCs.push(createNormalizedDMC(dmc._id, dmc.name, dmc.images))
@@ -20,7 +20,7 @@ function normalizeDMC(dmcs) {
     return normalizedDMCs
 }
 
-function normalizeAffilates(affiliates) {
+export function normalizeAffilates(affiliates) {
     let normalizedAffiliates = []
     affiliates.forEach(affiliate => {
         normalizedAffiliates.push(createNormalizedAffiliate(affiliate._id, affiliate.user, affiliate.name, affiliate.images))
@@ -28,4 +28,16 @@ function normalizeAffilates(affiliates) {
     return normalizedAffiliates
 }
 
-export { normalizeDMCProduct, normalizeDMC, normalizeAffilates }
+export function normalizeBanner(banners) {
+    let normalizedBanners = []
+    banners.forEach(banner => {
+        normalizedBanners.push({
+            id: String(banner._id),
+            name: banner.slug,
+            image: { url: banner.image.url }
+        })
+    });
+
+    return normalizedBanners
+}
+

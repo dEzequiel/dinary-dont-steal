@@ -3,9 +3,10 @@ import * as fs from 'fs';
 import { normalize,extname } from 'path';
 
 export function downloadImagesFromDMCProducts(products) {
-    var folderName = "dmcProductImages"
+    const folderName = "dmcProductImages"
+    const folderPath = createFolder(`${folderName}/`) 
     products.forEach(product => {
-        processImageURL(product.image, folderName, product.name )
+        processImageURL(product.image, folderPath, product.name )
     });
 }
 
@@ -46,41 +47,10 @@ export function downloadAffiliatesImages(affiliates) {
 }
 
 export function downloadImagesFromBanners(banners) {
-    const folderName = "downloads/dmcProductImages"
-    createFolder(folderName)
-
-    products.forEach(product => {
-        const filePath = normalize(`${folderName}/${product.name}.${product.image.format}`)
-        const file = fs.createWriteStream(filePath)
-        
-        if(product.image.url.startsWith('/img')) {
-            const yourttooDomain = 'http://www.yourttoo.com/'
-            http.get(normalize(`${yourttooDomain}${product.image.url}`), (res) => {
-                console.log('Downloading from yourttoo...')
-                res.pipe(file)
-            })
-        } else {
-            http.get(product.image.url, (res) => {
-                console.log('Downloading from cloudinary...')
-                res.pipe(file)
-            })    
-        }
-        
-        file.on('finish', () => {
-            file.close()
-            console.log(`Download completed, check ${folderName}/ folder`)
-        })
-
-        file.on('error', (err) => {
-            console.error(`Error downloading file: ${err.message}`)
-            fs.unlink(filePath, (unlinkErr) => {
-                if (unlinkErr) {
-                    console.error(`Error deleting file: ${unlinkErr.message}`)
-                } else {
-                    console.log(`File ${filePath} deleted successfully.`)
-                }
-            })
-        })
+    const folderName = "bannerImages"
+    const folderPath = createFolder(`${folderName}/`) 
+    banners.forEach(banner => {
+        processImageURL(banner.image, folderPath, banner.name )
     });
 }
 //#region 
@@ -165,8 +135,7 @@ function processImage(entity, folderName, type) {
 
 function processImageURL(image, folderName, name) {
     const resourceFormat = extname(image.url).toLowerCase() // Extract format from url: .jpg, .png ...
-    const folderPath = createFolder(`${folderName}/${name}/`) 
-    const filePath = normalize(`${folderPath}/${name}.${resourceFormat}`)
+    const filePath = normalize(`${folderName}/${name}${resourceFormat}`)
     const file = fs.createWriteStream(filePath)
 
     if(image.url.startsWith('/img')) {
