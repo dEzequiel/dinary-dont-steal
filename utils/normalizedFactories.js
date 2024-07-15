@@ -12,17 +12,8 @@ const createNormalizedDMC = (dmcId, name, images = {}) => ({
     images: {
         splash: images.splash.url,
         logo: images.logo.url,
-        photo: images.photo.url
+        photo: images.logo.url
     }
 });
 
-const createNormalizedAffiliate = (userId, name, images = {}) => ({
-    userId: String(userId),
-    name,
-    images: {
-        logo: images.logo.url == 'http://res.cloudinary.com/open-market-travel/image/upload/v1426853495/assets/avatar.jpg' ? '' : images.logo.url,
-        photo: images.photo.url == 'http://res.cloudinary.com/open-market-travel/image/upload/v1426853495/assets/avatar.jpg' ? '' : images.photo.url,
-    }
-})
-
-export { createNormalizedDMCProduct, createNormalizedDMC, createNormalizedAffiliate }
+export { createNormalizedDMCProduct, createNormalizedDMC }
