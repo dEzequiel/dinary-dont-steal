@@ -1,9 +1,51 @@
 import * as http from 'http';
 import * as fs from 'fs';
 import { normalize,extname } from 'path';
-import { Console } from 'console';
 
-function downloadImagesFromDMCProducts(products) {
+export function downloadImagesFromDMCProducts(products) {
+    var folderName = "dmcProductImages"
+    products.forEach(product => {
+        processImageURL(product.image, folderName, product.name )
+    });
+}
+
+export function downloadImagesFromDMC(dmcs) {
+    const folderName = "dmcImages"
+    createFolder(folderName)
+    dmcs.forEach(dmc => {
+        
+        if(dmc.images.photo || dmc.dmc.logo)
+            createFolderForEntity(folderName, dmc.name)
+
+        if(dmc.images.photo) {
+            processImage(dmc, folderName, 'photo')
+        } 
+        
+        if (dmc.images.logo) {
+            processImage(dmc, folderName, 'logo')
+        } 
+    })
+}
+
+export function downloadAffiliatesImages(affiliates) {
+    const folderName = "affiliateImages"
+    createFolder(folderName)
+    affiliates.forEach(affiliate => {
+        
+        if(affiliate.images.photo || affiliate.images.logo)
+            createFolderForEntity(folderName, affiliate.name)
+
+        if(affiliate.images.photo) {
+            processImage(affiliate, folderName, 'photo')
+        } 
+        
+        if (affiliate.images.logo) {
+            processImage(affiliate, folderName, 'logo')
+        } 
+    })
+}
+
+export function downloadImagesFromBanners(banners) {
     const folderName = "downloads/dmcProductImages"
     createFolder(folderName)
 
@@ -41,109 +83,23 @@ function downloadImagesFromDMCProducts(products) {
         })
     });
 }
-
-function downloadImagesFromDMC(dmcs) {
-    
-    const folderName = "dmcImages";
-    dmcs.forEach(dmc => {
-        createFolderForEntity(folderName, dmc.name)
-        
-        const resourceFormat = extname(dmc.images.photo).toLowerCase() // Extract format from url: .jpg, .png ...
-        const filePath = normalize(`downloads/${folderName}/${dmc.name}/${dmc.name}${resourceFormat}`);
-        const file = fs.createWriteStream(filePath);
-
-        if(dmc.images.photo.startsWith('/img') || dmc.images.photo.startsWith('img')) {
-            const yourttooDomain = 'http://www.yourttoo.com/'
-            http.get(normalize(`${yourttooDomain}${dmc.images.photo}`), (res) => {
-                console.log('Downloading from yourttoo...')
-                res.pipe(file)
-            })
-        } else {
-            http.get(normalize(dmc.images.photo), (res) => {
-                console.log('Downloading from cloudinary...')
-                res.pipe(file)
-            })
-        }
-
-        file.on('finish', () => {
-            file.close()
-            console.log(`Download completed, check downloads/${folderName} folder`)
-        })
-
-        file.on('error', (err) => {
-            console.error(`Error downloading file: ${err.message}`)
-            fs.unlink(filePath, (unlinkErr) => {
-                if (unlinkErr) {
-                    console.error(`Error deleting file: ${unlinkErr.message}`)
-                } else {
-                    console.log(`File ${filePath} deleted successfully.`)
-                }
-            })
-        })
-    })
-}
-
-function downloadAffiliatesImages(affiliates) {
-    const folderName = 'affiliateImages'
-    affiliates.forEach(affiliate => {
-        
-        if(affiliate.images.photo || affiliate.images.logo)
-            createFolderForEntity(folderName, affiliate.name)
-
-        let resourceFormat
-        let filePath 
-        let file
-
-        if(affiliate.images.photo) {
-            resourceFormat = extname(affiliate.images.photo).toLowerCase() // Extract format from url: .jpg, .png ...
-            createFolder(`downloads/${folderName}/${affiliate.name}/photo`) // creates folder for photos...
-            filePath = normalize(`downloads/${folderName}/${affiliate.name}/photo/${affiliate.name}${resourceFormat}`);
-            file = fs.createWriteStream(filePath);
-            downloadImagesPhoto(affiliate.images, file)
-        } else if (affiliate.images.logo) {
-            resourceFormat = extname(affiliate.images.logo).toLowerCase() // Extract format from url: .jpg, .png ...
-            createFolder(`downloads/${folderName}/${affiliate.name}/logo`) // creates folder for logos...
-            filePath = normalize(`downloads/${folderName}/${affiliate.name}/logo/${affiliate.name}${resourceFormat}`);           
-            file = fs.createWriteStream(filePath);
-            downloadImagesLogo(affiliate.images, file)
-        } else {
-            return
-        }
-
-        file.on('finish', () => {
-            file.close()
-            console.log(`Download completed, check downloads/${folderName} folder`)
-        })
-
-        file.on('error', (err) => {
-            console.error(`Error downloading file: ${err.message}`)
-            fs.unlink(filePath, (unlinkErr) => {
-                if (unlinkErr) {
-                    console.error(`Error deleting file: ${unlinkErr.message}`)
-                } else {
-                    console.log(`File ${filePath} deleted successfully.`)
-                }
-            })
-        })
-    })
-}
-
-
 //#region 
 
 function createFolder(folderName) {
-    if(!fs.existsSync(folderName)) {
-        fs.mkdirSync(folderName, { recursive: true });
-        console.log(`${folderName} created`);
+    let folder = normalize(`downloads/${folderName}`);
+    if(!fs.existsSync(folder)) {
+        fs.mkdirSync(folder, { recursive: true });
+        console.log(`${folder} created`);
     }
+
+    return folder;
 }
 
 function createFolderForEntity(path, entity) {
-    const folderPath = normalize(`downloads/${path}/${entity}`);
-    if(!fs.existsSync(`downloads/${path}/${entity}`)) {
-        fs.mkdirSync(`downloads/${path}/${entity}`, {  recursive: true  })
+    const folderPath = createFolder(`${path}/${entity}`);
+    if(!fs.existsSync(folderPath)) {
+        fs.mkdirSync(folderPath, {  recursive: true  })
     }
-    createFolder(folderPath);
 }
 
 function downloadImagesPhoto(images, file) {
@@ -178,6 +134,70 @@ function downloadImagesLogo(images, file) {
     }
 }
 
+function processImage(entity, folderName, type) {
+    const resourceFormat = extname(entity.images[type]).toLowerCase() // Extract format from url: .jpg, .png ...
+    const folderPath = createFolder(`${folderName}/${entity.name}/${type}`) // creates folder for logos...
+    const filePath = normalize(`${folderPath}/${entity.name}${resourceFormat}`);
+    const file = fs.createWriteStream(filePath);
+    
+    if(type === 'photo') {
+        downloadImagesPhoto(entity.images, file);
+    } else if(type === 'logo') {
+        downloadImagesLogo(entity.images, file);
+    }
+
+    file.on('finish', () => {
+        file.close()
+        console.log(`Download completed, check downloads/${folderName} folder`)
+    })
+
+    file.on('error', (err) => {
+        console.error(`Error downloading file: ${err.message}`)
+        fs.unlink(filePath, (unlinkErr) => {
+            if (unlinkErr) {
+                console.error(`Error deleting file: ${unlinkErr.message}`)
+            } else {
+                console.log(`File ${filePath} deleted successfully.`)
+            }
+        })
+    })
+}
+
+function processImageURL(image, folderName, name) {
+    const resourceFormat = extname(image.url).toLowerCase() // Extract format from url: .jpg, .png ...
+    const folderPath = createFolder(`${folderName}/${name}/`) 
+    const filePath = normalize(`${folderPath}/${name}.${resourceFormat}`)
+    const file = fs.createWriteStream(filePath)
+
+    if(image.url.startsWith('/img')) {
+        const yourttooDomain = 'http://www.yourttoo.com/'
+        http.get(normalize(`${yourttooDomain}${image.url}`), (res) => {
+            console.log('Downloading from yourttoo...')
+            res.pipe(file)
+        })
+    } else {
+        http.get(image.url, (res) => {
+            console.log('Downloading from cloudinary...')
+            res.pipe(file)
+        })    
+    }
+
+    file.on('finish', () => {
+        file.close()
+        console.log(`Download completed, check ${folderName}/ folder`)
+    })
+
+    file.on('error', (err) => {
+        console.error(`Error downloading file: ${err.message}`)
+        fs.unlink(filePath, (unlinkErr) => {
+            if (unlinkErr) {
+                console.error(`Error deleting file: ${unlinkErr.message}`)
+            } else {
+                console.log(`File ${filePath} deleted successfully.`)
+            }
+        })
+    })
+}
+
 //#endregion
 
-export { downloadImagesFromDMCProducts, downloadImagesFromDMC, downloadAffiliatesImages }
