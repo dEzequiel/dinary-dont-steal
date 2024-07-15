@@ -23,7 +23,7 @@ function normalizeDMC(dmcs) {
 function normalizeAffilates(affiliates) {
     let normalizedAffiliates = []
     affiliates.forEach(affiliate => {
-        normalizedAffiliates.push(createNormalizedAffiliate(affiliate.user, affiliate.name, affiliate.images))
+        normalizedAffiliates.push(createNormalizedAffiliate(affiliate._id, affiliate.user, affiliate.name, affiliate.images))
     });
     return normalizedAffiliates
 }

@@ -16,7 +16,8 @@ const createNormalizedDMC = (dmcId, name, images = {}) => ({
     }
 });
 
-const createNormalizedAffiliate = (userId, name, images = {}) => ({
+const createNormalizedAffiliate = (id, userId, name, images = {}) => ({
+    id: String(id),
     userId: String(userId),
     name,
     images: {

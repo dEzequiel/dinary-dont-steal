@@ -1,4 +1,5 @@
 async function findAllAffiliatesImages(collection='affiliates', limit=10, projection={
+    '_id': 1,
     'user': 1,
     'name': 1,
     'images': 1
