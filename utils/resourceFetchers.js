@@ -28,6 +28,15 @@ export function downloadImagesFromDMC(dmcs) {
     })
 }
 
+export function downloadImagesFromBookedPoducts(bookedProducts) {
+    const folderName = "bookedProductImages"
+    const folderPath = createFolder(`${folderName}/`) 
+    bookedProducts.forEach(bookedProduct => {
+        processImageURL(bookedProduct.productImage, folderPath, bookedProduct.slug )
+    });
+
+}
+
 export function downloadAffiliatesImages(affiliates) {
     const folderName = "affiliateImages"
     createFolder(folderName)

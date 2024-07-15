@@ -1,5 +1,5 @@
 
-import { createNormalizedDMC, createNormalizedDMCProduct, createNormalizedAffiliate } from "./normalizedFactories.js";
+import { createNormalizedDMC, createNormalizedDMCProduct, createNormalizedAffiliate, createNormalizedBookedProduct } from "./normalizedFactories.js";
 
 export function normalizeDMCProduct(products) {
     let normalizedProducts = []
@@ -39,5 +39,14 @@ export function normalizeBanner(banners) {
     });
 
     return normalizedBanners
+}
+
+export function normalizeBookedProduct(bookedProducts) {
+    let normalizedBookedProducts = []
+    bookedProducts.forEach(bookedProduct => {
+        normalizedBookedProducts.push(createNormalizedBookedProduct(bookedProduct.slug, bookedProduct.productimage, bookedProduct.image))
+    });
+
+    return normalizedBookedProducts
 }
 

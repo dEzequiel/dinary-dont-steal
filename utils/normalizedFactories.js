@@ -26,4 +26,10 @@ const createNormalizedAffiliate = (id, userId, name, images = {}) => ({
     }
 })
 
-export { createNormalizedDMCProduct, createNormalizedDMC, createNormalizedAffiliate }
+const createNormalizedBookedProduct = (slug, productImage = {}, image = {}) => ({
+    slug: slug,
+    productImage: { url: productImage.url },
+    image: { url: image.url }
+})
+
+export { createNormalizedDMCProduct, createNormalizedDMC, createNormalizedAffiliate, createNormalizedBookedProduct }
