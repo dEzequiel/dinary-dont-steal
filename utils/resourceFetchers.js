@@ -83,6 +83,53 @@ function downloadImagesFromDMC(dmcs) {
     })
 }
 
+function downloadAffiliatesImages(affiliates) {
+    const folderName = 'affiliateImages'
+    affiliates.forEach(affiliate => {
+        
+        if(affiliate.images.photo || affiliate.images.logo)
+            createFolderForEntity(folderName, affiliate.name)
+
+        let resourceFormat
+        let filePath 
+        let file
+
+        if(affiliate.images.photo) {
+            resourceFormat = extname(affiliate.images.photo).toLowerCase() // Extract format from url: .jpg, .png ...
+            createFolder(`downloads/${folderName}/${affiliate.name}/photo`) // creates folder for photos...
+            filePath = normalize(`downloads/${folderName}/${affiliate.name}/photo/${affiliate.name}${resourceFormat}`);
+            file = fs.createWriteStream(filePath);
+            downloadImagesPhoto(affiliate.images, file)
+        } else if (affiliate.images.logo) {
+            resourceFormat = extname(affiliate.images.logo).toLowerCase() // Extract format from url: .jpg, .png ...
+            createFolder(`downloads/${folderName}/${affiliate.name}/logo`) // creates folder for logos...
+            filePath = normalize(`downloads/${folderName}/${affiliate.name}/logo/${affiliate.name}${resourceFormat}`);           
+            file = fs.createWriteStream(filePath);
+            downloadImagesLogo(affiliate.images, file)
+        } else {
+            return
+        }
+
+        file.on('finish', () => {
+            file.close()
+            console.log(`Download completed, check downloads/${folderName} folder`)
+        })
+
+        file.on('error', (err) => {
+            console.error(`Error downloading file: ${err.message}`)
+            fs.unlink(filePath, (unlinkErr) => {
+                if (unlinkErr) {
+                    console.error(`Error deleting file: ${unlinkErr.message}`)
+                } else {
+                    console.log(`File ${filePath} deleted successfully.`)
+                }
+            })
+        })
+    })
+}
+
+
+//#region 
 
 function createFolder(folderName) {
     if(!fs.existsSync(folderName)) {
@@ -99,9 +146,7 @@ function createFolderForEntity(path, entity) {
     createFolder(folderPath);
 }
 
-//#region 
-
-function downloadImagesPhoto(images) {
+function downloadImagesPhoto(images, file) {
     if(images.photo.startsWith('/img') || images.photo.startsWith('img')) {
         const yourttooDomain = 'http://www.yourttoo.com/'
         http.get(normalize(`${yourttooDomain}${images.photo}`), (res) => {
@@ -117,7 +162,8 @@ function downloadImagesPhoto(images) {
 }
 
 
-function downloadImagesLogo(images) {
+function downloadImagesLogo(images, file) {
+    console.log(images)
     if(images.logo.startsWith('/img') || images.logo.startsWith('img')) {
         const yourttooDomain = 'http://www.yourttoo.com/'
         http.get(normalize(`${yourttooDomain}${images.logo}`), (res) => {
@@ -134,4 +180,4 @@ function downloadImagesLogo(images) {
 
 //#endregion
 
-export { downloadImagesFromDMCProducts, downloadImagesFromDMC }
+export { downloadImagesFromDMCProducts, downloadImagesFromDMC, downloadAffiliatesImages }
