@@ -1,5 +1,5 @@
 
-import { createNormalizedDMC, createNormalizedDMCProduct } from "./normalizedFactories.js";
+import { createNormalizedDMC, createNormalizedDMCProduct, createNormalizedAffiliate } from "./normalizedFactories.js";
 
 function normalizeDMCProduct(products) {
     let normalizedProducts = []
@@ -20,4 +20,12 @@ function normalizeDMC(dmcs) {
     return normalizedDMCs
 }
 
-export { normalizeDMCProduct, normalizeDMC }
+function normalizeAffilates(affiliates) {
+    let normalizedAffiliates = []
+    affiliates.forEach(affiliate => {
+        normalizedAffiliates.push(createNormalizedAffiliate(affiliate.user, affiliate.name, affiliate.images))
+    });
+    return normalizedAffiliates
+}
+
+export { normalizeDMCProduct, normalizeDMC, normalizeAffilates }
