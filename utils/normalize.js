@@ -4,6 +4,7 @@ import { createNormalizedDMC,
         createNormalizedAffiliate,
         createNormalizedBookedProduct,
         createNormalizedAffiliateFAQ,
+        createNormalizedBudgetProduct,
     } from "./normalizedFactories.js";
 
 export function normalizeDMCProduct(products) {
@@ -62,5 +63,14 @@ export function normalizeBookedProduct(bookedProducts) {
     });
 
     return normalizedBookedProducts
+}
+
+export function normalizeBudgetProduct(budgetProducts) {
+    let normalizedBudgetProducts = []
+    budgetProducts.forEach(budgetProduct => {
+        normalizedBudgetProducts.push(createNormalizedBudgetProduct(budgetProduct.name, budgetProduct.slug, budgetProduct.productImage))
+    });
+
+    return normalizedBudgetProducts
 }
 

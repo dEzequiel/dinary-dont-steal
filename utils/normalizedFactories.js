@@ -41,3 +41,8 @@ export const createNormalizedBookedProduct = (slug, productImage = {}, image = {
     itinerary: itineraryImages.map(img => ({ url: img.image.url }))
 });
 
+export const createNormalizedBudgetProduct = (name, slug, productImage = {}) => ({
+    name,
+    slug,
+    productImage: { url: productImage.url }
+});

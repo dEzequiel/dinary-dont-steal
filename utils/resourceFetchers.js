@@ -38,6 +38,16 @@ export function downloadImagesFromBookedPoducts(bookedProducts) {
 
 }
 
+export function downloadImagesFromBudgetProducts(budgetProducts) {
+    const folderName = "budgetProductImages"
+    const folderPath = createFolder(folderName)
+    budgetProducts.forEach(budgetProduct => {
+        processImageURL(budgetProduct.productImage, folderPath, budgetProduct.name )
+    });
+
+
+}
+
 export function downloadAffiliatesImages(affiliates) {
     const folderName = "affiliateImages"
     createFolder(folderName)
