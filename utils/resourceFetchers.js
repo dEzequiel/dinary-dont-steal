@@ -55,6 +55,17 @@ export function downloadAffiliatesImages(affiliates) {
     })
 }
 
+export function downloadAffiliatesFAQImages(affiliatesFAQs) {
+    const folderName = "affiliateFAQImages"
+    affiliatesFAQs.forEach(affiliateFAQ => {
+        let folderPath = createFolder(`${folderName}/${affiliateFAQ.title}/`); 
+        affiliateFAQ.images.forEach(image => {
+            processImageURL(image, folderPath, affiliateFAQ.slug);
+        });
+    });
+
+}
+
 export function downloadImagesFromBanners(banners) {
     const folderName = "bannerImages"
     const folderPath = createFolder(`${folderName}/`) 
@@ -143,39 +154,59 @@ function processImage(entity, folderName, type) {
 }
 
 function processImageURL(image, folderName, name) {
-    const resourceFormat = extname(image.url).toLowerCase() // Extract format from url: .jpg, .png ...
-    const filePath = normalize(`${folderName}/${name}${resourceFormat}`)
-    const file = fs.createWriteStream(filePath)
+    const resourceFormat = extname(image.url).toLowerCase(); // Extract format from url: .jpg, .png ...
+    let filePath = normalize(`${folderName}/${name}${resourceFormat}`);
 
-    if(image.url.startsWith('/img')) {
-        const yourttooDomain = 'http://www.yourttoo.com/'
+    if (image.url.startsWith('/img')) {
+        const yourttooDomain = 'http://www.yourttoo.com/';
+        filePath = normalize(`${folderName}/${name}_yourttoo${resourceFormat}`);
         http.get(normalize(`${yourttooDomain}${image.url}`), (res) => {
-            console.log('Downloading from yourttoo...')
-            res.pipe(file)
-        })
+            console.log('Downloading from yourttoo...');
+            const file = fs.createWriteStream(filePath);
+            res.pipe(file);
+
+            file.on('finish', () => {
+                file.close();
+                console.log(`Download completed for ${image.url}, check ${folderName}/ folder`);
+            });
+
+            file.on('error', (err) => {
+                console.error(`Error downloading file ${image.url}: ${err.message}`);
+                fs.unlink(filePath, (unlinkErr) => {
+                    if (unlinkErr) {
+                        console.error(`Error deleting file ${filePath}: ${unlinkErr.message}`);
+                    } else {
+                        console.log(`File ${filePath} deleted successfully.`);
+                    }
+                });
+            });
+        });
     } else {
         http.get(image.url, (res) => {
-            console.log('Downloading from cloudinary...')
-            res.pipe(file)
-        })    
+            console.log('Downloading from cloudinary...');
+            filePath = normalize(`${folderName}/${name}_cloudinary${resourceFormat}`);
+            const file = fs.createWriteStream(filePath);
+            res.pipe(file);
+
+            file.on('finish', () => {
+                file.close();
+                console.log(`Download completed for ${image.url}, check ${folderName}/ folder`);
+            });
+
+            file.on('error', (err) => {
+                console.error(`Error downloading file ${image.url}: ${err.message}`);
+                fs.unlink(filePath, (unlinkErr) => {
+                    if (unlinkErr) {
+                        console.error(`Error deleting file ${filePath}: ${unlinkErr.message}`);
+                    } else {
+                        console.log(`File ${filePath} deleted successfully.`);
+                    }
+                });
+            });
+        });
     }
-
-    file.on('finish', () => {
-        file.close()
-        console.log(`Download completed, check ${folderName}/ folder`)
-    })
-
-    file.on('error', (err) => {
-        console.error(`Error downloading file: ${err.message}`)
-        fs.unlink(filePath, (unlinkErr) => {
-            if (unlinkErr) {
-                console.error(`Error deleting file: ${unlinkErr.message}`)
-            } else {
-                console.log(`File ${filePath} deleted successfully.`)
-            }
-        })
-    })
 }
+
 
 //#endregion
 

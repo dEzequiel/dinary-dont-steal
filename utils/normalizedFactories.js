@@ -1,4 +1,4 @@
-const createNormalizedDMCProduct = (dmcId, name, image = {}) => ({
+export const createNormalizedDMCProduct = (dmcId, name, image = {}) => ({
     dmcId: String(dmcId),
     name,
     image: {
@@ -6,7 +6,7 @@ const createNormalizedDMCProduct = (dmcId, name, image = {}) => ({
     }
 })
 
-const createNormalizedDMC = (dmcId, name, images = {}) => ({
+export const createNormalizedDMC = (dmcId, name, images = {}) => ({
     dmcId: String(dmcId),
     name,
     images: {
@@ -16,7 +16,7 @@ const createNormalizedDMC = (dmcId, name, images = {}) => ({
     }
 });
 
-const createNormalizedAffiliate = (id, userId, name, images = {}) => ({
+export const createNormalizedAffiliate = (id, userId, name, images = {}) => ({
     id: String(id),
     userId: String(userId),
     name,
@@ -26,10 +26,16 @@ const createNormalizedAffiliate = (id, userId, name, images = {}) => ({
     }
 })
 
-const createNormalizedBookedProduct = (slug, productImage = {}, image = {}) => ({
+export const createNormalizedAffiliateFAQ = (id, title, slug, images) => ({
+    id: String(id),
+    title,
+    slug,
+    images: images.map(image => ({ url: image.url }))
+
+})
+
+export const createNormalizedBookedProduct = (slug, productImage = {}, image = {}) => ({
     slug: slug,
     productImage: { url: productImage.url },
     image: { url: image.url }
 })
-
-export { createNormalizedDMCProduct, createNormalizedDMC, createNormalizedAffiliate, createNormalizedBookedProduct }

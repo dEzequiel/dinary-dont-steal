@@ -21,6 +21,33 @@ async function findAllAffiliatesImages(collection='affiliates', limit=10, projec
     }
 }
 
+async function findAllAffiliatesFAQImages(collection='affiliate faqs', limit=10, projection={
+    'title': 1,
+    'slug': 1,
+    'images': 1
+}) {
+    console.log('Queries >> affiliates >> findAllAffiliatesFAQImages >> Start')
+    
+    const query = {
+        'images': { 
+            $exists: true, 
+            $ne: null,
+            $not: { $size: 0 } // This line checks that the array is not empty
+        }
+    };
+
+    try {
+        const documents = await collection.find(query).project(projection).limit(limit).toArray()
+        console.log('Queries >> affiliates >> findAllAffiliatesFAQImages >> End')
+        return documents
+    } catch (error) {
+        console.log('Queries >> affiliates>> findAllAffiliatesFAQImages >> Error')
+        console.error('Error finding documents:', error);
+        throw error;
+    }
+}
+
 export {
-    findAllAffiliatesImages
+    findAllAffiliatesImages,
+    findAllAffiliatesFAQImages
 }
