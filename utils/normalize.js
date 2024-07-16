@@ -68,7 +68,7 @@ export function normalizeBookedProduct(bookedProducts) {
 export function normalizeBudgetProduct(budgetProducts) {
     let normalizedBudgetProducts = []
     budgetProducts.forEach(budgetProduct => {
-        normalizedBudgetProducts.push(createNormalizedBudgetProduct(budgetProduct.name, budgetProduct.slug, budgetProduct.productImage))
+        normalizedBudgetProducts.push(createNormalizedBudgetProduct(budgetProduct.name, budgetProduct.slug, budgetProduct.productImage, budgetProduct.itinerary))
     });
 
     return normalizedBudgetProducts

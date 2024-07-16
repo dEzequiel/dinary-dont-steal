@@ -2,13 +2,26 @@ async function findAllBudgetProductImages(collection='budgetproducts', limit=10,
     'name': 1,
     'slug': 1,
     'productimage': 1,
+    'itinerary': 1
 }) {
     console.log('Queries >> budget >> findAllBudgetProductImages >> Start')
     
     const query = {
-        'productimage': { $exists: true, $ne: null, $ne: '' },
-        'productimage.url': { $exists: true, $ne: null, $ne: '' },
-    }
+        $or: [
+            {
+                'productimage': { $exists: true, $ne: null, $ne: '' },
+                'productimage.url': { $exists: true, $ne: null, $ne: '' }
+            },
+            {
+                'itinerary': {
+                    $elemMatch: {
+                        'image': { $exists: true },
+                        'image.url': { $exists: true, $ne: '' } // Assuming 'url' is a key within the 'image' object you're interested in
+                    }
+                }
+            }
+        ]
+    };
 
     try {
         const documents = await collection.find(query).project(projection).limit(limit).toArray()
