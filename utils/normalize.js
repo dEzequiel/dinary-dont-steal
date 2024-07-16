@@ -1,4 +1,4 @@
-import { NormalizerFactory } from "./normalize/base/normalizerFactory.js";
+import { NormalizerFactory } from "./normalizes/base/normalizerFactory.js";
 
 //#region NORMALIZERS
 const dmcNormalizer = NormalizerFactory.createNormalizer('DMC');
