@@ -40,9 +40,10 @@ export function downloadImagesFromBookedPoducts(bookedProducts) {
 
 export function downloadImagesFromBudgetProducts(budgetProducts) {
     const folderName = "budgetProductImages"
-    const folderPath = createFolder(folderName)
     budgetProducts.forEach(budgetProduct => {
-        processImageURL(budgetProduct.productImage, folderPath, budgetProduct.name )
+        const folderPath = createFolderForEntity(folderName, budgetProduct.name)
+        processImageURL(budgetProduct.productImage, folderPath, budgetProduct.slug )
+        processImagesURLs(budgetProduct.itinerary, folderPath, budgetProduct.slug)
     });
 
 
