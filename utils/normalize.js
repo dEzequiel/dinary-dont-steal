@@ -58,7 +58,7 @@ export function normalizeBanner(banners) {
 export function normalizeBookedProduct(bookedProducts) {
     let normalizedBookedProducts = []
     bookedProducts.forEach(bookedProduct => {
-        normalizedBookedProducts.push(createNormalizedBookedProduct(bookedProduct.slug, bookedProduct.productimage, bookedProduct.image))
+        normalizedBookedProducts.push(createNormalizedBookedProduct(bookedProduct.slug, bookedProduct.productimage, bookedProduct.image, bookedProduct.itinerary))
     });
 
     return normalizedBookedProducts

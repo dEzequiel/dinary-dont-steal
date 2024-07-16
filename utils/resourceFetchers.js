@@ -30,9 +30,10 @@ export function downloadImagesFromDMC(dmcs) {
 
 export function downloadImagesFromBookedPoducts(bookedProducts) {
     const folderName = "bookedProductImages"
-    const folderPath = createFolder(`${folderName}/`) 
     bookedProducts.forEach(bookedProduct => {
+        const folderPath = createFolderForEntity(folderName, bookedProduct.slug)
         processImageURL(bookedProduct.productImage, folderPath, bookedProduct.slug )
+        processImagesURLs(bookedProduct.itinerary, folderPath, bookedProduct.slug)
     });
 
 }
@@ -90,6 +91,8 @@ function createFolderForEntity(path, entity) {
     if(!fs.existsSync(folderPath)) {
         fs.mkdirSync(folderPath, {  recursive: true  })
     }
+
+    return folderPath
 }
 
 function downloadImagesPhoto(images, file) {
@@ -109,7 +112,6 @@ function downloadImagesPhoto(images, file) {
 
 
 function downloadImagesLogo(images, file) {
-    console.log(images)
     if(images.logo.startsWith('/img') || images.logo.startsWith('img')) {
         const yourttooDomain = 'http://www.yourttoo.com/'
         http.get(normalize(`${yourttooDomain}${images.logo}`), (res) => {
@@ -205,6 +207,14 @@ function processImageURL(image, folderName, name) {
             });
         });
     }
+}
+
+function processImagesURLs(images=[], folderName, name) {
+    let imageCounter = 0
+    images.forEach(image => {
+        imageCounter++
+        processImageURL(image, folderName, `${name}_${imageCounter}`)
+    });
 }
 
 

@@ -34,8 +34,10 @@ export const createNormalizedAffiliateFAQ = (id, title, slug, images) => ({
 
 })
 
-export const createNormalizedBookedProduct = (slug, productImage = {}, image = {}) => ({
+export const createNormalizedBookedProduct = (slug, productImage = {}, image = {}, itineraryImages) => ({
     slug: slug,
     productImage: { url: productImage.url },
-    image: { url: image.url }
-})
+    image: { url: image.url || '' }, // Usar una cadena vacía si image.url es undefined
+    itinerary: itineraryImages.map(img => ({ url: img.image.url }))
+});
+
