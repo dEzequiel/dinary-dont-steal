@@ -9,6 +9,7 @@ const bookedProductNormalizer = NormalizerFactory.createNormalizer('BookedProduc
 const budgetProductNormalizer = NormalizerFactory.createNormalizer('BudgetProduct');
 const dmcFaqNormalizer = NormalizerFactory.createNormalizer('DMCFAQ');
 const managementGroupNormalizer = NormalizerFactory.createNormalizer('ManagementGroup');
+const pageNormalizer = NormalizerFactory.createNormalizer('Page');
 //#endregion
 
 export function normalizeDMCProduct(products) {
@@ -97,3 +98,11 @@ export function normalizeBudgetProduct(budgetProducts) {
     return normalizedBudgetProducts
 }
 
+export function normalizePage(pages) {
+    let normalizedPages = []
+    pages.forEach(page => {
+        normalizedPages.push(pageNormalizer.normalize(page._id, page.slug, page.title, page.image, page.imageFacebook, page.imageGalery))
+    });
+
+    return normalizedPages
+}

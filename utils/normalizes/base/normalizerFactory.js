@@ -6,6 +6,7 @@ import { BookedProductNormalizer } from '../bookedProductNormalizer.js';
 import { BudgetProductNormalizer } from '../budgetProductNormalizer.js';
 import { DMCFAQNormalizer } from '../dmcFaqNormalizer.js';
 import { ManagementGroupNormalizer } from '../managementGroupNormalizer.js';
+import { PageNormalizer } from '../pageNormalizer.js';
 
 function NormalizerFactory() {}
 
@@ -17,7 +18,8 @@ NormalizerFactory.normalizers = {
   AffiliateFAQ: AffiliateFAQNormalizer,
   BookedProduct: BookedProductNormalizer,
   BudgetProduct: BudgetProductNormalizer,
-  ManagementGroup: ManagementGroupNormalizer
+  ManagementGroup: ManagementGroupNormalizer,
+  Page: PageNormalizer
 };
 
 NormalizerFactory.createNormalizer = function(type) {

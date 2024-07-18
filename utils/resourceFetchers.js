@@ -118,6 +118,24 @@ export function downaloadImagesFromManagementGroups(managementGroups) {
             processImage(managementGroup, folderName, 'logo')
         } 
     })
+}
+
+export function downloadImagesFromPages(pages) {
+    const folderName = "pageImages"
+    createFolder(`${folderName}/`)
+    pages.forEach(page => {
+        let pageFolder = createFolderForEntity(folderName, page.name)
+        if(page.imageFacebook) {
+            processImageURL(page.imageFacebook, pageFolder, page.name)
+        }
+
+        if(page.imageGalery) {
+            processImagesURLs(page.imageGalery, pageFolder, page.name)
+        }
+
+        processImageURL(page.image, pageFolder, page.name);
+
+    });
 
 }
 //#region 

@@ -40,6 +40,7 @@ function processImage(entity, folderName, type) {
 }
 
 function processImageURL(image, folderName, name) {
+    console.log(image)
     const resourceFormat = extname(image.url).toLowerCase(); // Extract format from url: .jpg, .png ...
     let filePath = normalize(`${folderName}/${name}${resourceFormat}`);
 
