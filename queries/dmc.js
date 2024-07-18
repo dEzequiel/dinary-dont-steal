@@ -43,7 +43,30 @@ async function findAllDMCProductsImages(collection='dmcproducts', limit=10, proj
     }
 }
 
+async function findAllDMCFAQImages(collection='dmc faqs', limit=10, projection={
+    '_id': 1,
+    'slug': 1,
+    'title': 1,
+    'images': 1
+}) {
+    console.log('Queries >> findAllDMCFAQImages >> Start')
+    const query = {
+        'images': { $exists: true, $ne: null, $ne: [] }
+    };
+    
+    try {
+        const documents = await collection.find(query).limit(limit).project(projection).toArray()
+        console.log('Queries >> findAllDMCFAQImages >> End')
+        return documents
+    } catch (error) {
+        console.log('Queries >> findAllDMCFAQImages >> Error')
+        console.error('Error finding documents:', error);
+        throw error;
+    }
+}
+
 export {
     findAllDMCProductsImages,
-    findAllDMCImages
+    findAllDMCImages,
+    findAllDMCFAQImages
 }

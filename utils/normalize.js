@@ -7,6 +7,7 @@ const affiliateNormalizer = NormalizerFactory.createNormalizer('Affiliate');
 const affiliateFAQNormalizer = NormalizerFactory.createNormalizer('AffiliateFAQ');
 const bookedProductNormalizer = NormalizerFactory.createNormalizer('BookedProduct');
 const budgetProductNormalizer = NormalizerFactory.createNormalizer('BudgetProduct');
+const dmcFaqNormalizer = NormalizerFactory.createNormalizer('DMCFAQ');
 //#endregion
 
 export function normalizeDMCProduct(products) {
@@ -15,7 +16,6 @@ export function normalizeDMCProduct(products) {
         normalizedProducts.push(
             dmcProductNormalizer.normalize(product.dmc, product.name, product.productimage))
         })
-    
     return normalizedProducts;
 
 }; 
@@ -26,6 +26,16 @@ export function normalizeDMC(dmcs) {
         normalizedDMCs.push(dmcNormalizer.normalize(dmc._id, dmc.name, dmc.images))
     });
     return normalizedDMCs
+}
+
+export function normalizeDMCFAQ(dmcs) {
+    let normalizedDMCFAQs = []
+    dmcs.forEach(dmc => {
+        normalizedDMCFAQs.push(dmcFaqNormalizer.normalize(dmc._id, dmc.slug, dmc.images))
+    });
+    
+    return normalizedDMCFAQs
+
 }
 
 export function normalizeAffilates(affiliates) {

@@ -4,16 +4,18 @@ import { AffiliateNormalizer } from '../affiliateNormalizer.js';
 import { AffiliateFAQNormalizer } from '../affiliateFAQNormalizer.js';
 import { BookedProductNormalizer } from '../bookedProductNormalizer.js';
 import { BudgetProductNormalizer } from '../budgetProductNormalizer.js';
+import { DMCFAQNormalizer } from '../dmcFaqNormalizer.js';
 
 function NormalizerFactory() {}
 
 NormalizerFactory.normalizers = {
   DMCProduct: DMCProductNormalizer,
+  DMCFAQ: DMCFAQNormalizer,
   DMC: DMCNormalizer,
-   Affiliate: AffiliateNormalizer,
-   AffiliateFAQ: AffiliateFAQNormalizer,
-   BookedProduct: BookedProductNormalizer,
-   BudgetProduct: BudgetProductNormalizer,
+  Affiliate: AffiliateNormalizer,
+  AffiliateFAQ: AffiliateFAQNormalizer,
+  BookedProduct: BookedProductNormalizer,
+  BudgetProduct: BudgetProductNormalizer,
 };
 
 NormalizerFactory.createNormalizer = function(type) {

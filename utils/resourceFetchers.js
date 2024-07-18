@@ -69,7 +69,7 @@ export function downloadAffiliatesImages(affiliates) {
 export function downloadAffiliatesFAQImages(affiliatesFAQs) {
     const folderName = "affiliateFAQImages"
     affiliatesFAQs.forEach(affiliateFAQ => {
-        let folderPath = createFolder(`${folderName}/${affiliateFAQ.title}/`); 
+        let folderPath = createFolder(`${folderName}`); 
         affiliateFAQ.images.forEach(image => {
             processImageURL(image, folderPath, affiliateFAQ.slug);
         });
