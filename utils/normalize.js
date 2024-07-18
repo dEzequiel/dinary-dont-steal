@@ -8,6 +8,7 @@ const affiliateFAQNormalizer = NormalizerFactory.createNormalizer('AffiliateFAQ'
 const bookedProductNormalizer = NormalizerFactory.createNormalizer('BookedProduct');
 const budgetProductNormalizer = NormalizerFactory.createNormalizer('BudgetProduct');
 const dmcFaqNormalizer = NormalizerFactory.createNormalizer('DMCFAQ');
+const managementGroupNormalizer = NormalizerFactory.createNormalizer('ManagementGroup');
 //#endregion
 
 export function normalizeDMCProduct(products) {
@@ -44,6 +45,16 @@ export function normalizeAffilates(affiliates) {
         normalizedAffiliates.push(affiliateNormalizer.normalize(affiliate._id, affiliate.userId, affiliate.name, affiliate.images))
     });
     return normalizedAffiliates
+}
+
+export function normalizeManagementGroup(managementGroups) {
+    let normalizedManagementGroups = []
+    managementGroups.forEach(managementGroup => {
+        normalizedManagementGroups.push(managementGroupNormalizer.normalize(managementGroup._id, managementGroup.name, managementGroup.images))
+    });
+
+    return normalizedManagementGroups
+
 }
 
 export function normalizeAffiliateFAQ(affiliateFAQs) {

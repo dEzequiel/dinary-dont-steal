@@ -1,5 +1,5 @@
 import { MongoClient } from "mongodb";
-import uri from "./uri.js";
+import { uri } from "./constants.js";
 
 const client = new MongoClient(uri);
 

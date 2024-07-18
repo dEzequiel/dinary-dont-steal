@@ -86,8 +86,8 @@ export function downloadAffiliatesImages(affiliates) {
 
 export function downloadAffiliatesFAQImages(affiliatesFAQs) {
     const folderName = "affiliateFAQImages"
+    let folderPath = createFolder(`${folderName}`); 
     affiliatesFAQs.forEach(affiliateFAQ => {
-        let folderPath = createFolder(`${folderName}`); 
         affiliateFAQ.images.forEach(image => {
             processImageURL(image, folderPath, affiliateFAQ.slug);
         });
@@ -101,6 +101,24 @@ export function downloadImagesFromBanners(banners) {
     banners.forEach(banner => {
         processImageURL(banner.image, folderPath, banner.name )
     });
+}
+
+export function downaloadImagesFromManagementGroups(managementGroups) {
+    const folderName = "managementGroupImages"
+    managementGroups.forEach(managementGroup => {
+        
+        if(managementGroup.images.photo || managementGroup.images.logo)
+            createFolderForEntity(folderName, managementGroup.name)
+
+        if(managementGroup.images.photo) {
+            processImage(managementGroup, folderName, 'photo')
+        } 
+        
+        if (managementGroup.images.logo) {
+            processImage(managementGroup, folderName, 'logo')
+        } 
+    })
+
 }
 //#region 
 
