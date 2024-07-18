@@ -9,6 +9,7 @@ export function downloadImagesFromDMCProducts(products) {
     });
 }
 
+
 export function downloadImagesFromDMC(dmcs) {
     const folderName = "dmcImages"
     createFolder(folderName)
@@ -25,6 +26,23 @@ export function downloadImagesFromDMC(dmcs) {
             processImage(dmc, folderName, 'logo')
         } 
     })
+}
+
+export function downloadImagesFromDMCFAQs(dmcFAQs) {
+    const folderName = "dmcFAQImages"
+    let folderPath = createFolder(`${folderName}/`)
+    dmcFAQs.forEach(dmcFAQ => {
+        if(dmcFAQ.imageFacebook) {
+            let dmcFaqFolder = createFolderForEntity(folderPath, dmcFAQ.name)
+            processImageURL(dmcFAQ.imageFacebook, dmcFaqFolder, dmcFAQ.name)
+        }
+
+        dmcFAQ.images.forEach(image => {
+            processImageURL(image, folderPath, dmcFAQ.name);
+        });
+
+    });
+
 }
 
 export function downloadImagesFromBookedPoducts(bookedProducts) {

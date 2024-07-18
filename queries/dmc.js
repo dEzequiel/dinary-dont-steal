@@ -47,11 +47,15 @@ async function findAllDMCFAQImages(collection='dmc faqs', limit=10, projection={
     '_id': 1,
     'slug': 1,
     'title': 1,
-    'images': 1
+    'images': 1,
+    'imageFacebook': 1,
 }) {
     console.log('Queries >> findAllDMCFAQImages >> Start')
     const query = {
-        'images': { $exists: true, $ne: null, $ne: [] }
+        $or: [
+            { 'images': { $exists: true, $ne: null, $ne: [] } },
+            { 'imageFacebook': { $exists: true, $ne: {} } }
+        ]
     };
     
     try {

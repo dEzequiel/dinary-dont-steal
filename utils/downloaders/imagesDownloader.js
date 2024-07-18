@@ -32,7 +32,15 @@ function downloadImagesLogo(images, file) {
     }
 }
 
+function downloadImagesFacebook(url, file) {
+    http.get(normalize(url), (res) => {
+        console.log('Downloading from cloudinary...')
+        res.pipe(file)
+    })
+}
+
 export {
     downloadImagesLogo, 
-    downloadImagesPhoto
+    downloadImagesPhoto,
+    downloadImagesFacebook
 }

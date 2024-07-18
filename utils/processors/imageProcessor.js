@@ -1,6 +1,6 @@
 import * as http from 'http';
 import * as fs from 'fs';
-import { downloadImagesLogo, downloadImagesPhoto } from "../downloaders/imagesDownloader.js";
+import { downloadImagesLogo, downloadImagesPhoto, downloadImagesFacebook } from "../downloaders/imagesDownloader.js";
 import { createFolder, createFolderForEntity } from "../directories/folders.js";
 import { normalize, extname } from 'path';
 
@@ -8,13 +8,18 @@ import { normalize, extname } from 'path';
 function processImage(entity, folderName, type) {
     const resourceFormat = extname(entity.images[type]).toLowerCase() // Extract format from url: .jpg, .png ...
     const folderPath = createFolder(`${folderName}/${entity.name}/${type}`) // creates folder for logos...
-    const filePath = normalize(`${folderPath}/${entity.name}${resourceFormat}`);
-    const file = fs.createWriteStream(filePath);
+    
+    let filePath = normalize(`${folderPath}/${entity.name}${resourceFormat}`);
+    let file = fs.createWriteStream(filePath);
     
     if(type === 'photo') {
         downloadImagesPhoto(entity.images, file);
     } else if(type === 'logo') {
         downloadImagesLogo(entity.images, file);
+    } else if(type === 'imageFacebook') {
+        filePath = normalize(`${folderPath}/${entity.name}_facebook${resourceFormat}`);
+        file = fs.createWriteStream(filePath);
+        downloadImagesFacebook(entity.imageFacebook, file);
     }
 
     file.on('finish', () => {

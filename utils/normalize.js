@@ -31,7 +31,7 @@ export function normalizeDMC(dmcs) {
 export function normalizeDMCFAQ(dmcs) {
     let normalizedDMCFAQs = []
     dmcs.forEach(dmc => {
-        normalizedDMCFAQs.push(dmcFaqNormalizer.normalize(dmc._id, dmc.slug, dmc.images))
+        normalizedDMCFAQs.push(dmcFaqNormalizer.normalize(dmc._id, dmc.slug, dmc.images, dmc.imageFacebook))
     });
     
     return normalizedDMCFAQs
