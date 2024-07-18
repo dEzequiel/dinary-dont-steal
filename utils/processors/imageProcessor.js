@@ -6,6 +6,7 @@ import { normalize, extname } from 'path';
 
 
 function processImage(entity, folderName, type) {
+    console.log(entity)
     const resourceFormat = extname(entity.images[type]).toLowerCase() // Extract format from url: .jpg, .png ...
     const folderPath = createFolder(`${folderName}/${entity.name}/${type}`) // creates folder for logos...
     
@@ -40,7 +41,6 @@ function processImage(entity, folderName, type) {
 }
 
 function processImageURL(image, folderName, name) {
-    console.log(image)
     const resourceFormat = extname(image.url).toLowerCase(); // Extract format from url: .jpg, .png ...
     let filePath = normalize(`${folderName}/${name}${resourceFormat}`);
 

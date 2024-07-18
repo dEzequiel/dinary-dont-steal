@@ -1,4 +1,5 @@
 import { Normalizer } from "./base/base_normalizer.js";
+import { defaultImagesUrl } from "../../constants.js";
 
 function DMCNormalizer() {}
 DMCNormalizer.prototype = Object.create(Normalizer.prototype);
@@ -7,10 +8,13 @@ DMCNormalizer.prototype.normalize = function(dmcId, name, images = {}) {
     dmcId: String(dmcId),
     name,
     images: {
-      splash: images.splash?.url,
-      logo: images.logo?.url,
-      photo: images.photo?.url
-    }
+      logo: {
+          url: defaultImagesUrl.includes(images.logo.url) ? '' : images.logo.url
+      },
+      photo: {
+          url: defaultImagesUrl.includes(images.photo.url) ? '' : images.photo.url
+      }
+  }
   };
 };
 

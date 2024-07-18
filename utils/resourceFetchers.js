@@ -138,6 +138,23 @@ export function downloadImagesFromPages(pages) {
     });
 
 }
+
+export function downloadImagesFromProviders(providers) {
+    const folderName = "providerImages"
+    providers.forEach(provider => {
+        
+        if(provider.images.photo || provider.images.logo)
+            createFolderForEntity(folderName, provider.name)
+
+        if(provider.images.photo) {
+            processImage(provider.images.photo, folderName, 'photo')
+        } 
+        
+        if (provider.images.logo) {
+            processImage(provider, folderName, 'logo')
+        } 
+    })
+}
 //#region 
 
 
