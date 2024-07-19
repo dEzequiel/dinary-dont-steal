@@ -11,6 +11,7 @@ const dmcFaqNormalizer = NormalizerFactory.createNormalizer('DMCFAQ');
 const managementGroupNormalizer = NormalizerFactory.createNormalizer('ManagementGroup');
 const pageNormalizer = NormalizerFactory.createNormalizer('Page');
 const providerNormalizer = NormalizerFactory.createNormalizer('Provider');
+const tripTagNormalizer = NormalizerFactory.createNormalizer('TripTag');
 //#endregion
 
 export function normalizeDMCProduct(products) {
@@ -115,4 +116,13 @@ export function normalizeProvider(providers) {
     });
 
     return normalizedProviders
+}
+
+export function normalizeTripTags(tripTags) {
+    let normalizedTripTags = []
+    tripTags.forEach(tripTag => {
+        normalizedTripTags.push(tripTagNormalizer.normalize(tripTag.slug, tripTag.title, tripTag.mainImage))
+    });
+
+    return normalizedTripTags   
 }

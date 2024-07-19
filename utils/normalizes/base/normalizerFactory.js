@@ -8,6 +8,7 @@ import { DMCFAQNormalizer } from '../dmcFaqNormalizer.js';
 import { ManagementGroupNormalizer } from '../managementGroupNormalizer.js';
 import { PageNormalizer } from '../pageNormalizer.js';
 import { ProviderNormalizer } from '../providerNormalizer.js';
+import { TripTagNormalizer } from '../tripTagNormalizer.js';
 
 function NormalizerFactory() {}
 
@@ -21,7 +22,8 @@ NormalizerFactory.normalizers = {
   BudgetProduct: BudgetProductNormalizer,
   ManagementGroup: ManagementGroupNormalizer,
   Page: PageNormalizer,
-  Provider: ProviderNormalizer
+  Provider: ProviderNormalizer,
+  TripTag: TripTagNormalizer
 };
 
 NormalizerFactory.createNormalizer = function(type) {

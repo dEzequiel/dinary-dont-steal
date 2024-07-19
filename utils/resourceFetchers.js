@@ -145,9 +145,8 @@ export function downloadImagesFromProviders(providers) {
         
         if(provider.images.photo || provider.images.logo)
             createFolderForEntity(folderName, provider.name)
-
         if(provider.images.photo) {
-            processImage(provider.images.photo, folderName, 'photo')
+            processImage(provider, folderName, 'photo')
         } 
         
         if (provider.images.logo) {
@@ -155,9 +154,12 @@ export function downloadImagesFromProviders(providers) {
         } 
     })
 }
-//#region 
 
-
-
-//#endregion
+export function downloadImagesFromTripTags(tripTags) {
+    const folderName = "tripTagImages"
+    const folderPath = createFolder(`${folderName}/`)
+    tripTags.forEach(tripTag => {
+        processImageURL(tripTag.image, folderPath, tripTag.slug)
+    });
+}
 
