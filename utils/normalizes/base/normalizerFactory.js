@@ -9,6 +9,7 @@ import { ManagementGroupNormalizer } from '../managementGroupNormalizer.js';
 import { PageNormalizer } from '../pageNormalizer.js';
 import { ProviderNormalizer } from '../providerNormalizer.js';
 import { TripTagNormalizer } from '../tripTagNormalizer.js';
+import { TravelerNormalizer } from '../travelerNormalizer.js';
 
 function NormalizerFactory() {}
 
@@ -23,7 +24,8 @@ NormalizerFactory.normalizers = {
   ManagementGroup: ManagementGroupNormalizer,
   Page: PageNormalizer,
   Provider: ProviderNormalizer,
-  TripTag: TripTagNormalizer
+  TripTag: TripTagNormalizer,
+  Traveler: TravelerNormalizer
 };
 
 NormalizerFactory.createNormalizer = function(type) {

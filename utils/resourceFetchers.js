@@ -163,3 +163,19 @@ export function downloadImagesFromTripTags(tripTags) {
     });
 }
 
+export function downloadImagesFromTraveler(travelers) {
+    const folderName = "travelerImages"
+    travelers.forEach(traveler => {
+        if(traveler.images.photo || traveler.images.logo)
+            createFolderForEntity(folderName, traveler.name)
+
+        if(traveler.images.photo) {
+            processImage(traveler, folderName, 'photo')
+        } 
+        
+        if (traveler.images.logo) {
+            processImage(traveler, folderName, 'logo')
+        }     
+    });
+}
+
