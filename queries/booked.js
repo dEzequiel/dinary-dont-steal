@@ -2,7 +2,7 @@ async function findAllBookedProductsImages(collection='bookedproducts', limit=20
     'slug': 1,
     'productimage':1,
     'image': 1,
-    'itinerary': 1,
+    'itinerary.image': 1,
 }) {
     console.log('Queries >> booked >> findAllBookedProductsImages >> Start')
     const query = {
