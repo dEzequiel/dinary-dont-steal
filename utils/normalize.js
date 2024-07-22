@@ -1,3 +1,4 @@
+import { Normalizer } from "../normalizes/base/base_normalizer.js";
 import { NormalizerFactory } from "../normalizes/base/normalizerFactory.js";
 
 //#region NORMALIZERS
@@ -13,6 +14,7 @@ const pageNormalizer = NormalizerFactory.createNormalizer('Page');
 const providerNormalizer = NormalizerFactory.createNormalizer('Provider');
 const tripTagNormalizer = NormalizerFactory.createNormalizer('TripTag');
 const travelerNormalizer = NormalizerFactory.createNormalizer('Traveler');
+const adminNormalizer = NormalizerFactory.createNormalizer('Admin');
 //#endregion
 
 export function normalizeDMCProduct(products) {
@@ -135,4 +137,13 @@ export function normalizeTraveler(travelers) {
     });
 
     return normalizedTravelers
+}
+
+export function normalizeAdmin(admins) {
+    let normalizedAdmins = []
+    admins.forEach(admin => {
+        normalizedAdmins.push(adminNormalizer.normalize(admin._id, admin.name, admin.images))
+    });
+
+    return normalizedAdmins
 }
