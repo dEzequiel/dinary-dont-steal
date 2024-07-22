@@ -179,3 +179,18 @@ export function downloadImagesFromTraveler(travelers) {
     });
 }
 
+export function downloadImagesFromAdmins(admins) {
+    const folderName = "adminImages"
+    admins.forEach(admin => {
+        if(admin.images.photo || admin.images.logo)
+            createFolderForEntity(folderName, admin.name)
+
+        if(admin.images.photo) {
+            processImage(admin, folderName, 'photo')
+        } 
+        
+        if (admin.images.logo) {
+            processImage(admin, folderName, 'logo')
+        } 
+    });
+}
