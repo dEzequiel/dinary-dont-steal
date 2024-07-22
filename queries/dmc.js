@@ -1,5 +1,3 @@
-import { ObjectId } from "mongodb";
-
 async function findAllDMCImages(collection='dmcs', start=50, end=100, projection={
     'name': 1,
     'images': 1,
@@ -32,18 +30,47 @@ async function findAllDMCImages(collection='dmcs', start=50, end=100, projection
 }
 async function findAllDMCProductsImages(collection='dmcproducts', limit=10, projection=
     {
-        'productimage.url': 1,
         'name': 1,
         'dmc': 1,
         'productimage': 1,
+        'external.images': 1,
+        'dmcDetails.name': 1
     }) {
     console.log('Queries >> findAllDMCProductsImages >> Start')
     const query = {
-        ['productimage.url']: { $ne: null, $ne: "" },
+        $or: [
+            { 'productImage.url': { $exists: true, $ne: null, $ne: '' } },
+            {'external.images': { $exists: true, $ne: [] } }
+        ]
     }
 
     try {
-        const documents = await collection.find(query).limit(limit).project(projection).toArray()
+        const documents = await collection
+        .aggregate([
+            {
+                $match: query
+            },
+            {
+                $lookup: {
+                    from: 'dmcs',
+                    localField: 'dmc',
+                    foreignField: '_id',
+                    as: 'dmcDetails'
+                }
+            },
+            {
+                $unwind: {
+                    path: '$dmcDetails',
+                    preserveNullAndEmptyArrays: true
+                }
+            },
+            {
+                $limit: limit
+            },
+            {
+                $project: projection
+            }
+        ]).toArray()
         console.log('Queries >> findAllDMCProductsImages >> End')
         return documents
     } catch (error) {

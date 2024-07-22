@@ -5,8 +5,8 @@ import { processDMCAssociateImagesURLs, processDMCTourEscortsImagesURLs } from '
 
 export function downloadImagesFromDMCProducts(products) {
     const folderName = "dmcProductImages"
-    const folderPath = createFolder(`${folderName}/`) 
     products.forEach(product => {
+        const folderPath = createFolderForEntity(`${folderName}/`, product.dmcName) 
         processImageURL(product.image, folderPath, product.name )
     });
 }

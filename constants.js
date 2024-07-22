@@ -6,7 +6,10 @@ const defaultImagesUrl = [
     'https://res.cloudinary.com/open-market-travel/image/upload/v1426854292/assets/omtempty.png'
 ]
 
+const commonCharsOnImages = /[\/\\|*]/g;
+
 export {
     uri,
-    defaultImagesUrl
+    defaultImagesUrl,
+    commonCharsOnImages
 }
