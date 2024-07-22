@@ -12,6 +12,7 @@ import { TripTagNormalizer } from '../tripTagNormalizer.js';
 import { TravelerNormalizer } from '../travelerNormalizer.js';
 import { AdminNormalizer } from '../adminNormalizer.js';
 import { DestinationCountryNormalizer } from '../destionationCountryNormalizer.js';
+import { DestinationCountryZoneNormalizer } from '../destinationCountryZonesNormalizer.js';
 
 function NormalizerFactory() {}
 
@@ -30,6 +31,7 @@ NormalizerFactory.normalizers = {
   Traveler: TravelerNormalizer,
   Admin: AdminNormalizer,
   DestinationCountry: DestinationCountryNormalizer,
+  DestinationCountryZone: DestinationCountryZoneNormalizer
 };
 
 NormalizerFactory.createNormalizer = function(type) {

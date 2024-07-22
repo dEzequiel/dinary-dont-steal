@@ -15,6 +15,7 @@ const tripTagNormalizer = NormalizerFactory.createNormalizer('TripTag');
 const travelerNormalizer = NormalizerFactory.createNormalizer('Traveler');
 const adminNormalizer = NormalizerFactory.createNormalizer('Admin');
 const destinationCountryNormalizer = NormalizerFactory.createNormalizer('DestinationCountry');
+const destinationCountryZoneNormalizer = NormalizerFactory.createNormalizer('DestinationCountryZone');
 //#endregion
 
 export function normalizeDMCProduct(products) {
@@ -148,11 +149,20 @@ export function normalizeAdmin(admins) {
     return normalizedAdmins
 }
 
-export function normalizeDestinatioCountry(destinationCountries) {
+export function normalizeDestinationCountry(destinationCountries) {
     let normalizedDestinationCountries = []
     destinationCountries.forEach(destinationCountry => {
         normalizedDestinationCountries.push(destinationCountryNormalizer.normalize(destinationCountry.slug, destinationCountry.title_es, destinationCountry.mainImage, destinationCountry.imageFacebook))
     })
 
     return normalizedDestinationCountries
+}
+
+export function normalizeDestinationCountryZones(destinationCountryZones) {
+    let normalizedDestinationContryZones = []
+    destinationCountryZones.forEach(destinationCountryZone => {
+        normalizedDestinationContryZones.push(destinationCountryZoneNormalizer.normalize(destinationCountryZone.slug, destinationCountryZone.title_es, destinationCountryZone.mainImage, destinationCountryZone.iconImage))
+    });
+
+    return normalizedDestinationContryZones
 }

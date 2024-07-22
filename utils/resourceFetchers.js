@@ -202,3 +202,18 @@ export function downloadImagesFromDestinationCountries(destinationCountries) {
         processImageURL(destinationCountry.image, folderPath, destinationCountry.name)
     });
 }
+
+export function downloadImagesFromDestinationCountryZones(destinationCountryZones) {
+    const folderName = "destinationCountryZoneImages"
+    destinationCountryZones.forEach(destinationCountryZone => {
+        const folderPath = createFolderForEntity(folderName, destinationCountryZone.name)
+
+        if(destinationCountryZone.image) {
+            processImageURL(destinationCountryZone.image, folderPath, destinationCountryZone.name)
+        }
+
+        if(destinationCountryZone.iconImage) {
+            processImageURL(destinationCountryZone.iconImage, folderPath, destinationCountryZone.name)
+        }
+    });
+}
