@@ -1,5 +1,5 @@
 import { Normalizer } from "./base/base_normalizer.js";
-import { defaultImagesUrl } from "../constants.js";
+import { defaultImagesUrl, commonCharsOnImages } from "../constants.js";
 
 
 function DMCNormalizer() {}
@@ -21,7 +21,7 @@ DMCNormalizer.prototype.normalize = function(dmcId, name, images, additionalinfo
     normalizedObject.associateImages = additionalinfo
       .filter(association => association.image !== undefined && association.image.url !== undefined)
       .map(association => ({
-        name: association.name ? association.name.replace(/[\/\\]/g, "_") : '',
+        name: association.name ? association.name.replace(commonCharsOnImages, "_") : '',
         url: association.image.url
       }));
   
@@ -34,7 +34,7 @@ DMCNormalizer.prototype.normalize = function(dmcId, name, images, additionalinfo
     normalizedObject.tourEscorts = tourEscorts
     .filter(tour => tour.image !== undefined && tour.image.url !== undefined)
     .map(tour => ({
-      name: tour.name ? tour.name.replace(/[\/\\]/g, "_") : '',
+      name: tour.name ? tour.name.replace(commonCharsOnImages, "_") : '',
       url: tour.image.url
     }));
   }
