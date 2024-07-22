@@ -194,3 +194,11 @@ export function downloadImagesFromAdmins(admins) {
         } 
     });
 }
+
+export function downloadImagesFromDestinationCountries(destinationCountries) {
+    const folderName = "destinationCountryImages"
+    const folderPath = createFolder(`${folderName}/`)
+    destinationCountries.forEach(destinationCountry => {
+        processImageURL(destinationCountry.image, folderPath, destinationCountry.name)
+    });
+}

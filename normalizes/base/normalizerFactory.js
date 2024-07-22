@@ -10,7 +10,8 @@ import { PageNormalizer } from '../pageNormalizer.js';
 import { ProviderNormalizer } from '../providerNormalizer.js';
 import { TripTagNormalizer } from '../tripTagNormalizer.js';
 import { TravelerNormalizer } from '../travelerNormalizer.js';
-import { AdminNormalizer } from '../AdminNormalizer.js';
+import { AdminNormalizer } from '../adminNormalizer.js';
+import { DestinationCountryNormalizer } from '../destionationCountryNormalizer.js';
 
 function NormalizerFactory() {}
 
@@ -27,7 +28,8 @@ NormalizerFactory.normalizers = {
   Provider: ProviderNormalizer,
   TripTag: TripTagNormalizer,
   Traveler: TravelerNormalizer,
-  Admin: AdminNormalizer
+  Admin: AdminNormalizer,
+  DestinationCountry: DestinationCountryNormalizer,
 };
 
 NormalizerFactory.createNormalizer = function(type) {
