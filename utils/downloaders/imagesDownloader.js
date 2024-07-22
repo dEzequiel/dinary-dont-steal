@@ -34,7 +34,7 @@ function downloadImagesFacebook(url, file) {
     })
 }
 
-function downloadDependingOnProtocol(url, file) {
+export function downloadDependingOnProtocol(url, file) {
     if(getUrlProtocol(url) === 'https:') {
         downloadFromHttps(url, file)
     } 

@@ -1,6 +1,6 @@
 import * as http from 'http';
 import * as fs from 'fs';
-import { downloadImagesLogo, downloadImagesPhoto, downloadImagesFacebook } from "../downloaders/imagesDownloader.js";
+import { downloadImagesLogo, downloadImagesPhoto, downloadImagesFacebook, downloadDependingOnProtocol } from "../downloaders/imagesDownloader.js";
 import { createFolder, createFolderForEntity } from "../directories/folders.js";
 import { normalize, extname } from 'path';
 
@@ -41,55 +41,46 @@ function processImage(entity, folderName, type) {
 
 function processImageURL(image, folderName, name) {
     const resourceFormat = extname(image.url).toLowerCase(); // Extract format from url: .jpg, .png ...
-    let filePath = normalize(`${folderName}/${name}${resourceFormat}`);
-
     if (image.url.startsWith('/img')) {
+        console.log('Downloading from yourttoo...')
         const yourttooDomain = 'http://www.yourttoo.com/';
-        filePath = normalize(`${folderName}/${name}_yourttoo${resourceFormat}`);
-        http.get(normalize(`${yourttooDomain}${image.url}`), (res) => {
-            console.log('Downloading from yourttoo...');
-            const file = fs.createWriteStream(filePath);
-            res.pipe(file);
+        const filePath = normalize(`${folderName}/${name}_yourttoo${resourceFormat}`);
+        const file = fs.createWriteStream(filePath);
+        downloadDependingOnProtocol(normalize(`${yourttooDomain}${image.url}`), file)
+        file.on('finish', () => {
+            file.close();
+            console.log(`Download completed for ${image.url}, check ${folderName}/ folder`);
+        });
 
-            file.on('finish', () => {
-                file.close();
-                console.log(`Download completed for ${image.url}, check ${folderName}/ folder`);
-            });
-
-            file.on('error', (err) => {
-                console.error(`Error downloading file ${image.url}: ${err.message}`);
-                fs.unlink(filePath, (unlinkErr) => {
-                    if (unlinkErr) {
-                        console.error(`Error deleting file ${filePath}: ${unlinkErr.message}`);
-                    } else {
-                        console.log(`File ${filePath} deleted successfully.`);
-                    }
-                });
+        file.on('error', (err) => {
+            console.error(`Error downloading file ${image.url}: ${err.message}`);
+            fs.unlink(filePath, (unlinkErr) => {
+                if (unlinkErr) {
+                    console.error(`Error deleting file ${filePath}: ${unlinkErr.message}`);
+                } else {
+                    console.log(`File ${filePath} deleted successfully.`);
+                }
             });
         });
     } else {
-        http.get(image.url, (res) => {
-            console.log('Downloading from cloudinary...');
-            filePath = normalize(`${folderName}/${name}_cloudinary${resourceFormat}`);
-            const file = fs.createWriteStream(filePath);
-            res.pipe(file);
-
-            file.on('finish', () => {
-                file.close();
-                console.log(`Download completed for ${image.url}, check ${folderName}/ folder`);
-            });
-
-            file.on('error', (err) => {
-                console.error(`Error downloading file ${image.url}: ${err.message}`);
-                fs.unlink(filePath, (unlinkErr) => {
-                    if (unlinkErr) {
-                        console.error(`Error deleting file ${filePath}: ${unlinkErr.message}`);
-                    } else {
-                        console.log(`File ${filePath} deleted successfully.`);
-                    }
-                });
-            });
+        const filePath = normalize(`${folderName}/${name}_cloudinary${resourceFormat}`);
+        const file = fs.createWriteStream(filePath);
+        downloadDependingOnProtocol(image.url, file);   
+        file.on('finish', () => {
+            file.close();
+            console.log(`Download completed for ${image.url}, check ${folderName}/ folder`);
         });
+
+        file.on('error', (err) => {
+            console.error(`Error downloading file ${image.url}: ${err.message}`);
+            fs.unlink(filePath, (unlinkErr) => {
+                if (unlinkErr) {
+                    console.error(`Error deleting file ${filePath}: ${unlinkErr.message}`);
+                } else {
+                    console.log(`File ${filePath} deleted successfully.`);
+                }
+            });
+        }); 
     }
 }
 
