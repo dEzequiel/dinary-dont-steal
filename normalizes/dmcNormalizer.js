@@ -1,5 +1,6 @@
 import { Normalizer } from "./base/base_normalizer.js";
-import { defaultImagesUrl } from "../../constants.js";
+import { defaultImagesUrl } from "../constants.js";
+
 
 function DMCNormalizer() {}
 DMCNormalizer.prototype = Object.create(Normalizer.prototype);

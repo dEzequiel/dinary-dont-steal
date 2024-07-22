@@ -1,5 +1,5 @@
 import { Normalizer } from "./base/base_normalizer.js";
-import { defaultImagesUrl } from "../../constants.js";
+import { defaultImagesUrl } from "../constants.js";
 
 function ProviderNormalizer() {}
 
