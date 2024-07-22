@@ -1,7 +1,6 @@
 import https from 'https';
 import http from 'http';
 import { normalize } from 'path';
-import { getUrlProtocol } from '../helper.js';
 
 function downloadImagesPhoto(images, file) {
     if(images.photo.startsWith('/img') || images.photo.startsWith('img')) {
@@ -61,4 +60,9 @@ export {
     downloadImagesLogo, 
     downloadImagesPhoto,
     downloadImagesFacebook
+}
+
+function getUrlProtocol(url) {
+    const parsedUrl = new URL(url)
+    return parsedUrl.protocol
 }
