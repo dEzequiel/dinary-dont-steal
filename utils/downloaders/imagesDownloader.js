@@ -63,6 +63,8 @@ export {
 }
 
 function getUrlProtocol(url) {
+    if(!url) return;
+    
     const parsedUrl = new URL(url)
     return parsedUrl.protocol
 }

@@ -1,6 +1,7 @@
 import { processImage, processImageURL, processImagesURLs } from './processors/imageProcessor.js';
 import { createFolder, createFolderForEntity } from './directories/folders.js';
-import { normalize, extname } from 'path';
+import { processDMCAssociateImagesURLs } from './processors/dmcProcessor.js';
+
 
 export function downloadImagesFromDMCProducts(products) {
     const folderName = "dmcProductImages"
@@ -15,9 +16,8 @@ export function downloadImagesFromDMC(dmcs) {
     const folderName = "dmcImages"
     const folderPath = createFolder(folderName)
     dmcs.forEach(dmc => {
-        
         if(dmc.images.photo || dmc.dmc.logo)
-            createFolderForEntity(folderName, normalize(dmc.name))
+            createFolderForEntity(folderName, dmc.name)
 
         if(dmc.images.photo) {
             processImage(dmc, folderName, 'photo')
@@ -224,10 +224,3 @@ export function downloadImagesFromDestinationCountryZones(destinationCountryZone
     });
 }
 
-function processDMCAssociateImagesURLs(images, folderName, name) {
-    let imageCounter = 0
-    images.forEach(image => {
-        imageCounter++
-        processImageURL(image, folderName, `${image.name}_${imageCounter}`)
-    });
-}

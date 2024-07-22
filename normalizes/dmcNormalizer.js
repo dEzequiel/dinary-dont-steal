@@ -7,7 +7,7 @@ DMCNormalizer.prototype = Object.create(Normalizer.prototype);
 DMCNormalizer.prototype.normalize = function(dmcId, name, images, additionalinfo) {
   const normalizedObject = {
     dmcId: String(dmcId),
-    name,
+    name: name.replace(/[\/\\]/g, "_"),
     images: {
       logo: defaultImagesUrl.includes(images.logo.url) ? '' : images.logo.url,
       photo: defaultImagesUrl.includes(images.photo.url) ? '' : images.photo.url
@@ -18,7 +18,7 @@ DMCNormalizer.prototype.normalize = function(dmcId, name, images, additionalinfo
     normalizedObject.associateImages = additionalinfo
       .filter(association => association.image !== undefined && association.image.url !== undefined)
       .map(association => ({
-        name: association.name,
+        name: association.name ? association.name.replace(/[\/\\]/g, "_") : '',
         url: association.image.url
       }));
   
