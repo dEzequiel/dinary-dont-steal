@@ -1,16 +1,25 @@
-async function findAllDMCImages(collection='dmcs', limit=10, projection={
+import { ObjectId } from "mongodb";
+
+async function findAllDMCImages(collection='dmcs', start=50, end=100, projection={
     'name': 1,
-    'images': 1
+    'images': 1,
+    'additionalinfo.associations': 1,
 }) {
     console.log('Queries >> findAllDMCImages >> Start')
     const query = {
-        'images.splash.url': { $exists: true, $ne: null, $ne: '' },
-        'images.logo.url': { $exists: true, $ne: null, $ne: '' },
-        'images.photo.url': { $exists: true, $ne: null, $ne: '' }
+        $or: [
+            { 'images.splash.url': { $exists: true, $ne: null, $ne: '' } },
+            { 'images.logo.url': { $exists: true, $ne: null, $ne: '' } },
+            { 'images.photo.url': { $exists: true, $ne: null, $ne: '' } },
+            {'additionalinfo.associations': { $exists: true, $ne: [] } },
+        ]
     }
-    
+
+    const skipAmount = start - 1; // Para empezar en el documento 50, se saltan los primeros 49 documentos
+    const limitAmount = end - start + 1; // Para incluir tanto el documento 50 como el 100, se limita a 51 documentos
+
     try {
-        const documents = await collection.find(query).limit(limit).toArray()
+        const documents = await collection.find(query).skip(skipAmount).limit(limitAmount).toArray()
         console.log('Queries >> findAllDMCCloudinaryImages >> End')
         return documents
     } catch (error) {
@@ -29,7 +38,6 @@ async function findAllDMCProductsImages(collection='dmcproducts', limit=10, proj
     console.log('Queries >> findAllDMCProductsImages >> Start')
     const query = {
         ['productimage.url']: { $ne: null, $ne: "" },
-        ['productimage.url']: { $exists: true }
     }
 
     try {

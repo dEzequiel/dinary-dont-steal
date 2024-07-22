@@ -1,5 +1,6 @@
 import { processImage, processImageURL, processImagesURLs } from './processors/imageProcessor.js';
 import { createFolder, createFolderForEntity } from './directories/folders.js';
+import { normalize, extname } from 'path';
 
 export function downloadImagesFromDMCProducts(products) {
     const folderName = "dmcProductImages"
@@ -12,11 +13,11 @@ export function downloadImagesFromDMCProducts(products) {
 
 export function downloadImagesFromDMC(dmcs) {
     const folderName = "dmcImages"
-    createFolder(folderName)
+    const folderPath = createFolder(folderName)
     dmcs.forEach(dmc => {
         
         if(dmc.images.photo || dmc.dmc.logo)
-            createFolderForEntity(folderName, dmc.name)
+            createFolderForEntity(folderName, normalize(dmc.name))
 
         if(dmc.images.photo) {
             processImage(dmc, folderName, 'photo')
@@ -25,6 +26,11 @@ export function downloadImagesFromDMC(dmcs) {
         if (dmc.images.logo) {
             processImage(dmc, folderName, 'logo')
         } 
+
+        if (dmc.associateImages) {
+            const folderPath = createFolder(`${folderName}/${dmc.name}/associations`) // creates folder for associations...
+            processDMCAssociateImagesURLs(dmc.associateImages, folderPath, `${dmc.name}_associate`)
+        }
     })
 }
 
@@ -215,5 +221,13 @@ export function downloadImagesFromDestinationCountryZones(destinationCountryZone
         if(destinationCountryZone.iconImage) {
             processImageURL(destinationCountryZone.iconImage, folderPath, destinationCountryZone.name)
         }
+    });
+}
+
+function processDMCAssociateImagesURLs(images, folderName, name) {
+    let imageCounter = 0
+    images.forEach(image => {
+        imageCounter++
+        processImageURL(image, folderName, `${image.name}_${imageCounter}`)
     });
 }

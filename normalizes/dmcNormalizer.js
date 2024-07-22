@@ -4,7 +4,7 @@ import { defaultImagesUrl } from "../constants.js";
 
 function DMCNormalizer() {}
 DMCNormalizer.prototype = Object.create(Normalizer.prototype);
-DMCNormalizer.prototype.normalize = function(dmcId, name, images) {
+DMCNormalizer.prototype.normalize = function(dmcId, name, images, additionalinfo) {
   const normalizedObject = {
     dmcId: String(dmcId),
     name,
@@ -14,6 +14,19 @@ DMCNormalizer.prototype.normalize = function(dmcId, name, images) {
     }
   };
 
+  if (additionalinfo !== undefined) {
+    normalizedObject.associateImages = additionalinfo
+      .filter(association => association.image !== undefined && association.image.url !== undefined)
+      .map(association => ({
+        name: association.name,
+        url: association.image.url
+      }));
+  
+    if (normalizedObject.associateImages.length === 0) {
+      delete normalizedObject.associateImages;
+    }
+  }
+
   if(normalizedObject.images.logo == '') delete normalizedObject.images.logo;
   if(normalizedObject.images.photo == '') delete normalizedObject.images.photo
 
@@ -21,3 +34,4 @@ DMCNormalizer.prototype.normalize = function(dmcId, name, images) {
 };
 
 export { DMCNormalizer }
+

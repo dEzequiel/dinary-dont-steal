@@ -84,7 +84,7 @@ function processImageURL(image, folderName, name) {
     }
 }
 
-function processImagesURLs(images=[], folderName, name) {
+function processImagesURLs(images, folderName, name) {
     let imageCounter = 0
     images.forEach(image => {
         imageCounter++
