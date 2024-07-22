@@ -4,6 +4,7 @@ async function findAllDMCImages(collection='dmcs', start=50, end=100, projection
     'name': 1,
     'images': 1,
     'additionalinfo.associations': 1,
+    'tourEscorts': 1,
 }) {
     console.log('Queries >> findAllDMCImages >> Start')
     const query = {
@@ -12,6 +13,7 @@ async function findAllDMCImages(collection='dmcs', start=50, end=100, projection
             { 'images.logo.url': { $exists: true, $ne: null, $ne: '' } },
             { 'images.photo.url': { $exists: true, $ne: null, $ne: '' } },
             {'additionalinfo.associations': { $exists: true, $ne: [] } },
+            {'tourEscorts': { $exists: true, $ne: [] } }
         ]
     }
 

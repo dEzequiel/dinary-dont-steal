@@ -4,7 +4,7 @@ import { defaultImagesUrl } from "../constants.js";
 
 function DMCNormalizer() {}
 DMCNormalizer.prototype = Object.create(Normalizer.prototype);
-DMCNormalizer.prototype.normalize = function(dmcId, name, images, additionalinfo) {
+DMCNormalizer.prototype.normalize = function(dmcId, name, images, additionalinfo, tourEscorts) {
   const normalizedObject = {
     dmcId: String(dmcId),
     name: name.replace(/[\/\\]/g, "_"),
@@ -13,6 +13,9 @@ DMCNormalizer.prototype.normalize = function(dmcId, name, images, additionalinfo
       photo: defaultImagesUrl.includes(images.photo.url) ? '' : images.photo.url
     }
   };
+
+  if(normalizedObject.images.logo == '') delete normalizedObject.images.logo;
+  if(normalizedObject.images.photo == '') delete normalizedObject.images.photo
 
   if (additionalinfo !== undefined) {
     normalizedObject.associateImages = additionalinfo
@@ -27,10 +30,20 @@ DMCNormalizer.prototype.normalize = function(dmcId, name, images, additionalinfo
     }
   }
 
-  if(normalizedObject.images.logo == '') delete normalizedObject.images.logo;
-  if(normalizedObject.images.photo == '') delete normalizedObject.images.photo
+  if(tourEscorts !== undefined) {
+    normalizedObject.tourEscorts = tourEscorts
+    .filter(tour => tour.image !== undefined && tour.image.url !== undefined)
+    .map(tour => ({
+      name: tour.name ? tour.name.replace(/[\/\\]/g, "_") : '',
+      url: tour.image.url
+    }));
+  }
 
-    return normalizedObject;
+  if(normalizedObject.tourEscorts && normalizedObject.tourEscorts.length === 0) {
+    delete normalizedObject.tourEscorts;
+  }
+
+  return normalizedObject;
 };
 
 export { DMCNormalizer }

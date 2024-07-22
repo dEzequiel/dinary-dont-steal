@@ -1,6 +1,6 @@
 import { processImage, processImageURL, processImagesURLs } from './processors/imageProcessor.js';
 import { createFolder, createFolderForEntity } from './directories/folders.js';
-import { processDMCAssociateImagesURLs } from './processors/dmcProcessor.js';
+import { processDMCAssociateImagesURLs, processDMCTourEscortsImagesURLs } from './processors/dmcProcessor.js';
 
 
 export function downloadImagesFromDMCProducts(products) {
@@ -29,7 +29,12 @@ export function downloadImagesFromDMC(dmcs) {
 
         if (dmc.associateImages) {
             const folderPath = createFolder(`${folderName}/${dmc.name}/associations`) // creates folder for associations...
-            processDMCAssociateImagesURLs(dmc.associateImages, folderPath, `${dmc.name}_associate`)
+            processDMCAssociateImagesURLs(dmc.associateImages, folderPath, `${dmc.name}`)
+        }
+
+        if(dmc.tourEscorts) {
+            const folderPath = createFolder(`${folderName}/${dmc.name}/tourEscorts`) // creates folder for associations...
+            processDMCTourEscortsImagesURLs(dmc.tourEscorts, folderPath, `${dmc.name}_tourEscort`)
         }
     })
 }

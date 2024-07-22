@@ -31,7 +31,7 @@ export function normalizeDMCProduct(products) {
 export function normalizeDMC(dmcs) {
     let normalizedDMCs = []
     dmcs.forEach(dmc => {
-        normalizedDMCs.push(dmcNormalizer.normalize(dmc._id, dmc.name, dmc.images, dmc.additionalinfo.associations))
+        normalizedDMCs.push(dmcNormalizer.normalize(dmc._id, dmc.name, dmc.images, dmc.additionalinfo.associations, dmc.tourEscorts))
     });
     return normalizedDMCs
 }
