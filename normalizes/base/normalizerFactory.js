@@ -13,6 +13,7 @@ import { TravelerNormalizer } from '../travelerNormalizer.js';
 import { AdminNormalizer } from '../adminNormalizer.js';
 import { DestinationCountryNormalizer } from '../destionationCountryNormalizer.js';
 import { DestinationCountryZoneNormalizer } from '../destinationCountryZonesNormalizer.js';
+import { PageCategoryNormalizer } from '../pageCategoryNormalizer.js';
 
 function NormalizerFactory() {}
 
@@ -26,6 +27,7 @@ NormalizerFactory.normalizers = {
   BudgetProduct: BudgetProductNormalizer,
   ManagementGroup: ManagementGroupNormalizer,
   Page: PageNormalizer,
+  PageCategory: PageCategoryNormalizer,
   Provider: ProviderNormalizer,
   TripTag: TripTagNormalizer,
   Traveler: TravelerNormalizer,

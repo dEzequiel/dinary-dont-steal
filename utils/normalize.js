@@ -10,6 +10,7 @@ const budgetProductNormalizer = NormalizerFactory.createNormalizer('BudgetProduc
 const dmcFaqNormalizer = NormalizerFactory.createNormalizer('DMCFAQ');
 const managementGroupNormalizer = NormalizerFactory.createNormalizer('ManagementGroup');
 const pageNormalizer = NormalizerFactory.createNormalizer('Page');
+const pageCategoryNormalizer = NormalizerFactory.createNormalizer('PageCategory');
 const providerNormalizer = NormalizerFactory.createNormalizer('Provider');
 const tripTagNormalizer = NormalizerFactory.createNormalizer('TripTag');
 const travelerNormalizer = NormalizerFactory.createNormalizer('Traveler');
@@ -113,6 +114,15 @@ export function normalizePage(pages) {
     return normalizedPages
 }
 
+export function normalizePageCategories(pageCategories) {
+    let normalizedPageCategories = []
+    pageCategories.forEach(pageCategory => {
+        normalizedPageCategories.push(pageCategoryNormalizer.normalize(pageCategory.mainImage, pageCategory.imageFacebook))
+    });
+
+    return normalizedPageCategories
+}
+
 export function normalizeProvider(providers) {
     let normalizedProviders = []
     providers.forEach(provider => {
@@ -125,7 +135,7 @@ export function normalizeProvider(providers) {
 export function normalizeTripTags(tripTags) {
     let normalizedTripTags = []
     tripTags.forEach(tripTag => {
-        normalizedTripTags.push(tripTagNormalizer.normalize(tripTag.slug, tripTag.title, tripTag.mainImage))
+        normalizedTripTags.push(tripTagNormalizer.normalize(tripTag.slug, tripTag.title, tripTag.mainImage, tripTag.imageFacebook))
     });
 
     return normalizedTripTags   

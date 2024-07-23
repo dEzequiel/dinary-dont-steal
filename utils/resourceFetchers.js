@@ -1,13 +1,11 @@
 import { processImage, processImageURL, processImagesURLs } from './processors/imageProcessor.js';
 import { createFolder, createFolderForEntity } from './directories/folders.js';
-import { processDMCAssociateImagesURLs, processDMCTourEscortsImagesURLs } from './processors/dmcProcessor.js';
-
 
 export function downloadImagesFromDMCProducts(products) {
     const folderName = "dmcProductImages"
     products.forEach(product => {
         const folderPath = createFolderForEntity(`${folderName}/`, product.dmcName) 
-        processImageURL(product.image, folderPath, product.name )
+        processImageURL(product.image, folderPath)
     });
 }
 
@@ -29,12 +27,12 @@ export function downloadImagesFromDMC(dmcs) {
 
         if (dmc.associateImages) {
             const folderPath = createFolder(`${folderName}/${dmc.name}/associations`) // creates folder for associations...
-            processDMCAssociateImagesURLs(dmc.associateImages, folderPath, `${dmc.name}`)
+            processImagesURLs(dmc.associateImages, folderPath)
         }
 
         if(dmc.tourEscorts) {
-            const folderPath = createFolder(`${folderName}/${dmc.name}/tourEscorts`) // creates folder for associations...
-            processDMCTourEscortsImagesURLs(dmc.tourEscorts, folderPath, `${dmc.name}_tourEscort`)
+            const folderPath = createFolder(`${folderName}/${dmc.name}/tourEscorts`) // creates folder for tourEscorts...
+            processImagesURLs(dmc.tourEscorts, folderPath)
         }
     })
 }
@@ -150,6 +148,21 @@ export function downloadImagesFromPages(pages) {
 
 }
 
+export function downloadImagesFromPageCategories(pageCategories) {
+    const folderName = "pageCategoriesImages"
+    const folderPath = createFolder(`${folderName}/`)
+    pageCategories.forEach(page => {
+        if(page.imageFacebook) {
+            processImageURL(page.imageFacebook, folderPath, page.name)
+        }
+
+        if(page.image) {
+            processImageURL(page.image, folderPath, page.name);
+        }
+    });
+
+}
+
 export function downloadImagesFromProviders(providers) {
     const folderName = "providerImages"
     providers.forEach(provider => {
@@ -171,6 +184,10 @@ export function downloadImagesFromTripTags(tripTags) {
     const folderPath = createFolder(`${folderName}/`)
     tripTags.forEach(tripTag => {
         processImageURL(tripTag.image, folderPath, tripTag.slug)
+
+        // if(tripTag.imageFacebook) {
+        //     processImage(tripTag, folderPath, 'imageFacebook')
+        // }
     });
 }
 
