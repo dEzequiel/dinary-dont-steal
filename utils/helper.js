@@ -1,4 +1,4 @@
-export const getImageURLName = (url) => {
+export const getImageNameFromURL = (url) => {
     return url.split('/').pop().split('.')[0];
 }
 
