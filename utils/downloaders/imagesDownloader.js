@@ -1,6 +1,7 @@
 import https from 'https';
 import http from 'http';
 import { normalize } from 'path';
+import { getUrlProtocol } from '../helper.js';
 
 function downloadImagesPhoto(images, file) {
     if(images.photo.startsWith('/img') || images.photo.startsWith('img')) {
@@ -28,10 +29,16 @@ function downloadImagesLogo(images, file) {
 }
 
 function downloadImagesFacebook(url, file) {
-    http.get(normalize(url), (res) => {
+    const request = http.get(normalize(url), (res) => {
         console.log('Downloading from cloudinary...')
         res.pipe(file)
     })
+
+    request.on('error', (error) => {
+        console.error('Error:', error);
+      });
+      
+    request.end();
 }
 
 export function downloadDependingOnProtocol(url, file) {
@@ -45,15 +52,27 @@ export function downloadDependingOnProtocol(url, file) {
 }
 
 function downloadFromHttp(url, file) {
-    http.get(url, (res) => {
+    const request = http.get(url, (res) => {
         res.pipe(file)
     })
+
+    request.on('error', (error) => {
+        console.error('Error:', error);
+      });
+
+    request.end();
 }
 
 function downloadFromHttps(url, file) {
-    https.get(url, (res) => {
+    const request = https.get(url, (res) => {
         res.pipe(file)
     })
+
+    request.on('error', (error) => {
+        console.error('Error:', error);
+      });
+
+    request.end();
 }
 
 export {
@@ -62,9 +81,3 @@ export {
     downloadImagesFacebook
 }
 
-function getUrlProtocol(url) {
-    if(!url) return;
-    
-    const parsedUrl = new URL(url)
-    return parsedUrl.protocol
-}
