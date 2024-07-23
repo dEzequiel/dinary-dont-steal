@@ -6,6 +6,11 @@ export function downloadImagesFromDMCProducts(products) {
     products.forEach(product => {
         const folderPath = createFolderForEntity(`${folderName}/`, product.dmcName) 
         processImageURL(product.image, folderPath)
+
+        if(product.itinerary) {
+            const folderPath = createFolder(`${folderName}/${product.dmcName}/itinerary`) 
+            processImagesURLs(product.itinerary, folderPath)
+        }
     });
 }
 

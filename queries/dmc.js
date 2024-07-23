@@ -34,12 +34,14 @@ async function findAllDMCProductsImages(collection='dmcproducts', limit=10, proj
         'dmc': 1,
         'productimage': 1,
         'external.images': 1,
+        'itinerary': 1,
         'dmcDetails.name': 1
     }) {
     console.log('Queries >> findAllDMCProductsImages >> Start')
     const query = {
         $or: [
             { 'productImage.url': { $exists: true, $ne: null, $ne: '' } },
+            {'itinerary': { $exists: true, $ne: [] } },
             {'external.images': { $exists: true, $ne: [] } }
         ]
     }

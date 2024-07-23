@@ -23,7 +23,7 @@ export function normalizeDMCProduct(products) {
     let normalizedProducts = []
     products.forEach(product => {
         normalizedProducts.push(
-            dmcProductNormalizer.normalize(product.dmc, product.name, product.productimage, product.dmcDetails.name))
+            dmcProductNormalizer.normalize(product.dmc, product.name, product.productimage, product.dmcDetails.name, product.itinerary))
         })
     return normalizedProducts;
 
