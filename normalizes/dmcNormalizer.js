@@ -32,27 +32,23 @@ DMCNormalizer.prototype.normalize = function(dmcId, name, images, additionalinfo
     if (normalizedObject.associateImages) {
       normalizedObject.associateImages = normalizedObject.associateImages.filter(association => association.url !== '');
     }
-  }
 
-  if(tourEscorts !== undefined) {
-    normalizedObject.tourEscorts = tourEscorts
-    .filter(tour => tour.image !== undefined && tour.image.url !== undefined)
-    .map(tour => ({
-      name: tour.name ? tour.name.replace(commonCharsOnImages, "_") : '',
-      url: tour.image.url
+    normalizedObject.imagesURLS = additionalinfo.filter(association => association.imageurl !== undefined && association.imageurl !== '')
+    .map(association => ({
+      url: association.imageurl
     }));
-  }
 
-  if(normalizedObject.tourEscorts && normalizedObject.tourEscorts.length === 0) {
-    delete normalizedObject.tourEscorts;
-  }
+    if(normalizedObject.imagesURLS.length === 0) {
+      delete normalizedObject.imagesURLS;
+    }
 
-  if (normalizedObject.tourEscorts) {
-    normalizedObject.tourEscorts = normalizedObject.tourEscorts.filter(tour => tour.url !== '');
-  }
+  };
 
   return normalizedObject;
-};
+
+}
+
+
 
 export { DMCNormalizer }
 

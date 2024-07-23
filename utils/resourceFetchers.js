@@ -39,6 +39,11 @@ export function downloadImagesFromDMC(dmcs) {
             const folderPath = createFolder(`${folderName}/${dmc.name}/tourEscorts`) // creates folder for tourEscorts...
             processImagesURLs(dmc.tourEscorts, folderPath)
         }
+
+        if(dmc.imagesURLS) {
+            const folderPath = createFolder(`${folderName}/${dmc.name}/images`) // creates folder for images...
+            processImagesURLs(dmc.imagesURLS, folderPath)
+        }
     })
 }
 
