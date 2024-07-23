@@ -10,7 +10,7 @@ async function findAllDMCImages(collection='dmcs', start=50, end=100, projection
             { 'images.splash.url': { $exists: true, $ne: null, $ne: '' } },
             { 'images.logo.url': { $exists: true, $ne: null, $ne: '' } },
             { 'images.photo.url': { $exists: true, $ne: null, $ne: '' } },
-            {'additionalinfo.associations': { $exists: true, $ne: [] } },
+            { 'additionalinfo.associations': { $exists: true, $ne: [] } },
             {'tourEscorts': { $exists: true, $ne: [] } }
         ]
     }

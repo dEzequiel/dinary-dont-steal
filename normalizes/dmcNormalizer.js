@@ -25,8 +25,12 @@ DMCNormalizer.prototype.normalize = function(dmcId, name, images, additionalinfo
         url: association.image.url
       }));
   
-    if (normalizedObject.associateImages.length === 0) {
+    if (normalizedObject.associateImages.length === 0 ) {
       delete normalizedObject.associateImages;
+    }
+
+    if (normalizedObject.associateImages) {
+      normalizedObject.associateImages = normalizedObject.associateImages.filter(association => association.url !== '');
     }
   }
 
@@ -41,6 +45,10 @@ DMCNormalizer.prototype.normalize = function(dmcId, name, images, additionalinfo
 
   if(normalizedObject.tourEscorts && normalizedObject.tourEscorts.length === 0) {
     delete normalizedObject.tourEscorts;
+  }
+
+  if (normalizedObject.tourEscorts) {
+    normalizedObject.tourEscorts = normalizedObject.tourEscorts.filter(tour => tour.url !== '');
   }
 
   return normalizedObject;
