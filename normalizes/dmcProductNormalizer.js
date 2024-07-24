@@ -9,11 +9,12 @@ DMCProductNormalizer.prototype.normalize = function(dmcId, name, image, dmcName,
   const normalizedObject = {
     dmcId: String(dmcId),
     name: name.replace(commonCharsOnImages, "_"),
-    image: {
-      ...image
-    },
     dmcName: dmcName.replace(commonCharsOnImages, "_")
   };
+
+  if(image) {
+    normalizedObject.image = image
+  }
 
   if (itinerary !== undefined) {
     normalizedObject.itinerary = itinerary.filter(day => day.image !== undefined && day.image.url !== undefined)

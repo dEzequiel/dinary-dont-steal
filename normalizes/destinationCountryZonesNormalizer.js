@@ -1,5 +1,5 @@
 import { Normalizer } from "./base/base_normalizer.js";
-import { defaultImagesUrl } from "../constants.js";
+import { determineImageUrl } from "../utils/helper.js";
 
 function DestinationCountryZoneNormalizer() {}
 
@@ -8,21 +8,24 @@ DestinationCountryZoneNormalizer.prototype.normalize = function (name, title, im
     const normalizedObject = {
         name,
         title,
-        image: {
-            url: (image === null || image === undefined)
-            ? (defaultImagesUrl.includes(image?.url) ? '' : image?.url)
-            : image.url
-        },
-
-        iconImage: {
-            url: (iconImage === null || iconImage === undefined)
-            ? (defaultImagesUrl.includes(iconImage?.url) ? '' : iconImage?.url)
-            : iconImage.url,
-        }
     } 
 
-    if(normalizedObject.image.url === undefined) delete normalizedObject.image;
-    if(normalizedObject.iconImage.url === undefined) delete normalizedObject.iconImage;
+    if(image) {
+        normalizedObject.image = {
+            url: determineImageUrl(image.url)
+        }
+
+        if(normalizedObject.image.url === '') delete normalizedObject.image;
+    }
+
+    if(iconImage) {
+        normalizedObject.iconImage = {
+            url: determineImageUrl(image.url)
+        }
+
+        if(normalizedObject.iconImage.url === '') delete normalizedObject.iconImage;
+    }
+
 
     return normalizedObject;
 }

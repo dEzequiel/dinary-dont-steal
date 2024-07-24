@@ -1,5 +1,5 @@
 import { Normalizer } from "./base/base_normalizer.js";
-import { defaultImagesUrl } from "../constants.js";
+import { determineImageUrl } from "../utils/helper.js";
 
 function PageNormalizer() {}
 
@@ -8,26 +8,37 @@ PageNormalizer.prototype.normalize = function (id, slug, title, image, imageFace
     const normalizedObject = {
         id: String(id),
         name: slug,
-        title,
-        image: {
-            url: defaultImagesUrl.includes(image.url) ? '' : image.url
-        }
+        title
     };
+
+    if(image) {
+        normalizedObject.image = {
+            url: determineImageUrl(image.url)
+        }
+
+        if(normalizedObject.image.url === '') delete normalizedObject.image;
+    }   
 
     // Añadir imageGalery solo si existe y no es una lista vacía
     if (imageGalery && imageGalery.length > 0) {
         normalizedObject.imageGalery = imageGalery.map(image => ({
-            url: defaultImagesUrl.includes(image.url) ? '' : image.url
+            url: determineImageUrl(image.url)
         }));
+
+        if(normalizedObject.imageGalery.length === 0) delete normalizedObject.imageGalery;
     }
 
     if (imageFacebook) {
         normalizedObject.imageFacebook = {
-            url: defaultImagesUrl.includes(imageFacebook.url) ? '' : imageFacebook.url
+            url: determineImageUrl(imageFacebook.url)
         };
+
+        if (normalizedObject.imageFacebook.url === '') delete normalizedObject.imageFacebook;
     }
     
     return normalizedObject;
+
 }
+
 
 export { PageNormalizer }

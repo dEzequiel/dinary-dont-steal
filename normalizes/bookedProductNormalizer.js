@@ -4,11 +4,21 @@ function BookedProductNormalizer() {}
 
 BookedProductNormalizer.prototype = Object.create(Normalizer.prototype);
 BookedProductNormalizer.prototype.normalize = function(slug, productImage, itineraryImages) {
-  return {
+  const normalizedObject = {
     slug,
-    productImage: { url: productImage.url },
-    itinerary: itineraryImages.map(img => ({ url: img.image.url }))
   };
+
+  if(productImage) {
+    normalizedObject.productImage = { url: productImage.url }
+    if(normalizedObject.productImage.url == '') delete normalizedObject.productImage;
+  }
+
+  if(itineraryImages) {
+    normalizedObject.itinerary = itineraryImages.map(img => ({ url: img.image.url }))
+    if(normalizedObject.itinerary.length === 0) delete normalizedObject.itinerary;
+  }
+  
+  return normalizedObject;
 };
 
 export { BookedProductNormalizer }

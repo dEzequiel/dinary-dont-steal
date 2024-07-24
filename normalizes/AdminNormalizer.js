@@ -1,18 +1,27 @@
 import { Normalizer } from "./base/base_normalizer.js";
-import { defaultImagesUrl } from "../constants.js";
+import { determineImageUrl } from "../utils/helper.js";
 
 function AdminNormalizer() {}
 
 AdminNormalizer.prototype = Object.create(Normalizer.prototype);
-AdminNormalizer.prototype.normalize = function(id, name, images = {}) {
-  return {
+AdminNormalizer.prototype.normalize = function(id, name, images) {
+  const normalizedObject = {
     id: String(id),
     name,
-    images: {
-      logo:  defaultImagesUrl.includes(images.logo?.url) ? '' : images.logo?.url,
-      photo: defaultImagesUrl.includes(images.photo?.url) ? '' : images.photo?.url,
-    }
   };
+
+  if(images) {
+    normalizedObject.images = {
+      logo: determineImageUrl(images.logo?.url),
+      photo: determineImageUrl(images.photo?.url)
+    }
+
+    if(normalizedObject.images.logo == '') delete normalizedObject.images.logo;
+    if(normalizedObject.images.photo == '') delete normalizedObject.images.photo
+    if(Object.keys(normalizedObject.images).length === 0) delete normalizedObject.images;
+  }
+
+  return normalizedObject;
 };
 
 export { AdminNormalizer }

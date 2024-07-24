@@ -1,22 +1,29 @@
 import { Normalizer } from "./base/base_normalizer.js";
-import { defaultImagesUrl } from "../constants.js";
+import { determineImageUrl } from "../utils/helper.js";
 
 function PageCategoryNormalizer() {}
 
 PageCategoryNormalizer.prototype = Object.create(Normalizer.prototype);
-PageCategoryNormalizer.prototype.normalize = function (image, imageFacebook) {
-    const normalizedObject = {};
+PageCategoryNormalizer.prototype.normalize = function (name, image, imageFacebook) {
+    const normalizedObject = {
+        name
+    };
 
     if (image) {
         normalizedObject.image = {
-            url: defaultImagesUrl.includes(image.url) ? '' : image.url
+            url: determineImageUrl(image.url)
         };
+
+        if(normalizedObject.image.url === '') delete normalizedObject.image;
     }
 
     if (imageFacebook) {
         normalizedObject.imageFacebook = {
-            url: defaultImagesUrl.includes(imageFacebook.url) ? '' : imageFacebook.url
+            url: determineImageUrl(imageFacebook.url)
         };
+
+        if(normalizedObject.imageFacebook.url === '') delete normalizedObject.imageFacebook;
+
     }
     
     return normalizedObject;

@@ -1,17 +1,29 @@
 import { Normalizer } from "./base/base_normalizer.js";
-import { defaultImagesUrl } from "../constants.js";
+import { determineImageUrl } from "../utils/helper.js";
 
 function TripTagNormalizer() {}
 
 TripTagNormalizer.prototype = Object.create(Normalizer.prototype);
-TripTagNormalizer.prototype.normalize = function (slug, title, mainImage) {
+TripTagNormalizer.prototype.normalize = function (slug, title, mainImage, imageFacebook) {
     const normalizedObject = {
         slug,
-        title,
-        image: {
-            url: defaultImagesUrl.includes(mainImage.url) ? '' : mainImage.url
-        }
+        title
     };
+
+    if(mainImage) {
+        normalizedObject.image = {
+            url: determineImageUrl(mainImage.url)
+        }
+        if(normalizedObject.image.url == '') delete normalizedObject.image;    
+    }
+
+    if (imageFacebook) {
+        normalizedObject.imageFacebook = {
+            url: determineImageUrl(imageFacebook.url)
+        };
+        if(normalizedObject.imageFacebook.url == '') delete normalizedObject.imageFacebook
+
+    }
 
     return normalizedObject;
 }
