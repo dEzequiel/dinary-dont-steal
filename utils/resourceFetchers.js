@@ -5,7 +5,10 @@ export function downloadImagesFromDMCProducts(products) {
     const folderName = "dmcProductImages"
     products.forEach(product => {
         const folderPath = createFolderForEntity(`${folderName}/`, product.dmcName) 
-        processImage(product.image, null, folderPath)
+        if(product.image) {
+            processImage(product.image, null, folderPath)
+        }
+
         processAssociatedImages(product, folderPath, 'itinerary', 'itinerary');
     });
 }
@@ -41,9 +44,11 @@ export function downloadImagesFromDMCFAQs(dmcFAQs) {
             processImage(dmcFAQ, 'imageFacebook', folderPath)
         }
 
-        dmcFAQ.images.forEach(image => {
-            processImage(image, null, folderPath)
-        });
+        if(dmcFAQ.images) {
+            dmcFAQ.images.forEach(image => {
+                processImage(image, null, folderPath)
+            });
+        }
 
     });
 
@@ -53,7 +58,10 @@ export function downloadImagesFromBookedPoducts(bookedProducts) {
     const folderName = "bookedProductImages"
     const folderPath = createFolder(`${folderName}/`) 
     bookedProducts.forEach(bookedProduct => {
-        processImage(bookedProduct.image, null, folderPath)
+        if(bookedProduct.image) {
+            processImage(bookedProduct.image, null, folderPath)
+        }
+        
         processAssociatedImages(bookedProduct, folderPath, 'itinerary', 'itinerary');
     });
 
@@ -63,7 +71,10 @@ export function downloadImagesFromBudgetProducts(budgetProducts) {
     const folderName = "budgetProductImages"
     budgetProducts.forEach(budgetProduct => {
         const folderPath = createFolderForEntity(folderName, budgetProduct.name)
-        processImage(budgetProduct.productImage, null, folderPath)
+        if(budgetProduct.productImage) {
+            processImage(budgetProduct.productImage, null, folderPath)
+        }        
+        
         processAssociatedImages(budgetProduct, folderPath, 'itinerary', 'itinerary');
     });
 
@@ -90,9 +101,11 @@ export function downloadAffiliatesFAQImages(affiliatesFAQs) {
     const folderName = "affiliateFAQImages"
     affiliatesFAQs.forEach(affiliateFAQ => {
         const folderPath = createFolderForEntity(folderName, affiliateFAQ.title)
-        affiliateFAQ.images.forEach(image => {
-            processImage(image, null, folderPath)
-        });
+        if(affiliateFAQ.images) {
+            affiliateFAQ.images.forEach(image => {
+                processImage(image, null, folderPath)
+            });
+        }
     });
 
 }
@@ -101,7 +114,9 @@ export function downloadImagesFromBanners(banners) {
     const folderName = "bannerImages"
     const folderPath = createFolder(`${folderName}/`) 
     banners.forEach(banner => {
-        processImage(banner.image, null, folderPath )
+        if(banner.image) {
+            processImage(banner.image, null, folderPath )
+        }
     });
 }
 
@@ -126,6 +141,11 @@ export function downloadImagesFromPages(pages) {
     const folderName = "pageImages"
     pages.forEach(page => {
         const folderPath = createFolderForEntity(folderName, page.name)
+
+        if(page.image) {
+            processImage(page.image, null, folderPath);
+        }
+        
         if(page.imageFacebook) {
             processImage(page.imageFacebook, null, folderPath)
         }
@@ -137,7 +157,7 @@ export function downloadImagesFromPages(pages) {
             })
         }
 
-        processImage(page.image, null, folderPath);
+        
 
     });
 
@@ -243,7 +263,6 @@ export function downloadImagesFromDestinationCountries(destinationCountries) {
 export function downloadImagesFromDestinationCountryZones(destinationCountryZones) {
     const folderName = "destinationCountryZoneImages"
     destinationCountryZones.forEach(destinationCountryZone => {
-        const folderPath = createFolderForEntity(folderName, destinationCountryZone.name)
         if(destinationCountryZone.image || destinationCountryZone.iconImage) {
             const folderPath = createFolderForEntity(folderName, destinationCountryZone.name)
 
