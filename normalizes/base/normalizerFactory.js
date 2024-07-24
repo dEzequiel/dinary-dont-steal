@@ -14,6 +14,7 @@ import { AdminNormalizer } from '../adminNormalizer.js';
 import { DestinationCountryNormalizer } from '../destionationCountryNormalizer.js';
 import { DestinationCountryZoneNormalizer } from '../destinationCountryZonesNormalizer.js';
 import { PageCategoryNormalizer } from '../pageCategoryNormalizer.js';
+import { TagNormalizer } from '../tagNormalizer.js';
 
 function NormalizerFactory() {}
 
@@ -30,10 +31,12 @@ NormalizerFactory.normalizers = {
   PageCategory: PageCategoryNormalizer,
   Provider: ProviderNormalizer,
   TripTag: TripTagNormalizer,
+  Tag: TagNormalizer,
   Traveler: TravelerNormalizer,
   Admin: AdminNormalizer,
   DestinationCountry: DestinationCountryNormalizer,
-  DestinationCountryZone: DestinationCountryZoneNormalizer
+  DestinationCountryZone: DestinationCountryZoneNormalizer,
+
 };
 
 NormalizerFactory.createNormalizer = function(type) {

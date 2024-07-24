@@ -212,6 +212,17 @@ export function downloadImagesFromTripTags(tripTags) {
     // });
 }
 
+export function downloadImagesFromTags(tags) {
+    const folderName = "tagImages"
+    const folderPath = createFolder(`${folderName}/`)
+    tags.forEach(tag => {
+        if(tag.image) {
+            processImage(tag.image, null, folderPath)
+        }
+    });
+
+}
+
 export function downloadImagesFromTraveler(travelers) {
     const folderName = "travelerImages"
     travelers.forEach(traveler => {

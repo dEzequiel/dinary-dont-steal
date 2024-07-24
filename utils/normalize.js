@@ -17,6 +17,7 @@ const travelerNormalizer = NormalizerFactory.createNormalizer('Traveler');
 const adminNormalizer = NormalizerFactory.createNormalizer('Admin');
 const destinationCountryNormalizer = NormalizerFactory.createNormalizer('DestinationCountry');
 const destinationCountryZoneNormalizer = NormalizerFactory.createNormalizer('DestinationCountryZone');
+const tagNormalizer = NormalizerFactory.createNormalizer('Tag');
 //#endregion
 
 export function normalizeDMCProduct(products) {
@@ -139,6 +140,16 @@ export function normalizeTripTags(tripTags) {
     });
 
     return normalizedTripTags   
+}
+
+export function normalizeTags(tags) {
+    let normalizedTags = []
+    tags.forEach(tag => {
+        normalizedTags.push(tagNormalizer.normalize(tag.mainImage))
+    });
+
+    return normalizedTags
+
 }
 
 export function normalizeTraveler(travelers) {
