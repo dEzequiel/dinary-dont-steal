@@ -1,26 +1,35 @@
 import * as fs from 'fs';
-import { downloadImagesLogo, downloadImagesPhoto, downloadImagesFacebook, downloadDependingOnProtocol } from "../downloaders/imagesDownloader.js";
-import { createFolder } from "../directories/folders.js";
+import { createFolderOnPath } from "../directories/folders.js";
 import { normalize, extname } from 'path';
 import { getImageNameFromURL } from '../helper.js';
+import { downloadImage } from '../downloaders/imagesDownloader.js';
 
-function processImage(entity, folderName, type) {
-    const resourceFormat = extname(entity.images[type]).toLowerCase() // Extract format from url: .jpg, .png ...
-    const imageURLname = getImageNameFromURL(entity.images[type])  // Extract the image name from image url
-    const folderPath = createFolder(`${folderName}/${entity.name}/${type}`) // creates folder for logos...
-    
-    let filePath = normalize(`${folderPath}/${imageURLname}${resourceFormat}`);
-    let file = fs.createWriteStream(filePath);
-    
-    if(type === 'photo') {
-        downloadImagesPhoto(entity.images, file);
-    } else if(type === 'logo') {
-        downloadImagesLogo(entity.images, file);
-    } else if(type === 'imageFacebook') {
-        filePath = normalize(`${folderPath}/${imageURLName}${resourceFormat}`);
+function processImage(entity, type, folderName) {
+
+    let resourceFormat;
+    let folderPath;
+    let filePath;
+    let file;
+    let imageURLname;
+    if(type) {
+        resourceFormat = extname(entity.images[type]).toLowerCase() // Extract format from url: .jpg, .png ...
+        imageURLname = getImageNameFromURL(entity.images[type])  // Extract the image name from image url
+        folderPath = createFolderOnPath(`${folderName}/${type}`) // creates folder for logos...
+        
+        filePath = normalize(`${folderPath}/${imageURLname}${resourceFormat}`);
         file = fs.createWriteStream(filePath);
-        downloadImagesFacebook(entity.imageFacebook, file);
+        
+        downloadImage(entity.images[type], file)      
+    } else {
+        resourceFormat = extname(entity.url).toLowerCase() // Extract format from url: .jpg, .png ...
+        imageURLname = getImageNameFromURL(entity.url)
+
+        filePath = normalize(`${folderName}/${imageURLname}${resourceFormat}`);
+        file = fs.createWriteStream(filePath);
+
+        downloadImage(entity.url, file)
     }
+
 
     file.on('finish', () => {
         file.close()
@@ -39,63 +48,15 @@ function processImage(entity, folderName, type) {
     })
 }
 
-function processImageURL(image, folderName, name) {
-    const resourceFormat = extname(image.url).toLowerCase(); // Extract format from url: .jpg, .png ...
-    const imageURLname = getImageNameFromURL(image.url)  // Extract the image name from image url
-
-    if (image.url.startsWith('/img')) {
-        console.log('Downloading from yourttoo...')
-        const yourttooDomain = 'http://www.yourttoo.com/';
-        const filePath = normalize(`${folderName}/${imageURLname}${resourceFormat}`);
-        const file = fs.createWriteStream(filePath);
-        downloadDependingOnProtocol(normalize(`${yourttooDomain}${image.url}`), file)
-        file.on('finish', () => {
-            file.close();
-            console.log(`Download completed for ${image.url}, check ${folderName}/ folder`);
-        });
-
-        file.on('error', (err) => {
-            console.error(`Error downloading file ${image.url}: ${err.message}`);
-            fs.unlink(filePath, (unlinkErr) => {
-                if (unlinkErr) {
-                    console.error(`Error deleting file ${filePath}: ${unlinkErr.message}`);
-                } else {
-                    console.log(`File ${filePath} deleted successfully.`);
-                }
-            });
-        });
-    } else {
-        const filePath = normalize(`${folderName}/${imageURLname}${resourceFormat}`);
-        const file = fs.createWriteStream(filePath);
-        downloadDependingOnProtocol(image.url, file);   
-        file.on('finish', () => {
-            file.close();
-            console.log(`Download completed for ${image.url}, check ${folderName}/ folder`);
-        });
-
-        file.on('error', (err) => {
-            console.error(`Error downloading file ${image.url}: ${err.message}`);
-            fs.unlink(filePath, (unlinkErr) => {
-                if (unlinkErr) {
-                    console.error(`Error deleting file ${filePath}: ${unlinkErr.message}`);
-                } else {
-                    console.log(`File ${filePath} deleted successfully.`);
-                }
-            });
-        }); 
-    }
-}
-
 function processImagesURLs(images, folderName, name) {
     let imageCounter = 0
     images.forEach(image => {
         imageCounter++
-        processImageURL(image, folderName, `${name}_${imageCounter}`)
+        processImage(image, null, folderName)
     });
 }
 
 export {
     processImage,
-    processImageURL,
     processImagesURLs
 }
