@@ -1,55 +1,84 @@
-import dbClient from "./dbClient.js";
-import { findAllAffiliatesImages } from "./queries/affiliate.js";
-import { findAllBannersWithImages } from "./queries/banner.js";
-import { findAllDMCProductsImages, findAllDMCImages } from "./queries/dmc.js";
-import { findAllBookedProductsImages } from "./queries/booked.js";
-import * as utils from "./utils/index.js";
-import  * as fetcher from "./utils/resourceFetchers.js";
-  
 
-async function run() {
+import * as queries from "./queries/index.js";
+import * as utils from "./utils/index.js";
+import { downloadDMCRelatedImages, 
+    downloadAffiliateRelatedImages,
+    downloadPageRelatedImages,
+    downloadDestinationCountryRelatedImages,
+    downloadTagsRelatedImages,
+    downloadBannerRelatedImages,
+    downloadBookedProductsRelatedImages,
+    downloadBookingInvoices,
+    downloadManagementGroupRelatedImages,
+    downloadProvidersRelatedImages,
+    downloadAdminRelatedImages,
+    downloadTravelerRelatedImages } from "./collectionsDownloader.js";
+import dbClient from "./dbClient.js";
+import  * as fetcher from "./utils/resourceFetchers.js";
+
+  async function run() {
     try {
         const client =  await dbClient.connect();
         const database = client.db("openmarkettravel")
 
-        //#region 1. Download images from dmc products
-        //// Download DMC Products images hosted on cloudinary or yourttoo machine.
-        // const dmcProductsCollection = database.collection('dmcproducts');
-        // const productsWithNonEmptyProductImageUrl = await findAllDMCProductsImages(dmcProductsCollection, 10);
-        // const productsNormalized = utils.normalizeDMCProduct(productsWithNonEmptyProductImageUrl)
-        // fetcher.downloadImagesFromDMCProducts(productsNormalized)
-        // #endregion
+        const dmcProductsCollection = database.collection('dmcproducts');
+        const dmcCollection = database.collection('dmcs')
+        const dmcFAQsCollection = database.collection('dmc faqs')
+        //await downloadDMCRelatedImages(dmcProductsCollection, dmcCollection, dmcFAQsCollection)
 
-        // #region 2. Download images from dmc
-        //// Download DMC images hosted on cloudinary or yourttoo machine.
-        // const dmcCollection = database.collection('dmcs')
-        // const dmcWithNonEmptyImages = await findAllDMCImages(dmcCollection, 10)
-        // const dmcsNormalized = utils.normalizeDMC(dmcWithNonEmptyImages)        
-        // fetcher.downloadImagesFromDMC(dmcsNormalized)
-        // #endregion
+        const affiliatesCollection = database.collection('affiliates')
+        const affiliatesFAQsCollection = database.collection('affiliate faqs')
+        //await downloadAffiliateRelatedImages(affiliatesCollection, affiliatesFAQsCollection)
 
-        // #region 3. Download images from affiliates
-        //// Download Affiliates images hosted on cloudinary or yourttoo machine.
-        // const affiliatesCollection = database.collection('affiliates')
-        // const affiliatesWithNonEmptyImages = await findAllAffiliatesImages(affiliatesCollection, 15)
-        // const affiliatesNormalized = utils.normalizeAffilates(affiliatesWithNonEmptyImages)
-        // fetcher.downloadAffiliatesImages(affiliatesNormalized)
-        // #endregion
+        // # Download images from banners
+        const bannersCollection = database.collection('banners')
+        //await downloadBannerRelatedImages(bannersCollection)
 
-        // #region 4. Download images from banners
-        //// Download Affiliates images hosted on cloudinary or yourttoo machine.
-        // const bannersCollection = database.collection('banners')
-        // const bannersWithNonEmptyImages = await findAllBannersWithImages(bannersCollection, 15)
-        // const bannersNormalized = utils.normalizeBanner(bannersWithNonEmptyImages)
-        // fetcher.downloadImagesFromBanners(bannersNormalized)
-        // #endregion
-
-        //#region 5. Download images from booked products
+        // //# Download images from booked products
         const bookedProductsCollection = database.collection('bookedproducts')
-        const bookedProductsWithNonEmptyImages = await findAllBookedProductsImages(bookedProductsCollection, 40)
-        const bookedProductsNormalized = utils.normalizeBookedProduct(bookedProductsWithNonEmptyImages)
-        fetcher.downloadImagesFromBookedPoducts(bookedProductsNormalized)
-        //#endregion
+        //await downloadBookedProductsRelatedImages(bookedProductsCollection)
+        
+        const pagesCollection = database.collection('pages')
+        const pageCategoriesCollection = database.collection('pagecategories')
+        //await downloadPageRelatedImages(pagesCollection, pageCategoriesCollection)
+
+        const destinationCountriesCollection = database.collection('destinationcountries')
+        const destinationCountryZonesCollection = database.collection('destinationcountrieszones')
+        //await downloadDestinationCountryRelatedImages(destinationCountriesCollection, destinationCountryZonesCollection)
+        
+        // // // # Download images from budget products
+        // // // ### UNTESTED ###
+        // // // const budgetProductsCollection = database.collection('budgetproducts')
+        // // // const budgetProductsWithNonEmptyImages = await queries.findAllBudgetProductImages(budgetProductsCollection, 20)
+        // // // const budgetProductsNormalized = utils.normalizeBudgetProduct(budgetProductsWithNonEmptyImages)
+        // // // fetcher.downloadImagesFromBudgetProducts(budgetProductsNormalized)  
+        // // //#endregion
+
+        // // // # Download images from booking
+        const bookingsCollection = database.collection('bookings2')
+        //await downloadBookingInvoices(bookingsCollection)
+
+        // // // # Download images from management groups
+        const managementGroupsCollection = database.collection('managementgroups')
+        //await downloadManagementGroupRelatedImages(managementGroupsCollection)
+
+        // // // # Download images from providers
+        const providersCollection = database.collection('providers')
+        //await downloadProvidersRelatedImages(providersCollection)
+
+        // // // # Download images from trip tags
+        const tagsCollection = database.collection('tags')
+        const tripTagsCollection = database.collection('triptags')
+        //await downloadTagsRelatedImages(tagsCollection, tripTagsCollection)
+
+        // // // # Download images from travelers
+        const travelersCollection = database.collection('travelers')
+        //await downloadTravelerRelatedImages(travelersCollection)
+
+        // // // # Download images from admin
+        const adminCollection = database.collection('omtadmins') 
+        // await downloadAdminRelatedImages(adminCollection)
+
     } finally {
         await dbClient.closeConnection();
       }

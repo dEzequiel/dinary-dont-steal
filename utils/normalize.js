@@ -19,6 +19,7 @@ const destinationCountryNormalizer = NormalizerFactory.createNormalizer('Destina
 const destinationCountryZoneNormalizer = NormalizerFactory.createNormalizer('DestinationCountryZone');
 const tagNormalizer = NormalizerFactory.createNormalizer('Tag');
 const bookingNormalizer = NormalizerFactory.createNormalizer('Booking');
+const invoiceNormalizer = NormalizerFactory.createNormalizer('Invoice');
 //#endregion
 
 export function normalizeDMCProduct(products) {
@@ -196,4 +197,13 @@ export function normalizeDestinationCountryZones(destinationCountryZones) {
     });
 
     return normalizedDestinationContryZones
+}
+
+export function normalizeInvoices(invoices) {
+    let normalizedInvoices = []
+    invoices.forEach(invoice => {
+        normalizedInvoices.push(invoiceNormalizer.normalize(invoice.name, invoice.file))
+    });
+
+    return normalizedInvoices
 }

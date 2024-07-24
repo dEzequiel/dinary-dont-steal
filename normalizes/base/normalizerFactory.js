@@ -16,6 +16,7 @@ import { DestinationCountryZoneNormalizer } from '../destinationCountryZonesNorm
 import { PageCategoryNormalizer } from '../pageCategoryNormalizer.js';
 import { TagNormalizer } from '../tagNormalizer.js';
 import { BookingNormalizer } from '../bookingNormalizer.js';
+import { InvoiceNormalizer } from '../invoiceNormalizer.js';
 
 function NormalizerFactory() {}
 
@@ -37,7 +38,8 @@ NormalizerFactory.normalizers = {
   Admin: AdminNormalizer,
   DestinationCountry: DestinationCountryNormalizer,
   DestinationCountryZone: DestinationCountryZoneNormalizer,
-  Booking: BookingNormalizer
+  Booking: BookingNormalizer,
+  Invoice: InvoiceNormalizer
 };
 
 NormalizerFactory.createNormalizer = function(type) {

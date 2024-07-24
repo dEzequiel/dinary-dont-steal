@@ -1,4 +1,4 @@
-async function findAllBookingImages(collection='bookings', limit=10, projection={
+async function findAllBookingInvoices(collection='bookings', limit=10, projection={
     'idBooking': 1,
     'voucher': 1,
     'voucherflights': 1,
@@ -70,4 +70,4 @@ async function findAllBookingImages(collection='bookings', limit=10, projection=
         throw error;
     }
 }
-export { findAllBookingImages }
+export { findAllBookingInvoices as findAllBookingImages }
