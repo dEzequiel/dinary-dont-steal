@@ -117,7 +117,7 @@ export function normalizePage(pages) {
 export function normalizePageCategories(pageCategories) {
     let normalizedPageCategories = []
     pageCategories.forEach(pageCategory => {
-        normalizedPageCategories.push(pageCategoryNormalizer.normalize(pageCategory.mainImage, pageCategory.imageFacebook))
+        normalizedPageCategories.push(pageCategoryNormalizer.normalize(pageCategory.name, pageCategory.mainImage, pageCategory.imageFacebook))
     });
 
     return normalizedPageCategories
