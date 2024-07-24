@@ -18,6 +18,7 @@ const adminNormalizer = NormalizerFactory.createNormalizer('Admin');
 const destinationCountryNormalizer = NormalizerFactory.createNormalizer('DestinationCountry');
 const destinationCountryZoneNormalizer = NormalizerFactory.createNormalizer('DestinationCountryZone');
 const tagNormalizer = NormalizerFactory.createNormalizer('Tag');
+const bookingNormalizer = NormalizerFactory.createNormalizer('Booking');
 //#endregion
 
 export function normalizeDMCProduct(products) {
@@ -64,6 +65,15 @@ export function normalizeManagementGroup(managementGroups) {
 
     return normalizedManagementGroups
 
+}
+
+export function normalizeBookings(bookings) {
+    let normalizedBookings = []
+    bookings.forEach(booking => {
+        normalizedBookings.push(bookingNormalizer.normalize(booking.idBooking, booking.voucher, booking.voucherflights, booking.passport, booking.visaletter, booking.invoicesaerial, booking.invoicesagency, booking.invoicesprovider, booking.invoicestravelersense))
+    });
+
+    return normalizedBookings
 }
 
 export function normalizeAffiliateFAQ(affiliateFAQs) {

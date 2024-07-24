@@ -206,6 +206,35 @@ export function downloadImagesFromTripTags(tripTags) {
     });
 }
 
+export function downloadInvoicesFromBookings(bookings) {
+    const folderName = "bookingInvoices"
+    bookings.forEach(booking => {
+        const folderPath = createFolderForEntity(folderName, booking.idBooking)
+
+        if(booking.voucher) {
+            processImage(booking.voucher, null, folderPath)
+        }
+
+        if(booking.voucherflights) {
+            processImage(booking.voucherflights, null, folderPath)
+        }
+
+        if(booking.passport) {
+            processImage(booking.passport, null, folderPath)
+        }
+
+        if(booking.visaletter) {
+            processImage(booking.visaletter, null, folderPath)
+        }
+        
+        processAssociatedImages(booking, folderPath, 'invoicesaerial', 'invoicesaerial');
+        processAssociatedImages(booking, folderPath, 'invoicesagency', 'invoicesagency');
+        processAssociatedImages(booking, folderPath, 'invoicesprovider', 'invoicesprovider');
+        processAssociatedImages(booking, folderPath, 'invoicestravelersense', 'invoicestravelersense');
+    });
+
+}
+
 export function downloadImagesFromTags(tags) {
     const folderName = "tagImages"
     const folderPath = createFolder(`${folderName}/`)
@@ -284,7 +313,6 @@ export function downloadImagesFromDestinationCountryZones(destinationCountryZone
         
     });
 }
-
 
 function processAssociatedImages(entity, folderPath, imageProperty, subFolderName) {
     if (entity[imageProperty]) {
