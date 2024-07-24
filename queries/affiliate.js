@@ -6,9 +6,12 @@ async function findAllAffiliatesImages(collection='affiliates', limit=10, projec
 }) {
     console.log('Queries >> affiliates >> findAllAffiliatesImages >> Start')
     const query = {
-        'images.logo.url': { $exists: true, $ne: null, $ne: '' },
-        'images.photo.url': { $exists: true, $ne: null, $ne: '' }
-    }
+        $or: [
+            { 'images': { $exists: true, $ne: null, $ne: '' } },
+            { 'images.logo.url': { $exists: true, $ne: null, $ne: '' } },
+            { 'images.photo.url': { $exists: true, $ne: null, $ne: '' } }
+        ]
+    };
 
     try {
         const documents = await collection.find(query).project(projection).limit(limit).toArray()

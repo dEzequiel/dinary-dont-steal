@@ -6,10 +6,13 @@ async function findAllTravelerImages(collection='travelers', limit=10, projectio
 }) {
     console.log('Queries >> traveler >> findAllTravelerImages >> Start')
     const query = {
-        'images': { $exists: true, $ne: null, $ne: '' },
-        'images.logo.url': { $exists: true, $ne: null, $ne: '' },
-        'images.photo.url': { $exists: true, $ne: null, $ne: '' }
-    }
+        $or: [
+            { 'images': { $exists: true, $ne: null, $ne: '' } },
+            { 'images.logo.url': { $exists: true, $ne: null, $ne: '' } },
+            { 'images.photo.url': { $exists: true, $ne: null, $ne: '' } }
+        ]
+    };
+    
     try {
         const documents = await collection.find(query).project(projection).limit(limit).toArray()
         console.log('Queries >> traveler >> findAllTravelerImages >> End')

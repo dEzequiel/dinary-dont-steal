@@ -27,6 +27,7 @@ async function findAllPageImages(collection='pages', limit=10, projection={
 }
 
 async function findAllPageCategoryImages(collection='pageCategories', limit=10, projection={
+    'name': 1,
     'mainImage': 1,
     'imageFacebook': 1
 }) {

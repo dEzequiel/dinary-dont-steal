@@ -5,9 +5,12 @@ async function findAllProviderImages(collection='providers', limit=10, projectio
 }) {
     console.log('Queries >> provider >> findAllProviderImages >> Start')
     const query = {
-        'images.logo.url': { $exists: true, $ne: null, $ne: '' },
-        'images.photo.url': { $exists: true, $ne: null, $ne: '' }
-    }
+        $or: [
+            { 'images': { $exists: true, $ne: null, $ne: '' } },
+            { 'images.logo.url': { $exists: true, $ne: null, $ne: '' } },
+            { 'images.photo.url': { $exists: true, $ne: null, $ne: '' } }
+        ]
+    };
 
     try {
         const documents = await collection.find(query).project(projection).limit(limit).toArray()

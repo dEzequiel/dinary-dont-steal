@@ -5,10 +5,12 @@ async function findAllAdminImages(collection='omtadmins', limit=10, projection={
 }) {
     console.log('Queries >> admin >> findAllAdminImages >> Start')
     const query = {
-        'images': { $exists: true, $ne: null, $ne: '' },
-        'images.logo.url': { $exists: true, $ne: null, $ne: '' },
-        'images.photo.url': { $exists: true, $ne: null, $ne: '' }
-    }
+        $or: [
+            { 'images': { $exists: true, $ne: null, $ne: '' } },
+            { 'images.logo.url': { $exists: true, $ne: null, $ne: '' } },
+            { 'images.photo.url': { $exists: true, $ne: null, $ne: '' } }
+        ]
+    };
 
     try {
         const documents = await collection.find(query).project(projection).limit(limit).toArray()
