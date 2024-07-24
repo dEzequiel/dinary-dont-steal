@@ -84,14 +84,16 @@ export function downloadImagesFromBudgetProducts(budgetProducts) {
 export function downloadAffiliatesImages(affiliates) {
     const folderName = "affiliateImages"
     affiliates.forEach(affiliate => {
-        const folderPath = createFolderForEntity(folderName, affiliate.name)
+        if(affiliate.images) {
+            const folderPath = createFolderForEntity(folderName, affiliate.name)
 
-        if(affiliate.images.photo) {
-            processImage(affiliate, 'photo', folderPath)
-        } 
-        
-        if (affiliate.images.logo) {
-            processImage(affiliate, 'logo', folderPath)
+            if(affiliate.images.photo) {
+                processImage(affiliate, 'photo', folderPath)
+            } 
+            
+            if (affiliate.images.logo) {
+                processImage(affiliate, 'logo', folderPath)
+            }
         }
         
     })
