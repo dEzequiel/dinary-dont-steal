@@ -198,18 +198,12 @@ export function downloadImagesFromProviders(providers) {
     })
 }
 
-// Building...
 export function downloadImagesFromTripTags(tripTags) {
-    return;
-    // const folderName = "tripTagImages"
-    // const folderPath = createFolder(`${folderName}/`)
-    // tripTags.forEach(tripTag => {
-    //     processImageURL(tripTag.image, folderPath, tripTag.slug)
-
-    //     // if(tripTag.imageFacebook) {
-    //     //     processImage(tripTag, folderPath, 'imageFacebook')
-    //     // }
-    // });
+    const folderName = "tripTagImages"
+    const folderPath = createFolder(`${folderName}/`)
+    tripTags.forEach(tripTag => {
+        processImage(tripTag.image, null, folderPath)
+    });
 }
 
 export function downloadImagesFromTags(tags) {

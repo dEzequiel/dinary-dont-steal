@@ -9,15 +9,13 @@ async function findAllTripTagImages(collection='triptags', limit=10, projection=
 }) {
     console.log('Queries >> tag >> findAllTagImages >> Start')
     const query = {
-        '_id': ObjectId('543e9aa1ee63d0382c52deee')
+        $or: [
+            { 'mainImage': { $exists: true, $ne: null, $ne: '' } },
+            { 'mainImage.url': { $exists: true, $ne: null, $ne: '' } },
+            { 'imageFacebook': { $exists: true, $ne: null, $ne: '' } },
+            { 'imageFacebook.url': { $exists: true, $ne: null, $ne: '' } }
 
-        // $or: [
-        //     { 'mainImage': { $exists: true, $ne: null, $ne: '' } },
-        //     { 'mainImage.url': { $exists: true, $ne: null, $ne: '' } },
-        //     { 'imageFacebook': { $exists: true, $ne: null, $ne: '' } },
-        //     { 'imageFacebook.url': { $exists: true, $ne: null, $ne: '' } }
-
-        // ]
+        ]
     };
 
     try {
