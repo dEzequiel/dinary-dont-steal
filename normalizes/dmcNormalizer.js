@@ -33,16 +33,42 @@ DMCNormalizer.prototype.normalize = function(dmcId, name, images, additionalinfo
       normalizedObject.associateImages = normalizedObject.associateImages.filter(association => association.url !== '');
     }
 
-    normalizedObject.imagesURLS = additionalinfo.filter(association => association.imageurl !== undefined && association.imageurl !== '')
+    normalizedObject.associateImagesURLS = additionalinfo.filter(association => association.imageurl !== undefined && association.imageurl !== '')
     .map(association => ({
       url: association.imageurl
     }));
 
-    if(normalizedObject.imagesURLS.length === 0) {
-      delete normalizedObject.imagesURLS;
+    if(normalizedObject.associateImagesURLS.length === 0) {
+      delete normalizedObject.associateImagesURLS;
     }
 
   };
+
+  if(tourEscorts !== undefined) {
+    normalizedObject.tourEscorts = tourEscorts
+    .filter(tour => tour.image !== undefined && tour.image.url !== undefined)
+    .map(tour => ({
+      name: tour.name ? tour.name.replace(commonCharsOnImages, "_") : '',
+      url: tour.image.url
+    }));
+  }
+
+  if(normalizedObject.tourEscorts && normalizedObject.tourEscorts.length === 0) {
+    delete normalizedObject.tourEscorts;
+  }
+
+  if (normalizedObject.tourEscorts) {
+    normalizedObject.tourEscorts = normalizedObject.tourEscorts.filter(tour => tour.url !== '');
+  }
+
+  normalizedObject.tourEscortsImagesURLS = tourEscorts.filter(tour => tour.imageUrl !== undefined && tour.imageUrl !== '')
+  .map(tour => ({
+    url: tour.imageUrl
+  }));
+
+  if(normalizedObject.tourEscortsImagesURLS.length === 0) {
+    delete normalizedObject.tourEscortsImagesURLS;
+  }
 
   return normalizedObject;
 

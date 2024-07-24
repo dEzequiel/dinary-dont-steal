@@ -11,6 +11,14 @@ function createFolder(folderName) {
     return folder;
 }
 
+function createFolderOnPath(path) {
+    if(!fs.existsSync(path)) {
+        fs.mkdirSync(path, { recursive: true });
+    }
+
+    return path;
+}
+
 function createFolderForEntity(path, entity) {
     const folderPath = createFolder(`${path}/${entity}`);
     if(!fs.existsSync(folderPath)) {
@@ -22,5 +30,6 @@ function createFolderForEntity(path, entity) {
 
 export {
     createFolder,
-    createFolderForEntity
+    createFolderForEntity,
+    createFolderOnPath
 }

@@ -1,3 +1,5 @@
+import { ObjectId } from "mongodb";
+
 async function findAllDMCImages(collection='dmcs', start=50, end=100, projection={
     'name': 1,
     'images': 1,
@@ -5,14 +7,18 @@ async function findAllDMCImages(collection='dmcs', start=50, end=100, projection
     'tourEscorts': 1,
 }) {
     console.log('Queries >> findAllDMCImages >> Start')
+    // const query = {
+    //     $or: [
+    //         { 'images.splash.url': { $exists: true, $ne: null, $ne: '' } },
+    //         { 'images.logo.url': { $exists: true, $ne: null, $ne: '' } },
+    //         { 'images.photo.url': { $exists: true, $ne: null, $ne: '' } },
+    //         { 'additionalinfo.associations': { $exists: true, $ne: [] } },
+    //         {'tourEscorts': { $exists: true, $ne: [] } }
+    //     ]
+    // }
+
     const query = {
-        $or: [
-            { 'images.splash.url': { $exists: true, $ne: null, $ne: '' } },
-            { 'images.logo.url': { $exists: true, $ne: null, $ne: '' } },
-            { 'images.photo.url': { $exists: true, $ne: null, $ne: '' } },
-            { 'additionalinfo.associations': { $exists: true, $ne: [] } },
-            {'tourEscorts': { $exists: true, $ne: [] } }
-        ]
+        '_id': ObjectId('5453357ab77fcef0177adc18')
     }
 
     const skipAmount = start - 1; // Para empezar en el documento 50, se saltan los primeros 49 documentos

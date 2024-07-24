@@ -1,5 +1,5 @@
 import { processImage, processImageURL, processImagesURLs } from './processors/imageProcessor.js';
-import { createFolder, createFolderForEntity } from './directories/folders.js';
+import { createFolder, createFolderForEntity, createFolderOnPath } from './directories/folders.js';
 
 export function downloadImagesFromDMCProducts(products) {
     const folderName = "dmcProductImages"
@@ -17,34 +17,29 @@ export function downloadImagesFromDMCProducts(products) {
 
 export function downloadImagesFromDMC(dmcs) {
     const folderName = "dmcImages"
-    const folderPath = createFolder(folderName)
     dmcs.forEach(dmc => {
-        if(dmc.images.photo || dmc.dmc.logo)
-            createFolderForEntity(folderName, dmc.name)
+        const folderPath = createFolderForEntity(folderName, dmc.name)
 
         if(dmc.images.photo) {
-            processImage(dmc, folderName, 'photo')
+            processImage(dmc, folderPath, 'photo')
         } 
         
         if (dmc.images.logo) {
-            processImage(dmc, folderName, 'logo')
-        } 
-
-        if (dmc.associateImages) {
-            const folderPath = createFolder(`${folderName}/${dmc.name}/associations`) // creates folder for associations...
-            processImagesURLs(dmc.associateImages, folderPath)
+            processImage(dmc, folderPath, 'logo')
         }
 
-        if(dmc.tourEscorts) {
-            const folderPath = createFolder(`${folderName}/${dmc.name}/tourEscorts`) // creates folder for tourEscorts...
-            processImagesURLs(dmc.tourEscorts, folderPath)
-        }
-
-        if(dmc.imagesURLS) {
-            const folderPath = createFolder(`${folderName}/${dmc.name}/images`) // creates folder for images...
-            processImagesURLs(dmc.imagesURLS, folderPath)
-        }
+        processAssociatedImages(dmc, folderPath, 'associateImages', 'associations');
+        processAssociatedImages(dmc, folderPath, 'tourEscorts', 'tourEscorts');
+        processAssociatedImages(dmc, folderPath, 'associateImagesURLS', 'associationImages');
+        processAssociatedImages(dmc, folderPath, 'tourEscortsImagesURLS', 'tourEscortsImages');
     })
+}
+
+function processAssociatedImages(entity, folderPath, imageProperty, subFolderName) {
+    if (entity[imageProperty]) {
+        const specificFolderPath = createFolderOnPath(`${folderPath}/${subFolderName}`);
+        processImagesURLs(entity[imageProperty], specificFolderPath);
+    }
 }
 
 export function downloadImagesFromDMCFAQs(dmcFAQs) {
