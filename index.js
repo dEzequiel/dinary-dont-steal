@@ -24,60 +24,60 @@ import  * as fetcher from "./utils/resourceFetchers.js";
         const dmcProductsCollection = database.collection('dmcproducts');
         const dmcCollection = database.collection('dmcs')
         const dmcFAQsCollection = database.collection('dmc faqs')
-        //await downloadDMCRelatedImages(dmcProductsCollection, dmcCollection, dmcFAQsCollection)
+        await downloadDMCRelatedImages(dmcProductsCollection, dmcCollection, dmcFAQsCollection)
 
         const affiliatesCollection = database.collection('affiliates')
         const affiliatesFAQsCollection = database.collection('affiliate faqs')
-        //await downloadAffiliateRelatedImages(affiliatesCollection, affiliatesFAQsCollection)
+        await downloadAffiliateRelatedImages(affiliatesCollection, affiliatesFAQsCollection)
 
         // # Download images from banners
         const bannersCollection = database.collection('banners')
-        //await downloadBannerRelatedImages(bannersCollection)
+        await downloadBannerRelatedImages(bannersCollection)
 
-        // //# Download images from booked products
+        //# Download images from booked products
         const bookedProductsCollection = database.collection('bookedproducts')
-        //await downloadBookedProductsRelatedImages(bookedProductsCollection)
+        await downloadBookedProductsRelatedImages(bookedProductsCollection)
         
         const pagesCollection = database.collection('pages')
         const pageCategoriesCollection = database.collection('pagecategories')
-        //await downloadPageRelatedImages(pagesCollection, pageCategoriesCollection)
+        await downloadPageRelatedImages(pagesCollection, pageCategoriesCollection)
 
         const destinationCountriesCollection = database.collection('destinationcountries')
         const destinationCountryZonesCollection = database.collection('destinationcountrieszones')
-        //await downloadDestinationCountryRelatedImages(destinationCountriesCollection, destinationCountryZonesCollection)
+        await downloadDestinationCountryRelatedImages(destinationCountriesCollection, destinationCountryZonesCollection)
         
-        // // // # Download images from budget products
-        // // // ### UNTESTED ###
-        // // // const budgetProductsCollection = database.collection('budgetproducts')
-        // // // const budgetProductsWithNonEmptyImages = await queries.findAllBudgetProductImages(budgetProductsCollection, 20)
-        // // // const budgetProductsNormalized = utils.normalizeBudgetProduct(budgetProductsWithNonEmptyImages)
-        // // // fetcher.downloadImagesFromBudgetProducts(budgetProductsNormalized)  
-        // // //#endregion
+        // // # Download images from budget products
+        // // ### UNTESTED ###
+        // // const budgetProductsCollection = database.collection('budgetproducts')
+        // // const budgetProductsWithNonEmptyImages = await queries.findAllBudgetProductImages(budgetProductsCollection, 20)
+        // // const budgetProductsNormalized = utils.normalizeBudgetProduct(budgetProductsWithNonEmptyImages)
+        // // fetcher.downloadImagesFromBudgetProducts(budgetProductsNormalized)  
+        // //#endregion
 
-        // // // # Download images from booking
+        // // # Download images from booking
         const bookingsCollection = database.collection('bookings2')
-        //await downloadBookingInvoices(bookingsCollection)
+        await downloadBookingInvoices(bookingsCollection)
 
-        // // // # Download images from management groups
+        // // # Download images from management groups
         const managementGroupsCollection = database.collection('managementgroups')
-        //await downloadManagementGroupRelatedImages(managementGroupsCollection)
+        await downloadManagementGroupRelatedImages(managementGroupsCollection)
 
-        // // // # Download images from providers
+        // // # Download images from providers
         const providersCollection = database.collection('providers')
-        //await downloadProvidersRelatedImages(providersCollection)
+        await downloadProvidersRelatedImages(providersCollection)
 
-        // // // # Download images from trip tags
+        // // # Download images from trip tags
         const tagsCollection = database.collection('tags')
         const tripTagsCollection = database.collection('triptags')
-        //await downloadTagsRelatedImages(tagsCollection, tripTagsCollection)
+        await downloadTagsRelatedImages(tagsCollection, tripTagsCollection)
 
-        // // // # Download images from travelers
+        // // # Download images from travelers
         const travelersCollection = database.collection('travelers')
-        //await downloadTravelerRelatedImages(travelersCollection)
+        await downloadTravelerRelatedImages(travelersCollection)
 
-        // // // # Download images from admin
+        // // # Download images from admin
         const adminCollection = database.collection('omtadmins') 
-        // await downloadAdminRelatedImages(adminCollection)
+        await downloadAdminRelatedImages(adminCollection)
 
     } finally {
         await dbClient.closeConnection();

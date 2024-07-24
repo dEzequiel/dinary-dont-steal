@@ -31,17 +31,17 @@ async function downloadPageRelatedImages(pagesCollection, pageCategoriesCollecti
     const pagesWithNonEmptyImagesNormalized = utils.normalizePage(pagesWithNonEmptyImages)
     fetcher.downloadImagesFromPages(pagesWithNonEmptyImagesNormalized)
 
-    const pageCategoriesWithNonEmptyImages = await queries.findAllPageCategoryImages(pageCategoriesCollection, 20)
+    const pageCategoriesWithNonEmptyImages = await queries.findAllPageCategoryImages(pageCategoriesCollection, 300)
     const pageCategoriesNormalized = utils.normalizePageCategories(pageCategoriesWithNonEmptyImages)
     fetcher.downloadImagesFromPageCategories(pageCategoriesNormalized)
 }
 
 async function downloadDestinationCountryRelatedImages(destinationCountriesCollection, destinationCountryZonesCollection) {
-    const destinationCountriesWithNonEmptyImages = await queries.findAllDestinationCountriesImages(destinationCountriesCollection, 20)
+    const destinationCountriesWithNonEmptyImages = await queries.findAllDestinationCountriesImages(destinationCountriesCollection, 10)
     const destinationCountriesNormalized = utils.normalizeDestinationCountry(destinationCountriesWithNonEmptyImages)
     fetcher.downloadImagesFromDestinationCountries(destinationCountriesNormalized)
 
-    const destinationCountryZonesWithNonEmptyImages = await queries.findAllDestinationCountryZonesImages(destinationCountryZonesCollection, 20)
+    const destinationCountryZonesWithNonEmptyImages = await queries.findAllDestinationCountryZonesImages(destinationCountryZonesCollection, 10)
     const destinationCountryZonesNormalized = utils.normalizeDestinationCountryZones(destinationCountryZonesWithNonEmptyImages)
     fetcher.downloadImagesFromDestinationCountryZones(destinationCountryZonesNormalized)
 }
@@ -78,13 +78,13 @@ async function downloadBookingInvoices(bookingsCollection) {
 }
 
 async function downloadManagementGroupRelatedImages(managementGroupsCollection) {
-    const managementGroupsWithNonEmptyImages = await queries.findAllManagementGroupImages(managementGroupsCollection, 20)
+    const managementGroupsWithNonEmptyImages = await queries.findAllManagementGroupImages(managementGroupsCollection, 50)
     const managementGroupsWithNonEmptyImagesNormalized = utils.normalizeManagementGroup(managementGroupsWithNonEmptyImages)
     fetcher.downloadImagesFromManagementGroups(managementGroupsWithNonEmptyImagesNormalized)
 }
 
 async function downloadProvidersRelatedImages(providersCollection) {
-    const providersWithNonEmptyImages = await queries.findAllProviderImages(providersCollection, 20)
+    const providersWithNonEmptyImages = await queries.findAllProviderImages(providersCollection, 50)
     const providersWithNonEmptyImagesNormalized = utils.normalizeProvider(providersWithNonEmptyImages)
     fetcher.downloadImagesFromProviders(providersWithNonEmptyImagesNormalized)
 }
