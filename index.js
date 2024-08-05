@@ -1,6 +1,3 @@
-
-import * as queries from "./queries/index.js";
-import * as utils from "./utils/index.js";
 import { downloadDMCRelatedImages, 
     downloadAffiliateRelatedImages,
     downloadPageRelatedImages,
@@ -12,9 +9,9 @@ import { downloadDMCRelatedImages,
     downloadManagementGroupRelatedImages,
     downloadProvidersRelatedImages,
     downloadAdminRelatedImages,
-    downloadTravelerRelatedImages } from "./collectionsDownloader.js";
+    downloadTravelerRelatedImages,
+    downloadUserRelatedImages } from "./collectionsDownloader.js";
 import dbClient from "./dbClient.js";
-import  * as fetcher from "./utils/resourceFetchers.js";
 
   async function run() {
     try {
@@ -28,23 +25,23 @@ import  * as fetcher from "./utils/resourceFetchers.js";
 
         const affiliatesCollection = database.collection('affiliates')
         const affiliatesFAQsCollection = database.collection('affiliate faqs')
-        await downloadAffiliateRelatedImages(affiliatesCollection, affiliatesFAQsCollection)
+        //await downloadAffiliateRelatedImages(affiliatesCollection, affiliatesFAQsCollection)
 
         // # Download images from banners
         const bannersCollection = database.collection('banners')
-        await downloadBannerRelatedImages(bannersCollection)
+        //await downloadBannerRelatedImages(bannersCollection)
 
         //# Download images from booked products
         const bookedProductsCollection = database.collection('bookedproducts')
-        await downloadBookedProductsRelatedImages(bookedProductsCollection)
+        //await downloadBookedProductsRelatedImages(bookedProductsCollection)
         
         const pagesCollection = database.collection('pages')
         const pageCategoriesCollection = database.collection('pagecategories')
-        await downloadPageRelatedImages(pagesCollection, pageCategoriesCollection)
+        //await downloadPageRelatedImages(pagesCollection, pageCategoriesCollection)
 
         const destinationCountriesCollection = database.collection('destinationcountries')
         const destinationCountryZonesCollection = database.collection('destinationcountrieszones')
-        await downloadDestinationCountryRelatedImages(destinationCountriesCollection, destinationCountryZonesCollection)
+        //await downloadDestinationCountryRelatedImages(destinationCountriesCollection, destinationCountryZonesCollection)
         
         // // # Download images from budget products
         // // ### UNTESTED ###
@@ -56,28 +53,31 @@ import  * as fetcher from "./utils/resourceFetchers.js";
 
         // // # Download images from booking
         const bookingsCollection = database.collection('bookings2')
-        await downloadBookingInvoices(bookingsCollection)
+        //await downloadBookingInvoices(bookingsCollection)
 
         // // # Download images from management groups
         const managementGroupsCollection = database.collection('managementgroups')
-        await downloadManagementGroupRelatedImages(managementGroupsCollection)
+        //await downloadManagementGroupRelatedImages(managementGroupsCollection)
 
         // // # Download images from providers
         const providersCollection = database.collection('providers')
-        await downloadProvidersRelatedImages(providersCollection)
+        //await downloadProvidersRelatedImages(providersCollection)
 
         // // # Download images from trip tags
         const tagsCollection = database.collection('tags')
         const tripTagsCollection = database.collection('triptags')
-        await downloadTagsRelatedImages(tagsCollection, tripTagsCollection)
+        //await downloadTagsRelatedImages(tagsCollection, tripTagsCollection)
 
         // // # Download images from travelers
         const travelersCollection = database.collection('travelers')
-        await downloadTravelerRelatedImages(travelersCollection)
+        //await downloadTravelerRelatedImages(travelersCollection)
 
         // // # Download images from admin
         const adminCollection = database.collection('omtadmins') 
-        await downloadAdminRelatedImages(adminCollection)
+        //await downloadAdminRelatedImages(adminCollection)
+
+        const userCollection = database.collection('users')
+        //await downloadUserRelatedImages(userCollection)
 
     } finally {
         await dbClient.closeConnection();
