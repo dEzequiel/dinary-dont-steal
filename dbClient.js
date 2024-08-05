@@ -1,7 +1,8 @@
 import { MongoClient } from "mongodb";
-import { uri } from "./constants.js";
+import dotenv from "dotenv";
+dotenv.config();
 
-const client = new MongoClient(uri);
+const client = new MongoClient(process.env.MONGO_URI);
 
 async function connect() {
     try {
