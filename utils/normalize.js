@@ -15,6 +15,7 @@ const providerNormalizer = NormalizerFactory.createNormalizer('Provider');
 const tripTagNormalizer = NormalizerFactory.createNormalizer('TripTag');
 const travelerNormalizer = NormalizerFactory.createNormalizer('Traveler');
 const adminNormalizer = NormalizerFactory.createNormalizer('Admin');
+const userNormalizer = NormalizerFactory.createNormalizer('User');
 const destinationCountryNormalizer = NormalizerFactory.createNormalizer('DestinationCountry');
 const destinationCountryZoneNormalizer = NormalizerFactory.createNormalizer('DestinationCountryZone');
 const tagNormalizer = NormalizerFactory.createNormalizer('Tag');
@@ -179,6 +180,15 @@ export function normalizeAdmin(admins) {
     });
 
     return normalizedAdmins
+}
+
+export function normalizeUser(users) {
+    let normalizedUsers = []
+    users.forEach(user => {
+        normalizedUsers.push(userNormalizer.normalize(user._id, user.username, user.photo))
+    });
+
+    return normalizedUsers
 }
 
 export function normalizeDestinationCountry(destinationCountries) {

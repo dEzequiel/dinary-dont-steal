@@ -35,7 +35,6 @@ export function downloadImagesFromDMC(dmcs) {
 }
 
 
-
 export function downloadImagesFromDMCFAQs(dmcFAQs) {
     const folderName = "dmcFAQImages"
     const folderPath = createFolder(`${folderName}/`) 
@@ -275,6 +274,16 @@ export function downloadImagesFromAdmins(admins) {
             if (admin.images.logo) {
                 processImage(admin, 'logo', folderPath)
             } 
+        }
+    });
+}
+
+export function downloadImagesFromUsers(users) {
+    const folderName = "userImages"
+    users.forEach(user => {
+        if(user.image && user.image.url !== '') {
+            let folderPath = createFolderForEntity(folderName, user.name)
+            processImage(user.image, null, folderPath)
         }
     });
 }

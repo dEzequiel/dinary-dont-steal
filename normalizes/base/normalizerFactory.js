@@ -17,6 +17,7 @@ import { PageCategoryNormalizer } from '../pageCategoryNormalizer.js';
 import { TagNormalizer } from '../tagNormalizer.js';
 import { BookingNormalizer } from '../bookingNormalizer.js';
 import { InvoiceNormalizer } from '../invoiceNormalizer.js';
+import { UserNormalizer } from '../UserNormalizer.js';
 
 function NormalizerFactory() {}
 
@@ -36,6 +37,7 @@ NormalizerFactory.normalizers = {
   Tag: TagNormalizer,
   Traveler: TravelerNormalizer,
   Admin: AdminNormalizer,
+  User: UserNormalizer,
   DestinationCountry: DestinationCountryNormalizer,
   DestinationCountryZone: DestinationCountryZoneNormalizer,
   Booking: BookingNormalizer,
