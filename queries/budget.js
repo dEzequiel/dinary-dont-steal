@@ -1,4 +1,4 @@
-async function findAllBudgetProductImages(collection='budgetproducts', limit=10, projection={
+async function findAllBudgetProductImages(collection='budgetproducts', skip=0, limit=0, projection={
     'name': 1,
     'slug': 1,
     'productimage': 1,
@@ -24,7 +24,7 @@ async function findAllBudgetProductImages(collection='budgetproducts', limit=10,
     };
 
     try {
-        const documents = await collection.find(query).project(projection).limit(limit).toArray()
+        const documents = await collection.find(query).project(projection).skip(skip).limit(limit).toArray()
         console.log('Queries >> budget >> findAllBudgetProductImages >> End')
         return documents
     } catch (error) {

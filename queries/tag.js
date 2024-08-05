@@ -1,7 +1,7 @@
 import { ObjectId } from "mongodb";
 
 
-async function findAllTripTagImages(collection='triptags', limit=10, projection={
+async function findAllTripTagImages(collection='triptags', skip=0, limit=0, projection={
     'slug': 1,
     'title': 1,
     'mainImage': 1,
@@ -19,7 +19,7 @@ async function findAllTripTagImages(collection='triptags', limit=10, projection=
     };
 
     try {
-        const documents = await collection.find(query).project(projection).limit(limit).toArray()
+        const documents = await collection.find(query).project(projection).skip(skip).limit(limit).toArray()
         console.log('Queries >> tag >> findAllTagImages >> End')
         return documents
     } catch (error) {
@@ -29,7 +29,7 @@ async function findAllTripTagImages(collection='triptags', limit=10, projection=
     }
 }
 
-async function findAllTagImages(collection='tags', limit=10, projection={
+async function findAllTagImages(collection='tags', skip=0, limit=0, projection={
     'mainImage': 1,
 }) {
     console.log('Queries >> tag >> findAllTagImages >> Start')
@@ -41,7 +41,7 @@ async function findAllTagImages(collection='tags', limit=10, projection={
     };
 
     try {
-        const documents = await collection.find(query).project(projection).limit(limit).toArray()
+        const documents = await collection.find(query).project(projection).skip(skip).limit(limit).toArray()
         console.log('Queries >> tag >> findAllTagImages >> End')
         return documents
     } catch (error) {

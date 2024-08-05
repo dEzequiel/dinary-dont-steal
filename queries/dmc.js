@@ -1,4 +1,4 @@
-async function findAllDMCImages(collection='dmcs', start=50, end=100, projection={
+async function findAllDMCImages(collection='dmcs', skip=0, limit=0, projection={
     'name': 1,
     'images': 1,
     'additionalinfo.associations': 1,
@@ -15,11 +15,8 @@ async function findAllDMCImages(collection='dmcs', start=50, end=100, projection
         ]
     }
 
-    const skipAmount = start - 1; // Para empezar en el documento 50, se saltan los primeros 49 documentos
-    const limitAmount = end - start + 1; // Para incluir tanto el documento 50 como el 100, se limita a 51 documentos
-
     try {
-        const documents = await collection.find(query).skip(skipAmount).limit(limitAmount).toArray()
+        const documents = await collection.find(query).project(projection).skip(skip).limit(limit).toArray()
         console.log('Queries >> findAllDMCCloudinaryImages >> End')
         return documents
     } catch (error) {
@@ -28,7 +25,8 @@ async function findAllDMCImages(collection='dmcs', start=50, end=100, projection
         throw error;
     }
 }
-async function findAllDMCProductsImages(collection='dmcproducts', limit=10, projection=
+
+async function findAllDMCProductsImages(collection='dmcproducts', limit=50, projection=
     {
         'name': 1,
         'dmc': 1,
@@ -82,7 +80,7 @@ async function findAllDMCProductsImages(collection='dmcproducts', limit=10, proj
     }
 }
 
-async function findAllDMCFAQImages(collection='dmc faqs', limit=10, projection={
+async function findAllDMCFAQImages(collection='dmc faqs', skip=0, limit=0, projection={
     '_id': 1,
     'slug': 1,
     'title': 1,
@@ -98,7 +96,7 @@ async function findAllDMCFAQImages(collection='dmc faqs', limit=10, projection={
     };
     
     try {
-        const documents = await collection.find(query).limit(limit).project(projection).toArray()
+        const documents = await collection.find(query).project(projection).skip(skip).limit(limit).toArray()
         console.log('Queries >> findAllDMCFAQImages >> End')
         return documents
     } catch (error) {

@@ -1,4 +1,4 @@
-async function findAllPageImages(collection='pages', limit=10, projection={
+async function findAllPageImages(collection='pages', skip=0, limit=0, projection={
     '_id': 1,
     'slug': 1,
     'title': 1,
@@ -16,7 +16,7 @@ async function findAllPageImages(collection='pages', limit=10, projection={
     };
     
     try {
-        const documents = await collection.find(query).limit(limit).project(projection).toArray()
+        const documents = await collection.find(query).project(projection).limit(limit).skip(skip).toArray()
         console.log('Queries >> page >> findAllPageImages >> End')
         return documents
     } catch (error) {
@@ -26,7 +26,7 @@ async function findAllPageImages(collection='pages', limit=10, projection={
     }
 }
 
-async function findAllPageCategoryImages(collection='pageCategories', limit=10, projection={
+async function findAllPageCategoryImages(collection='pageCategories', skip=0, limit=0, projection={
     'name': 1,
     'mainImage': 1,
     'imageFacebook': 1
@@ -40,7 +40,7 @@ async function findAllPageCategoryImages(collection='pageCategories', limit=10, 
     };
     
     try {
-        const documents = await collection.find(query).limit(limit).project(projection).toArray()
+        const documents = await collection.find(query).project(projection).skip(skip).limit(limit).toArray()
         console.log('Queries >> page >> findAllPageCategoryImages >> End')
         return documents
     } catch (error) {

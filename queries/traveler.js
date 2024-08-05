@@ -1,4 +1,4 @@
-async function findAllTravelerImages(collection='travelers', limit=10, projection={
+async function findAllTravelerImages(collection='travelers', skip=0, limit=0, projection={
     'slug': 1,
     'firstname': 1,
     'lastname': 1,
@@ -14,7 +14,7 @@ async function findAllTravelerImages(collection='travelers', limit=10, projectio
     };
     
     try {
-        const documents = await collection.find(query).project(projection).limit(limit).toArray()
+        const documents = await collection.find(query).project(projection).skip(skip).limit(limit).toArray()
         console.log('Queries >> traveler >> findAllTravelerImages >> End')
         return documents
     } catch (error) {

@@ -1,4 +1,4 @@
-async function findAllBookingInvoices(collection='bookings', limit=10, projection={
+async function findAllBookingInvoices(collection='bookings', skip=0, limit=0, projection={
     'idBooking': 1,
     'voucher': 1,
     'voucherflights': 1,
@@ -61,7 +61,7 @@ async function findAllBookingInvoices(collection='bookings', limit=10, projectio
     
 
     try {
-        const documents = await collection.find(query).project(projection).limit(limit).toArray()
+        const documents = await collection.find(query).project(projection).skip(skip).limit(limit).toArray()
         console.log('Queries >> booking >> findAllBookingImages >> End')
         return documents
     } catch (error) {

@@ -1,4 +1,4 @@
-async function findAllBookedProductsImages(collection='bookedproducts', limit=20, projection={
+async function findAllBookedProductsImages(collection='bookedproducts', skip=0, limit=0, projection={
     'slug': 1,
     'productimage':1,
     'image': 1,
@@ -23,7 +23,7 @@ async function findAllBookedProductsImages(collection='bookedproducts', limit=20
     };
     
     try {
-        const documents = await collection.find(query).project(projection).limit(limit).toArray()
+        const documents = await collection.find(query).project(projection).skip(skip).limit(limit).toArray()
         console.log('Queries >> booked >> findAllBookedProductsImages >> End')
         return documents
     } catch (error) {

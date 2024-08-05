@@ -1,4 +1,4 @@
-async function findAllManagementGroupImages(collection='managementgroups', limit=10, projection={
+async function findAllManagementGroupImages(collection='managementgroups', skip=0, limit=0, projection={
     '_id': 1,
     'user': 1,
     'name': 1,
@@ -12,7 +12,7 @@ async function findAllManagementGroupImages(collection='managementgroups', limit
     };
 
     try {
-        const documents = await collection.find(query).project(projection).limit(limit).toArray()
+        const documents = await collection.find(query).project(projection).skip(skip).limit(limit).toArray()
         console.log('Queries >> managementGroup >> findAllManagementGroupImages >> End')
         return documents
     } catch (error) {

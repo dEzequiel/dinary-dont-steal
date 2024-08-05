@@ -1,4 +1,4 @@
-async function findAllAffiliatesImages(collection='affiliates', limit=10, projection={
+async function findAllAffiliatesImages(collection='affiliates', skip=0, limit=0, projection={
     '_id': 1,
     'user': 1,
     'name': 1,
@@ -14,7 +14,7 @@ async function findAllAffiliatesImages(collection='affiliates', limit=10, projec
     };
 
     try {
-        const documents = await collection.find(query).project(projection).limit(limit).toArray()
+        const documents = await collection.find(query).project(projection).skip(skip).limit(limit).toArray()
         console.log('Queries >> affiliates >> findAllAffiliatesImages >> End')
         return documents
     } catch (error) {
@@ -24,7 +24,7 @@ async function findAllAffiliatesImages(collection='affiliates', limit=10, projec
     }
 }
 
-async function findAllAffiliatesFAQImages(collection='affiliate faqs', limit=10, projection={
+async function findAllAffiliatesFAQImages(collection='affiliate faqs', skip=0, limit=0, projection={
     'title': 1,
     'slug': 1,
     'images': 1
@@ -40,7 +40,7 @@ async function findAllAffiliatesFAQImages(collection='affiliate faqs', limit=10,
     };
 
     try {
-        const documents = await collection.find(query).project(projection).limit(limit).toArray()
+        const documents = await collection.find(query).project(projection).skip(skip).limit(limit).toArray()
         console.log('Queries >> affiliates >> findAllAffiliatesFAQImages >> End')
         return documents
     } catch (error) {

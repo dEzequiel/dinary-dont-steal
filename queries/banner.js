@@ -1,4 +1,4 @@
-export async function findAllBannersWithImages(collection='banners', limit=10, projection={
+export async function findAllBannersWithImages(collection='banners', skip=0, limit=0, projection={
     '_id': 1,
     'slug': 1,
     'image': 1
@@ -10,7 +10,7 @@ export async function findAllBannersWithImages(collection='banners', limit=10, p
 
     
     try {
-        const documents = await collection.find(query).project(projection).limit(limit).toArray()
+        const documents = await collection.find(query).project(projection).skip(skip).limit(limit).toArray()
         console.log('Queries >> banner >> findAllBannersWithImages >> End')
         return documents
     } catch (error) {

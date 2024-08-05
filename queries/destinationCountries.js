@@ -1,4 +1,4 @@
-async function findAllDestinationCountriesImages(collection='destinationcountries', limit=1000, projection={
+async function findAllDestinationCountriesImages(collection='destinationcountries', skip=0, limit=0, projection={
     'slug': 1,
     'title_es': 1,
     'mainImage': 1,
@@ -14,7 +14,7 @@ async function findAllDestinationCountriesImages(collection='destinationcountrie
     };
 
     try {
-        const documents = await collection.find(query).project(projection).limit(limit).toArray()
+        const documents = await collection.find(query).project(projection).skip(skip).limit(limit).toArray()
         console.log('Queries >> destinationCountries >> findAllDestinationCountriesImages >> End')
         return documents
     } catch (error) {
@@ -24,7 +24,7 @@ async function findAllDestinationCountriesImages(collection='destinationcountrie
     }
 }
 
-async function findAllDestinationCountryZonesImages(collection='destinationcountrieszones', limit=10, projection={
+async function findAllDestinationCountryZonesImages(collection='destinationcountrieszones', skip=0, limit=0, projection={
     'slug': 1,
     'title_es': 1,
     'mainImage': 1,
@@ -39,7 +39,7 @@ async function findAllDestinationCountryZonesImages(collection='destinationcount
     };
 
     try {
-        const documents = await collection.find(query).project(projection).limit(limit).toArray()
+        const documents = await collection.find(query).project(projection).skip(skip).limit(limit).toArray()
         console.log('Queries >> destinationCountries >> findAllDestinationCountryZonesImages >> End')
         return documents
     } catch (error) {

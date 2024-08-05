@@ -1,4 +1,4 @@
-async function findAllAdminImages(collection='omtadmins', limit=10, projection={
+async function findAllAdminImages(collection='omtadmins', skip=0, limit=0, projection={
     '_id': 1,
     'name': 1,
     'images': 1
@@ -13,7 +13,7 @@ async function findAllAdminImages(collection='omtadmins', limit=10, projection={
     };
 
     try {
-        const documents = await collection.find(query).project(projection).limit(limit).toArray()
+        const documents = await collection.find(query).project(projection).skip(skip).limit(limit).toArray()
         console.log('Queries >> admin >> findAllAdminImages >> End')
         return documents
     } catch (error) {

@@ -1,4 +1,4 @@
-async function findAllInvoicesWithFiles(collection='invoices', limit=10, projection={
+async function findAllInvoicesWithFiles(collection='invoices', skip=0, limit=10, projection={
     'name': 1,
     'file': 1,
 }) {
@@ -8,7 +8,7 @@ async function findAllInvoicesWithFiles(collection='invoices', limit=10, project
         'file.url': { $exists: true, $ne: null, $ne: '' }    
     };
     try {
-        const documents = await collection.find(query).project(projection).limit(limit).toArray()
+        const documents = await collection.find(query).project(projection).skip(skip).limit(limit).toArray()
         console.log('Queries >> invoices >> findAllInvoicesWithFiles >> End')
         return documents
     } catch (error) {
