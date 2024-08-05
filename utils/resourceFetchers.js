@@ -19,12 +19,14 @@ export function downloadImagesFromDMC(dmcs) {
     dmcs.forEach(dmc => {
         const folderPath = createFolderForEntity(folderName, dmc.name)
 
-        if(dmc.images.photo) {
-            processImage(dmc, 'photo', folderPath)
-        } 
-        
-        if (dmc.images.logo) {
-            processImage(dmc, 'logo', folderPath)
+        if(dmc.images) {
+            if(dmc.images.photo) {
+                processImage(dmc, 'photo', folderPath)
+            } 
+            
+            if (dmc.images.logo) {
+                processImage(dmc, 'logo', folderPath)
+            }
         }
 
         processAssociatedImages(dmc, folderPath, 'associateImages', 'associations');
