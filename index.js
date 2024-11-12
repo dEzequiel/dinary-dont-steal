@@ -11,7 +11,8 @@ import { downloadDMCRelatedImages,
     downloadAdminRelatedImages,
     downloadTravelerRelatedImages,
     downloadUserRelatedImages,
-    downloadBudgetFiles } 
+    downloadBudgetFiles, 
+    downloadDestinationCitiesImages} 
 from "./collectionsDownloader.js";
 import dbClient from "./dbClient.js";
 
@@ -53,20 +54,22 @@ import dbClient from "./dbClient.js";
         // // fetcher.downloadImagesFromBudgetProducts(budgetProductsNormalized)  
         // //#endregion
 
-        const budgetCollection = database.collection('budget')
-        await downloadBudgetFiles(budgetCollection)
+        // const budgetCollection = database.collection('budget')
+        // await downloadBudgetFiles(budgetCollection)
 
+        // const destinationCitiesCollection = database.collection('destinationcities')
+        // await downloadDestinationCitiesImages(destinationCitiesCollection)
         // // # Download images from booking
         const bookingsCollection = database.collection('bookings2')
         //await downloadBookingInvoices(bookingsCollection)
 
         // // # Download images from management groups
         const managementGroupsCollection = database.collection('managementgroups')
-        //await downloadManagementGroupRelatedImages(managementGroupsCollection)
+        await downloadManagementGroupRelatedImages(managementGroupsCollection)
 
         // // # Download images from providers
         const providersCollection = database.collection('providers')
-        //await downloadProvidersRelatedImages(providersCollection)
+        await downloadProvidersRelatedImages(providersCollection)
 
         // // # Download images from trip tags
         const tagsCollection = database.collection('tags')
@@ -75,7 +78,7 @@ import dbClient from "./dbClient.js";
 
         // // # Download images from travelers
         const travelersCollection = database.collection('travelers')
-        //await downloadTravelerRelatedImages(travelersCollection)
+        await downloadTravelerRelatedImages(travelersCollection)
 
         // // # Download images from admin
         const adminCollection = database.collection('omtadmins') 

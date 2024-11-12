@@ -160,6 +160,12 @@ async function downloadBudgetFiles(budgetCollection) {
     fetcher.downloadImagesFromBudgets(budgetProductsNormalized)
 }
 
+async function downloadDestinationCitiesImages(destinationCitiesCollection) {
+    const destinationCitiesWithNonEmptyImages = await queries.findAllDestinationCityImages(destinationCitiesCollection, 20)
+    const destinationCitiesNormalized = utils.normalizeDestinationCities(destinationCitiesWithNonEmptyImages)
+    fetcher.downloadImagesFromDestinationCities(destinationCitiesNormalized)
+}
+
 export { downloadDMCRelatedImages, 
     downloadAffiliateRelatedImages,
     downloadPageRelatedImages,
@@ -173,5 +179,6 @@ export { downloadDMCRelatedImages,
     downloadAdminRelatedImages,
     downloadTravelerRelatedImages,
     downloadUserRelatedImages,
-    downloadBudgetFiles
+    downloadBudgetFiles,
+    downloadDestinationCitiesImages
  }

@@ -19,7 +19,7 @@ import { BookingNormalizer } from '../bookingNormalizer.js';
 import { InvoiceNormalizer } from '../invoiceNormalizer.js';
 import { UserNormalizer } from '../UserNormalizer.js';
 import { BudgetNormalizer } from '../budgetNormalizer.js';
-
+import { DestinationCityNormalizer } from '../destinationCityNormalizer.js';
 function NormalizerFactory() {}
 
 NormalizerFactory.normalizers = {
@@ -42,6 +42,7 @@ NormalizerFactory.normalizers = {
   User: UserNormalizer,
   DestinationCountry: DestinationCountryNormalizer,
   DestinationCountryZone: DestinationCountryZoneNormalizer,
+  DestinationCity: DestinationCityNormalizer,
   Booking: BookingNormalizer,
   Invoice: InvoiceNormalizer
 };

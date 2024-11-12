@@ -36,6 +36,19 @@ export function downloadImagesFromDMC(dmcs) {
     })
 }
 
+export function downloadImagesFromDestinationCities(destinationCities) {
+    const folderName = "destinationCityImages"
+    destinationCities.forEach(destinationCity => {
+        const folderPath = createFolderForEntity(folderName, destinationCity.slug)
+        if(destinationCity.mainImage) {
+            processImage(destinationCity.mainImage, null, folderPath)
+        }
+
+        if(destinationCity.imageFacebook) {
+            processImage(destinationCity.imageFacebook, null, folderPath)
+        }
+    });
+}
 
 export function downloadImagesFromDMCFAQs(dmcFAQs) {
     const folderName = "dmcFAQImages"

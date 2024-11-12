@@ -19,6 +19,7 @@ const adminNormalizer = NormalizerFactory.createNormalizer('Admin');
 const userNormalizer = NormalizerFactory.createNormalizer('User');
 const destinationCountryNormalizer = NormalizerFactory.createNormalizer('DestinationCountry');
 const destinationCountryZoneNormalizer = NormalizerFactory.createNormalizer('DestinationCountryZone');
+const destinationCityNormalizer = NormalizerFactory.createNormalizer('DestinationCity');
 const tagNormalizer = NormalizerFactory.createNormalizer('Tag');
 const bookingNormalizer = NormalizerFactory.createNormalizer('Booking');
 const invoiceNormalizer = NormalizerFactory.createNormalizer('Invoice');
@@ -217,6 +218,15 @@ export function normalizeDestinationCountryZones(destinationCountryZones) {
     });
 
     return normalizedDestinationContryZones
+}
+
+export function normalizeDestinationCities(destinationCities) {
+    let normalizedDestinationCities = []
+    destinationCities.forEach(destinationCity => {
+        normalizedDestinationCities.push(destinationCityNormalizer.normalize(destinationCity.slug, destinationCity.mainImage, destinationCity.imageFacebook))
+    });
+
+    return normalizedDestinationCities
 }
 
 export function normalizeInvoices(invoices) {
