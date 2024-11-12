@@ -10,10 +10,10 @@ ProviderNormalizer.prototype.normalize = function (name, slug, images) {
         slug,
     };
 
-    if(images) {
+    if(images && (images.logo || images.photo)) {
         normalizedObject.images = {
-            logo: determineImageUrl(images.logo?.url),
-            photo: determineImageUrl(images.photo?.url)
+            logo: images.logo?.url ? determineImageUrl(images.logo?.url) : '',
+            photo: images.photo?.url ? determineImageUrl(images.photo?.url) : ''
         }
 
         if(normalizedObject.images.logo == '') delete normalizedObject.images.logo;
