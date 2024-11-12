@@ -10,7 +10,9 @@ import { downloadDMCRelatedImages,
     downloadProvidersRelatedImages,
     downloadAdminRelatedImages,
     downloadTravelerRelatedImages,
-    downloadUserRelatedImages } from "./collectionsDownloader.js";
+    downloadUserRelatedImages,
+    downloadBudgetFiles } 
+from "./collectionsDownloader.js";
 import dbClient from "./dbClient.js";
 
   async function run() {
@@ -21,7 +23,7 @@ import dbClient from "./dbClient.js";
         const dmcProductsCollection = database.collection('dmcproducts');
         const dmcCollection = database.collection('dmcs')
         const dmcFAQsCollection = database.collection('dmc faqs')
-        await downloadDMCRelatedImages(dmcProductsCollection, dmcCollection, dmcFAQsCollection)
+        //await downloadDMCRelatedImages(dmcProductsCollection, dmcCollection, dmcFAQsCollection)
 
         const affiliatesCollection = database.collection('affiliates')
         const affiliatesFAQsCollection = database.collection('affiliate faqs')
@@ -51,6 +53,9 @@ import dbClient from "./dbClient.js";
         // // fetcher.downloadImagesFromBudgetProducts(budgetProductsNormalized)  
         // //#endregion
 
+        const budgetCollection = database.collection('budget')
+        await downloadBudgetFiles(budgetCollection)
+
         // // # Download images from booking
         const bookingsCollection = database.collection('bookings2')
         //await downloadBookingInvoices(bookingsCollection)
@@ -76,8 +81,8 @@ import dbClient from "./dbClient.js";
         const adminCollection = database.collection('omtadmins') 
         //await downloadAdminRelatedImages(adminCollection)
 
-        const userCollection = database.collection('users')
-        //await downloadUserRelatedImages(userCollection)
+        // const userCollection = database.collection('users')
+        // await downloadUserRelatedImages(userCollection)
 
     } finally {
         await dbClient.closeConnection();

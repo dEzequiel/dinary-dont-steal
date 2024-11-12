@@ -18,6 +18,7 @@ import { TagNormalizer } from '../tagNormalizer.js';
 import { BookingNormalizer } from '../bookingNormalizer.js';
 import { InvoiceNormalizer } from '../invoiceNormalizer.js';
 import { UserNormalizer } from '../UserNormalizer.js';
+import { BudgetNormalizer } from '../budgetNormalizer.js';
 
 function NormalizerFactory() {}
 
@@ -29,6 +30,7 @@ NormalizerFactory.normalizers = {
   AffiliateFAQ: AffiliateFAQNormalizer,
   BookedProduct: BookedProductNormalizer,
   BudgetProduct: BudgetProductNormalizer,
+  Budget: BudgetNormalizer,
   ManagementGroup: ManagementGroupNormalizer,
   Page: PageNormalizer,
   PageCategory: PageCategoryNormalizer,

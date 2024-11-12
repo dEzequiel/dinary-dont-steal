@@ -21,7 +21,7 @@ const downloadImagesFromDMCFaqs = async (dmcFAQsCollection, skip, limit) => {
 
 async function downloadDMCRelatedImages(dmcProductsCollection, dmcCollection, dmcFAQsCollection) {
     //await downloadDMCImagesFromDMCProducts(dmcProductsCollection);
-    //await downloadImagesFromDMCProducts(dmcCollection, 10, 5);
+    await downloadImagesFromDMCProducts(dmcCollection, 10, 5);
     //await downloadImagesFromDMCFaqs(dmcFAQsCollection);
 }
 // #endregion
@@ -142,7 +142,7 @@ async function downloadAdminRelatedImages(adminsCollection) {
 }
 
 async function downloadUserRelatedImages(usersCollection) {
-    const usersWithNonEmptyImages = await queries.findAllUserImages(usersCollection, 0, 20)
+    const usersWithNonEmptyImages = await queries.findAllUserImages(usersCollection, 0, 0)
     const usersWithNonEmptyImagesNormalized = utils.normalizeUser(usersWithNonEmptyImages)
     fetcher.downloadImagesFromUsers(usersWithNonEmptyImagesNormalized)
 }
@@ -152,6 +152,12 @@ async function downloadTravelerRelatedImages(travelersCollection) {
     const travelersWithNonEmptyImagesNormalized = utils.normalizeTraveler(travelersWithNonEmptyImages)
     fetcher.downloadImagesFromTraveler(travelersWithNonEmptyImagesNormalized)
 
+}
+
+async function downloadBudgetFiles(budgetCollection) {
+    const budgetProductsWithNonEmptyImages = await queries.findAllBudgetFiles(budgetCollection, 20)
+    const budgetProductsNormalized = utils.normalizeBudget(budgetProductsWithNonEmptyImages)
+    fetcher.downloadImagesFromBudgets(budgetProductsNormalized)
 }
 
 export { downloadDMCRelatedImages, 
@@ -166,5 +172,6 @@ export { downloadDMCRelatedImages,
     downloadProvidersRelatedImages,
     downloadAdminRelatedImages,
     downloadTravelerRelatedImages,
-    downloadUserRelatedImages
+    downloadUserRelatedImages,
+    downloadBudgetFiles
  }

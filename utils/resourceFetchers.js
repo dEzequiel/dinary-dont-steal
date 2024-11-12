@@ -78,8 +78,28 @@ export function downloadImagesFromBudgetProducts(budgetProducts) {
         
         processAssociatedImages(budgetProduct, folderPath, 'itinerary', 'itinerary');
     });
+}
 
+export function downloadImagesFromBudgets(budgets) {
+    const folderName = "budgetImages"
+    budgets.forEach(budget => {
+        if(budget.voucher) {
+            processImage(budget.voucher, null, folderName)
+        }
 
+        if(budget.passportfile) {
+            processImage(budget.passportfile, null, folderName)
+        }
+
+        if(budget.visaletterfile) {
+            processImage(budget.visaletterfile, null, folderName)
+        }
+
+        processAssociatedImages(budget, folderName, 'invoicesaerial', 'invoicesaerial');
+        processAssociatedImages(budget, folderName, 'invoicesagency', 'invoicesagency');
+        processAssociatedImages(budget, folderName, 'invoicesprovider', 'invoicesprovider');
+        processAssociatedImages(budget, folderName, 'invoicestravelersense', 'invoicestravelersense');
+    })
 }
 
 export function downloadAffiliatesImages(affiliates) {

@@ -24,3 +24,4 @@ BudgetProductNormalizer.prototype.normalize = function(name, slug, productImage,
 };
 
 export { BudgetProductNormalizer }
+

@@ -7,6 +7,7 @@ const affiliateNormalizer = NormalizerFactory.createNormalizer('Affiliate');
 const affiliateFAQNormalizer = NormalizerFactory.createNormalizer('AffiliateFAQ');
 const bookedProductNormalizer = NormalizerFactory.createNormalizer('BookedProduct');
 const budgetProductNormalizer = NormalizerFactory.createNormalizer('BudgetProduct');
+const budgetNormalizer = NormalizerFactory.createNormalizer('Budget');
 const dmcFaqNormalizer = NormalizerFactory.createNormalizer('DMCFAQ');
 const managementGroupNormalizer = NormalizerFactory.createNormalizer('ManagementGroup');
 const pageNormalizer = NormalizerFactory.createNormalizer('Page');
@@ -116,6 +117,15 @@ export function normalizeBudgetProduct(budgetProducts) {
     });
 
     return normalizedBudgetProducts
+}
+
+export function normalizeBudget(budgets) {
+    let normalizedBudgets = []
+    budgets.forEach(budget => {
+        normalizedBudgets.push(budgetNormalizer.normalize(budget.code, budget.vocuher, budget.passportfile, budget.visaletterfile, budget.invoicesaerial, budget.invoicesagency, budget.invoicesprovider, budget.invoicestravelersense))
+    });
+
+    return normalizedBudgets
 }
 
 export function normalizePage(pages) {
