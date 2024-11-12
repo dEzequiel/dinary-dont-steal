@@ -12,7 +12,8 @@ import { downloadDMCRelatedImages,
     downloadTravelerRelatedImages,
     downloadUserRelatedImages,
     downloadBudgetFiles, 
-    downloadDestinationCitiesImages} 
+    downloadDestinationCitiesImages,
+    downloadBudgetProducts} 
 from "./collectionsDownloader.js";
 import dbClient from "./dbClient.js";
 
@@ -21,75 +22,78 @@ import dbClient from "./dbClient.js";
         const client =  await dbClient.connect();
         const database = client.db("openmarkettravel")
 
+        //#region Tested
         const dmcProductsCollection = database.collection('dmcproducts');
         const dmcCollection = database.collection('dmcs')
         const dmcFAQsCollection = database.collection('dmc faqs')
-        //await downloadDMCRelatedImages(dmcProductsCollection, dmcCollection, dmcFAQsCollection)
+        //await downloadDMCRelatedImages(dmcProductsCollection, dmcCollection, dmcFAQsCollection, 0, 0)
+
 
         const affiliatesCollection = database.collection('affiliates')
         const affiliatesFAQsCollection = database.collection('affiliate faqs')
-        //await downloadAffiliateRelatedImages(affiliatesCollection, affiliatesFAQsCollection)
+        //await downloadAffiliateRelatedImages(affiliatesCollection, affiliatesFAQsCollection, 0, 0)
 
-        // # Download images from banners
         const bannersCollection = database.collection('banners')
-        //await downloadBannerRelatedImages(bannersCollection)
+        //await downloadBannerRelatedImages(bannersCollection, 0, 0)
 
-        //# Download images from booked products
         const bookedProductsCollection = database.collection('bookedproducts')
-        //await downloadBookedProductsRelatedImages(bookedProductsCollection)
-        
+        //await downloadBookedProductsRelatedImages(bookedProductsCollection, 0, 0)
+
         const pagesCollection = database.collection('pages')
         const pageCategoriesCollection = database.collection('pagecategories')
-        //await downloadPageRelatedImages(pagesCollection, pageCategoriesCollection)
+        //await downloadPageRelatedImages(pagesCollection, pageCategoriesCollection, 0, 0)
 
         const destinationCountriesCollection = database.collection('destinationcountries')
         const destinationCountryZonesCollection = database.collection('destinationcountrieszones')
-        //await downloadDestinationCountryRelatedImages(destinationCountriesCollection, destinationCountryZonesCollection)
+        //await downloadDestinationCountryRelatedImages(destinationCountriesCollection, destinationCountryZonesCollection, 0, 10)
         
-        // // # Download images from budget products
-        // // ### UNTESTED ###
-        // // const budgetProductsCollection = database.collection('budgetproducts')
-        // // const budgetProductsWithNonEmptyImages = await queries.findAllBudgetProductImages(budgetProductsCollection, 20)
-        // // const budgetProductsNormalized = utils.normalizeBudgetProduct(budgetProductsWithNonEmptyImages)
-        // // fetcher.downloadImagesFromBudgetProducts(budgetProductsNormalized)  
-        // //#endregion
+        const budgetCollection = database.collection('budget')
+        //await downloadBudgetFiles(budgetCollection, 0, 0)
+      
+        const budgetProductsCollection = database.collection('budgetproducts')
+        //await downloadBudgetProducts(budgetProductsCollection, 0, 0)
 
-        // const budgetCollection = database.collection('budget')
-        // await downloadBudgetFiles(budgetCollection)
+        const destinationCitiesCollection = database.collection('destinationcities')
+        //await downloadDestinationCitiesImages(destinationCitiesCollection, 0, 0)
 
-        // const destinationCitiesCollection = database.collection('destinationcities')
-        // await downloadDestinationCitiesImages(destinationCitiesCollection)
-        // // # Download images from booking
         const bookingsCollection = database.collection('bookings2')
-        //await downloadBookingInvoices(bookingsCollection)
+        //await downloadBookingInvoices(bookingsCollection, 0, 0)
 
-        // // # Download images from management groups
         const managementGroupsCollection = database.collection('managementgroups')
-        await downloadManagementGroupRelatedImages(managementGroupsCollection)
+        //await downloadManagementGroupRelatedImages(managementGroupsCollection, 0, 0)
 
         // // # Download images from providers
         const providersCollection = database.collection('providers')
-        await downloadProvidersRelatedImages(providersCollection)
+        //await downloadProvidersRelatedImages(providersCollection, 0, 0)
 
         // // # Download images from trip tags
         const tagsCollection = database.collection('tags')
         const tripTagsCollection = database.collection('triptags')
-        //await downloadTagsRelatedImages(tagsCollection, tripTagsCollection)
+        //await downloadTagsRelatedImages(tagsCollection, tripTagsCollection, 0, 0)
 
         // // # Download images from travelers
         const travelersCollection = database.collection('travelers')
-        await downloadTravelerRelatedImages(travelersCollection)
+        //await downloadTravelerRelatedImages(travelersCollection, 0, 0)
 
         // // # Download images from admin
         const adminCollection = database.collection('omtadmins') 
-        //await downloadAdminRelatedImages(adminCollection)
+        //await downloadAdminRelatedImages(adminCollection, 0, 0)
 
-        // const userCollection = database.collection('users')
-        // await downloadUserRelatedImages(userCollection)
-
+        const userCollection = database.collection('users')
+        //await downloadUserRelatedImages(userCollection, 0, 0)
+        //#endregion
     } finally {
         await dbClient.closeConnection();
       }
 }
 
 run().catch(console.error)
+
+// x = {
+//   '[admin]-[589cd8e515aea338fa705d2b]-[bangkok-esencial]': {
+//     container: 'public',
+//     blob: 'uploads/whatever',
+//     original_path: 'uploads/omtadmins/589cd8e515aea338fa705d2b/bangkok-esencial.jpg',
+//     new_path: 'uploads/omtadmins/589cd8e515aea338fa705d2b/bangkok-esencial.jpg',
+//   }
+// }

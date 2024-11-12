@@ -9,11 +9,15 @@ DestinationCityNormalizer.prototype.normalize = function (slug, mainImage, image
   };
 
   if(mainImage && mainImage.url) {
-    normalizedObject.mainImage = mainImage.url;
+    normalizedObject.mainImage = {
+      url: mainImage.url
+    }
   }
 
     if(imageFacebook && imageFacebook.url) {
-        normalizedObject.imageFacebook = imageFacebook.url;
+        normalizedObject.imageFacebook = {
+          url: imageFacebook.url
+        }
     }
 
 
