@@ -3,8 +3,9 @@ import { Normalizer } from "./base/base_normalizer.js";
 function DestinationCityNormalizer() {}
 
 DestinationCityNormalizer.prototype = Object.create(Normalizer.prototype);
-DestinationCityNormalizer.prototype.normalize = function (slug, mainImage, imageFacebook) {
+DestinationCityNormalizer.prototype.normalize = function (id, slug, mainImage, imageFacebook) {
   const normalizedObject = {
+    id: String(id),
     slug: slug
   };
 

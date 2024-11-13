@@ -1,4 +1,5 @@
 async function findAllDestinationCityImages(collection='destinationcities', skip=0, limit=0, projection={
+    '_id': 1,
     'slug': 1,
     'title_es': 1,
     'mainImage': 1,
