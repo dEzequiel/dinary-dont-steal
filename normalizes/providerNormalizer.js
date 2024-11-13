@@ -4,8 +4,9 @@ import { determineImageUrl } from "../utils/helper.js";
 function ProviderNormalizer() {}
 
 ProviderNormalizer.prototype = Object.create(Normalizer.prototype);
-ProviderNormalizer.prototype.normalize = function (name, slug, images) {
+ProviderNormalizer.prototype.normalize = function (id, name, slug, images) {
     const normalizedObject = {
+        id: String(id),
         name,
         slug,
     };

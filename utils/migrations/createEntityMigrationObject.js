@@ -228,3 +228,18 @@ export function createManagementGroupMigrationObject(managementGroup, nature) {
         return;
     }
 }
+
+export function createProviderMigrationObject(provider, nature) {
+    const collection = 'providers'
+
+    if(provider.images) {
+        if(provider.images.logo && !provider.images.photo) {
+            createEntityMigrationObject(collection, provider.id, 'images.logo.url', provider.images.logo, nature)
+        } else if(provider.images.photo && !provider.images.logo) {
+            createEntityMigrationObject(collection, provider.id, 'images.photo.url', provider.images.photo, nature)
+        } else if(provider.images.logo && provider.images.photo) {
+            createEntityMigrationObject(collection, provider.id, 'images.logo.url', provider.images.logo, nature)
+            createEntityMigrationObject(collection, provider.id, 'images.photo.url', provider.images.photo, nature)
+        }
+    }
+}

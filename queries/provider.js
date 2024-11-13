@@ -1,4 +1,5 @@
 async function findAllProviderImages(collection='providers', skip=0, limit=0, projection={
+    '_id': 1,
     'name': 1,
     'slug': 1,
     'images': 1
