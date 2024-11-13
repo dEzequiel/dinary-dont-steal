@@ -113,3 +113,64 @@ export function createDestinationCountryZoneMigrationObject(destinationCountryZo
         createEntityMigrationObject(collection, destinationCountryZone.id, 'iconImage.url', destinationCountryZone.iconImage.url, nature)
     }
 }
+
+export function createBudgetFilesMigrationObject(budget, nature) {
+    const collection = 'budget'
+    
+    if(budget.voucher) {
+        createEntityMigrationObject(collection, budget.id, 'voucher.url', budget.voucher.url, nature)
+    }
+
+    if(budget.passportfile) {
+        createEntityMigrationObject(collection, budget.id, 'passportfile.url', budget.passportfile.url, nature)
+    }
+
+    if(budget.visaletterfile) {
+        createEntityMigrationObject(collection, budget.id, 'visaletterfile.url', budget.visaletterfile.url, nature)
+    }
+
+    if(budget.invoicesaerial) {
+        createEntityMigrationObject(collection, budget.id, 'invoicesaerial.file.url', budget.invoicesaerial.file.url, nature)
+    }
+
+    if(budget.invoicesagency) {
+        createEntityMigrationObject(collection, budget.id, 'invoicesagency.file.url', budget.invoicesagency.file.url, nature)
+    }
+
+    if(budget.invoicesprovider) {
+        createEntityMigrationObject(collection, budget.id, 'invoicesprovider.file.url', budget.invoicesprovider.file.url, nature)
+    }
+
+    if(budget.invoicestravelersense) {
+        createEntityMigrationObject(collection, budget.id, 'invoicestravelersense.file.url', budget.invoicestravelersense.file.url, nature)
+    }
+
+}
+
+export function createBudgetProductMigrationObject(budgetProduct, nature) {
+    const collection = 'budgetproducts'
+    if(budgetProduct.productImage) {
+        createEntityMigrationObject(collection, budgetProduct.id, 'productImage.url', budgetProduct.productImage.url, nature)
+    }
+
+    if(budgetProduct.itinerary && budgetProduct.itinerary.length > 0) {
+        let itinerary_counter = 0;
+        budgetProduct.itinerary.forEach(itinerary => {
+            if(itinerary.url) {
+                createEntityMigrationObject(collection, budgetProduct.id, `itinerary.${itinerary_counter}.image.url`, itinerary.url, nature)
+                itinerary_counter++;
+            }
+        })
+    }
+}
+
+export function createDestinationCityMigrationObject(destinationCity, nature) {
+    const collection = 'destinationcities'
+    if(destinationCity.mainImage) {
+        createEntityMigrationObject(collection, destinationCity.id, 'mainImage.url', destinationCity.mainImage.url, nature)
+    }
+
+    if(destinationCity.imageFacebook) {
+        createEntityMigrationObject(collection, destinationCity.id, 'imageFacebook.url', destinationCity.imageFacebook.url, nature)
+    }
+}

@@ -1,4 +1,5 @@
 async function findAllBudgetProductImages(collection='budgetproducts', skip=0, limit=0, projection={
+    '_id': 1,
     'name': 1,
     'slug': 1,
     'productimage': 1,
@@ -35,6 +36,7 @@ async function findAllBudgetProductImages(collection='budgetproducts', skip=0, l
 }
 
 async function findAllBudgetFiles(collection='budget', skip=0, limit=0, projection={
+    '_id': 1,
     'code': 1,
     'voucher.url': 1,
     'voucher.secure_url': 1,

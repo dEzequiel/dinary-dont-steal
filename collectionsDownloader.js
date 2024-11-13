@@ -1,6 +1,6 @@
 import * as queries from "./queries/index.js";
 import * as utils from "./utils/index.js";
-import { createAffiliateFAQMigrationObject, createAffiliateMigrationObject, createBannerMigrationObject, createBookedProductMigrationObject, createDestinationCountryMigrationObject, createDestinationCountryZoneMigrationObject, createPageCategoryMigrationObject, createPageMigrationObject, migration_objects } from "./utils/migrations/createEntityMigrationObject.js";
+import { createAffiliateFAQMigrationObject, createAffiliateMigrationObject, createBannerMigrationObject, createBookedProductMigrationObject, createBudgetFilesMigrationObject, createBudgetProductMigrationObject, createDestinationCityMigrationObject, createDestinationCountryMigrationObject, createDestinationCountryZoneMigrationObject, createPageCategoryMigrationObject, createPageMigrationObject, migration_objects } from "./utils/migrations/createEntityMigrationObject.js";
 import  * as fetcher from "./utils/resourceFetchers.js";
 
 // #region DMC
@@ -203,19 +203,37 @@ async function downloadTravelerRelatedImages(travelersCollection, skip, limit) {
 async function downloadBudgetFiles(budgetCollection, skip, limit) {
     const budgetProductsWithNonEmptyImages = await queries.findAllBudgetFiles(budgetCollection, skip, limit)
     const budgetProductsNormalized = utils.normalizeBudget(budgetProductsWithNonEmptyImages)
-    fetcher.downloadImagesFromBudgets(budgetProductsNormalized)
+    
+    budgetProductsNormalized.forEach(budget => {
+        createBudgetFilesMigrationObject(budget, 'public')
+    })
+    
+    //console.log(migration_objects)
+    //fetcher.downloadImagesFromBudgets(budgetProductsNormalized)
 }
 
 async function downloadBudgetProducts(budgetProductsCollection, skip, limit) {
     const budgetProductsWithNonEmptyImages = await queries.findAllBudgetProductImages(budgetProductsCollection, skip, limit)
     const budgetProductsNormalized = utils.normalizeBudgetProduct(budgetProductsWithNonEmptyImages)
-    fetcher.downloadImagesFromBudgetProducts(budgetProductsNormalized)
+    
+    budgetProductsNormalized.forEach(budgetProduct => {
+        createBudgetProductMigrationObject(budgetProduct, 'public')
+    })
+    
+    //console.log(migration_objects)
+    //fetcher.downloadImagesFromBudgetProducts(budgetProductsNormalized)
 }
 
 async function downloadDestinationCitiesImages(destinationCitiesCollection, skip, limit) {
     const destinationCitiesWithNonEmptyImages = await queries.findAllDestinationCityImages(destinationCitiesCollection, skip, limit)
     const destinationCitiesNormalized = utils.normalizeDestinationCities(destinationCitiesWithNonEmptyImages)
-    fetcher.downloadImagesFromDestinationCities(destinationCitiesNormalized)
+    
+    destinationCitiesNormalized.forEach(destinationCity => {
+        createDestinationCityMigrationObject(destinationCity, 'public')
+    })
+    
+    console.log(migration_objects)
+    //fetcher.downloadImagesFromDestinationCities(destinationCitiesNormalized)
 }
 
 export { downloadDMCRelatedImages, 

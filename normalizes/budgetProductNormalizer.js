@@ -3,8 +3,9 @@ import { Normalizer } from "./base/base_normalizer.js";
 function BudgetProductNormalizer() {}
 
 BudgetProductNormalizer.prototype = Object.create(Normalizer.prototype);
-BudgetProductNormalizer.prototype.normalize = function(name, slug, productImage, itineraryImages) {
+BudgetProductNormalizer.prototype.normalize = function(id, name, slug, productImage, itineraryImages) {
   const normalizedObject =- {
+    id: String(id),
     name,
     slug,
   };

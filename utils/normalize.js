@@ -114,7 +114,7 @@ export function normalizeBookedProduct(bookedProducts) {
 export function normalizeBudgetProduct(budgetProducts) {
     let normalizedBudgetProducts = []
     budgetProducts.forEach(budgetProduct => {
-        normalizedBudgetProducts.push(budgetProductNormalizer.normalize(budgetProduct.name, budgetProduct.slug, budgetProduct.productImage, budgetProduct.itinerary))
+        normalizedBudgetProducts.push(budgetProductNormalizer.normalize(budgetProduct._id, budgetProduct.name, budgetProduct.slug, budgetProduct.productImage, budgetProduct.itinerary))
     });
 
     return normalizedBudgetProducts
@@ -123,7 +123,7 @@ export function normalizeBudgetProduct(budgetProducts) {
 export function normalizeBudget(budgets) {
     let normalizedBudgets = []
     budgets.forEach(budget => {
-        normalizedBudgets.push(budgetNormalizer.normalize(budget.code, budget.vocuher, budget.passportfile, budget.visaletterfile, budget.invoicesaerial, budget.invoicesagency, budget.invoicesprovider, budget.invoicestravelersense))
+        normalizedBudgets.push(budgetNormalizer.normalize(budget._id, budget.code, budget.vocuher, budget.passportfile, budget.visaletterfile, budget.invoicesaerial, budget.invoicesagency, budget.invoicesprovider, budget.invoicestravelersense))
     });
 
     return normalizedBudgets
@@ -223,7 +223,7 @@ export function normalizeDestinationCountryZones(destinationCountryZones) {
 export function normalizeDestinationCities(destinationCities) {
     let normalizedDestinationCities = []
     destinationCities.forEach(destinationCity => {
-        normalizedDestinationCities.push(destinationCityNormalizer.normalize(destinationCity.slug, destinationCity.mainImage, destinationCity.imageFacebook))
+        normalizedDestinationCities.push(destinationCityNormalizer.normalize(destinationCity._id, destinationCity.slug, destinationCity.mainImage, destinationCity.imageFacebook))
     });
 
     return normalizedDestinationCities

@@ -13,6 +13,10 @@ BudgetNormalizer.prototype.normalize = function(code, voucher, passportfile, vis
             url: voucher.url,
             secure_url: voucher.secure_url
         }
+
+        if(normalizedObject.voucher.url == '') {
+            delete normalizedObject.voucher;
+        }
     }
 
     if (passportfile && (passportfile.url || passportfile.secure_url)) {
@@ -20,12 +24,20 @@ BudgetNormalizer.prototype.normalize = function(code, voucher, passportfile, vis
             url: passportfile.url,
             secure_url: passportfile.secure_url
         }
+
+        if(normalizedObject.passportfile.url == '') {
+            delete normalizedObject.passportfile;
+        }
     }
 
     if (visaletterfile && (visaletterfile.url || visaletterfile.secure_url)) {
         normalizedObject.visaletterfile = {
             url: visaletterfile.url,
             secure_url: visaletterfile.secure_url
+        }
+
+        if(normalizedObject.visaletterfile.url == '') {
+            delete normalizedObject.visaletterfile;
         }
     }
 
@@ -36,6 +48,10 @@ BudgetNormalizer.prototype.normalize = function(code, voucher, passportfile, vis
                 secure_url: invoicesaerial.file.secure_url
             }
         }
+
+        if(normalizedObject.invoicesaerial.file.url == '') {
+            delete normalizedObject.invoicesaerial;
+        }
     }
 
     if (invoicesagency && (invoicesagency.file.url || invoicesagency.file.secure_url)) {
@@ -44,6 +60,10 @@ BudgetNormalizer.prototype.normalize = function(code, voucher, passportfile, vis
                 url: invoicesagency.file.url,
                 secure_url: invoicesagency.file.secure_url
             }
+        }
+
+        if(normalizedObject.invoicesagency.file.url == '') {
+            delete normalizedObject.invoicesagency;
         }
     }
 
@@ -54,6 +74,10 @@ BudgetNormalizer.prototype.normalize = function(code, voucher, passportfile, vis
                 secure_url: invoicesprovider.file.secure_url
             }
         }
+
+        if(normalizedObject.invoicesprovider.file.url == '') {
+            delete normalizedObject.invoicesprovider;
+        }
     }
 
     if (invoicestravelersense && (invoicestravelersense.file.url || invoicestravelersense.file.secure_url)) {
@@ -63,10 +87,14 @@ BudgetNormalizer.prototype.normalize = function(code, voucher, passportfile, vis
                 secure_url: invoicestravelersense.file.secure_url
             }
         }
+
+        if(normalizedObject.invoicestravelersense.file.url == '') {
+            delete normalizedObject.invoicestravelersense;    
+        }
     }
 
     return normalizedObject;
 }
 
 
-export { BudgetNormalizer } 
+export { BudgetNormalizer }
