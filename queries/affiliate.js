@@ -25,6 +25,7 @@ async function findAllAffiliatesImages(collection='affiliates', skip=0, limit=0,
 }
 
 async function findAllAffiliatesFAQImages(collection='affiliate faqs', skip=0, limit=0, projection={
+    '_id': 1,
     'title': 1,
     'slug': 1,
     'images': 1

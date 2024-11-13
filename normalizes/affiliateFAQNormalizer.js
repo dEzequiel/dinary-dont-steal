@@ -8,7 +8,6 @@ AffiliateFAQNormalizer.prototype.normalize = function(id, title, slug, images) {
     id: String(id),
     title,
     slug,
-    images: images.map(image => ({ url: image.url }))
   };  
 
   if(images) {

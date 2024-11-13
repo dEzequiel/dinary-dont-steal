@@ -150,7 +150,7 @@ export function normalizePageCategories(pageCategories) {
 export function normalizeProvider(providers) {
     let normalizedProviders = []
     providers.forEach(provider => {
-        normalizedProviders.push(providerNormalizer.normalize(provider.name, provider.slug, provider.images))
+        normalizedProviders.push(providerNormalizer.normalize(provider._id, provider.name, provider.slug, provider.images))
     });
 
     return normalizedProviders
