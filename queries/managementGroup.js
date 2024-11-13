@@ -1,3 +1,5 @@
+import { ObjectId } from "mongodb"
+
 async function findAllManagementGroupImages(collection='managementgroups', skip=0, limit=0, projection={
     '_id': 1,
     'user': 1,

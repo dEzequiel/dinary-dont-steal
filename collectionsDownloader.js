@@ -1,6 +1,6 @@
 import * as queries from "./queries/index.js";
 import * as utils from "./utils/index.js";
-import { createAffiliateFAQMigrationObject, createAffiliateMigrationObject, createBannerMigrationObject, createBookedProductMigrationObject, createBookingInvoiceMigrationObject, createBudgetFilesMigrationObject, createBudgetProductMigrationObject, createDestinationCityMigrationObject, createDestinationCountryMigrationObject, createDestinationCountryZoneMigrationObject, createPageCategoryMigrationObject, createPageMigrationObject, migration_objects } from "./utils/migrations/createEntityMigrationObject.js";
+import { createAffiliateFAQMigrationObject, createAffiliateMigrationObject, createBannerMigrationObject, createBookedProductMigrationObject, createBookingInvoiceMigrationObject, createBudgetFilesMigrationObject, createBudgetProductMigrationObject, createDestinationCityMigrationObject, createDestinationCountryMigrationObject, createDestinationCountryZoneMigrationObject, createManagementGroupMigrationObject, createPageCategoryMigrationObject, createPageMigrationObject, migration_objects } from "./utils/migrations/createEntityMigrationObject.js";
 import  * as fetcher from "./utils/resourceFetchers.js";
 
 // #region DMC
@@ -170,7 +170,7 @@ async function downloadBookingInvoices(bookingsCollection, skip, limit) {
         createBookingInvoiceMigrationObject(booking, 'public')
     })
     
-    console.log(migration_objects)
+    //console.log(migration_objects)
     //fetcher.downloadInvoicesFromBookings(bookingsWithNonEmptyImagesNormalized)
 
 }
@@ -178,7 +178,13 @@ async function downloadBookingInvoices(bookingsCollection, skip, limit) {
 async function downloadManagementGroupRelatedImages(managementGroupsCollection, skip, limit) {
     const managementGroupsWithNonEmptyImages = await queries.findAllManagementGroupImages(managementGroupsCollection, skip, limit)
     const managementGroupsWithNonEmptyImagesNormalized = utils.normalizeManagementGroup(managementGroupsWithNonEmptyImages)
-    fetcher.downloadImagesFromManagementGroups(managementGroupsWithNonEmptyImagesNormalized)
+    
+    managementGroupsWithNonEmptyImagesNormalized.forEach(managementGroup => {
+        createManagementGroupMigrationObject(managementGroup, 'public')
+    })
+    
+    console.log(migration_objects)
+    //fetcher.downloadImagesFromManagementGroups(managementGroupsWithNonEmptyImagesNormalized)
 }
 
 async function downloadProvidersRelatedImages(providersCollection, skip, limit) {

@@ -212,3 +212,19 @@ export function createBookingInvoiceMigrationObject(booking, nature) {
         })
     }
 }
+
+export function createManagementGroupMigrationObject(managementGroup, nature) {
+    const collection = 'managementgroups'
+    if(managementGroup.images) {
+        if(managementGroup.images.logo && !managementGroup.images.photo) {
+            createEntityMigrationObject(collection, managementGroup.id, 'images.logo.url', managementGroup.images.logo, nature)
+        } else if(managementGroup.images.photo && !managementGroup.images.logo) {
+            createEntityMigrationObject(collection, managementGroup.id, 'images.photo.url', managementGroup.images.photo, nature)
+        } else if(managementGroup.images.logo && managementGroup.images.photo) {
+            createEntityMigrationObject(collection, managementGroup.id, 'images.logo.url', managementGroup.images.logo, nature)
+            createEntityMigrationObject(collection, managementGroup.id, 'images.photo.url', managementGroup.images.photo, nature)
+        }
+    } else {
+        return;
+    }
+}
