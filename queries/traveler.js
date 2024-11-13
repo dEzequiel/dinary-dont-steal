@@ -1,4 +1,5 @@
 async function findAllTravelerImages(collection='travelers', skip=0, limit=0, projection={
+    '_id': 1,
     'slug': 1,
     'firstname': 1,
     'lastname': 1,

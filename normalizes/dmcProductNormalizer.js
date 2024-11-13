@@ -1,19 +1,20 @@
 import { Normalizer } from "./base/base_normalizer.js";
 import { commonCharsOnImages } from "../constants.js";
-
+import { determineImageUrl } from "../utils/helper.js";
 
 function DMCProductNormalizer() {}
 
 DMCProductNormalizer.prototype = Object.create(Normalizer.prototype);
-DMCProductNormalizer.prototype.normalize = function(dmcId, name, image, dmcName, itinerary) {
+DMCProductNormalizer.prototype.normalize = function(_id, dmcId, name, image, dmcName, itinerary) {
   const normalizedObject = {
+    id: String(_id),
     dmcId: String(dmcId),
     name: name.replace(commonCharsOnImages, "_"),
     dmcName: dmcName.replace(commonCharsOnImages, "_")
   };
 
   if(image) {
-    normalizedObject.image = image
+    normalizedObject.image = { url: determineImageUrl(image.url) };
   }
 
   if (itinerary !== undefined) {

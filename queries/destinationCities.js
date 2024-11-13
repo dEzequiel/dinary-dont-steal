@@ -21,7 +21,6 @@ async function findAllDestinationCityImages(collection='destinationcities', skip
     try {
         const documents = await collection.find(query).project(projection).skip(skip).limit(limit).toArray()
         console.log('Queries >> destinationCities >> findAllDestinationCitiesImages >> End')
-        console.log(documents)
         return documents
     } catch (error) {
         console.log('Queries >> findAllDestinationCitiesImages >> Error')

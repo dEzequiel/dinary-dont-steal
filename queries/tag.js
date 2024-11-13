@@ -1,7 +1,5 @@
-import { ObjectId } from "mongodb";
-
-
 async function findAllTripTagImages(collection='triptags', skip=0, limit=0, projection={
+    '_id': 1,
     'slug': 1,
     'title': 1,
     'mainImage': 1,
@@ -30,6 +28,7 @@ async function findAllTripTagImages(collection='triptags', skip=0, limit=0, proj
 }
 
 async function findAllTagImages(collection='tags', skip=0, limit=0, projection={
+    '_id': 1,
     'mainImage': 1,
 }) {
     console.log('Queries >> tag >> findAllTagImages >> Start')

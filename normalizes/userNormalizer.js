@@ -15,7 +15,7 @@ UserNormalizer.prototype.normalize = function(id, username, image) {
     normalizedObject.image = { url: determineImageUrl(image.url) };
   }
 
-  if(normalizedObject.image == '') delete normalizedObject.image;
+  if(normalizedObject.image.url == '') delete normalizedObject.image;
 
   return normalizedObject;
 

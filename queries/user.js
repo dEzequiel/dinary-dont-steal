@@ -1,4 +1,5 @@
 async function findAllUserImages(collection='users', skip=0, limit=0, projection={
+    '_id': 1,
     'username': 1,
     'photo': 1
 }) {

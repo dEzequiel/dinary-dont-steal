@@ -29,7 +29,7 @@ export function normalizeDMCProduct(products) {
     let normalizedProducts = []
     products.forEach(product => {
         normalizedProducts.push(
-            dmcProductNormalizer.normalize(product.dmc, product.name, product.productimage, product.dmcDetails.name, product.itinerary))
+            dmcProductNormalizer.normalize(product._id, product.dmc, product.name, product.productimage, product.dmcDetails.name, product.itinerary))
         })
     return normalizedProducts;
 
@@ -159,7 +159,7 @@ export function normalizeProvider(providers) {
 export function normalizeTripTags(tripTags) {
     let normalizedTripTags = []
     tripTags.forEach(tripTag => {
-        normalizedTripTags.push(tripTagNormalizer.normalize(tripTag.slug, tripTag.title, tripTag.mainImage, tripTag.imageFacebook))
+        normalizedTripTags.push(tripTagNormalizer.normalize(tripTag._id, tripTag.slug, tripTag.title, tripTag.mainImage, tripTag.imageFacebook))
     });
 
     return normalizedTripTags   
@@ -168,7 +168,7 @@ export function normalizeTripTags(tripTags) {
 export function normalizeTags(tags) {
     let normalizedTags = []
     tags.forEach(tag => {
-        normalizedTags.push(tagNormalizer.normalize(tag.mainImage))
+        normalizedTags.push(tagNormalizer.normalize(tag._id, tag.mainImage))
     });
 
     return normalizedTags
@@ -178,7 +178,7 @@ export function normalizeTags(tags) {
 export function normalizeTraveler(travelers) {
     let normalizedTravelers = []
     travelers.forEach(traveler => {        
-        normalizedTravelers.push(travelerNormalizer.normalize(traveler.slug, traveler.firstname, traveler.lastname, traveler.images))
+        normalizedTravelers.push(travelerNormalizer.normalize(traveler._id, traveler.slug, traveler.firstname, traveler.lastname, traveler.images))
     });
 
     return normalizedTravelers

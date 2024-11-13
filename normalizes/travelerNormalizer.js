@@ -4,8 +4,9 @@ import { determineImageUrl } from "../utils/helper.js";
 function TravelerNormalizer() {}
 
 TravelerNormalizer.prototype = Object.create(Normalizer.prototype);
-TravelerNormalizer.prototype.normalize = function (slug, firstname, lastname, images) {
+TravelerNormalizer.prototype.normalize = function (id, slug, firstname, lastname, images) {
     const normalizedObject = {
+        id: String(id),
         slug,
         name: lastname ? `${firstname}_${lastname}` : `${firstname}`,
 

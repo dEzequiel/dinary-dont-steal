@@ -4,8 +4,9 @@ import { determineImageUrl } from "../utils/helper.js";
 function TripTagNormalizer() {}
 
 TripTagNormalizer.prototype = Object.create(Normalizer.prototype);
-TripTagNormalizer.prototype.normalize = function (slug, title, mainImage, imageFacebook) {
+TripTagNormalizer.prototype.normalize = function (id, slug, title, mainImage, imageFacebook) {
     const normalizedObject = {
+        id: String(id),
         slug,
         title
     };

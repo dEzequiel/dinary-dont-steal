@@ -6,14 +6,14 @@ function DMCNormalizer() {}
 DMCNormalizer.prototype = Object.create(Normalizer.prototype);
 DMCNormalizer.prototype.normalize = function(dmcId, name, images, additionalinfo, tourEscorts) {
   const normalizedObject = {
-    dmcId: String(dmcId),
+    id: String(dmcId),
     name: name.replace(/[\/\\]/g, "_"),
   };
 
   if(images) {
     normalizedObject.images = {
-      logo: determineImageUrl(images.logo?.url),
-      photo: determineImageUrl(images.photo?.url)
+      logo: images.logo && images.logo.url ? determineImageUrl(images.logo.url) : '',
+      photo: images.photo && images.photo.url ? determineImageUrl(images.photo.url) : ''
     }
 
     if(normalizedObject.images.logo == '') delete normalizedObject.images.logo;

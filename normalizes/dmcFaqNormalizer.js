@@ -6,7 +6,7 @@ DMCFAQNormalizer.prototype = Object.create(Normalizer.prototype);
 DMCFAQNormalizer.prototype.normalize = function(dmcId, slug, images, imageFacebook) {
 
   const normalizedObject = {
-    dmcId: String(dmcId),
+    id: String(dmcId),
     name: slug,
   };
 

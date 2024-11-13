@@ -243,3 +243,117 @@ export function createProviderMigrationObject(provider, nature) {
         }
     }
 }
+
+export function createTripTagMigrationObject(tripTag, nature) {
+    if(tripTag.image) {
+        createEntityMigrationObject('tags', tripTag.id, 'image.url', tripTag.image.url, nature)
+    }
+
+    if(tripTag.imageFacebook) {
+        createEntityMigrationObject('tags', tripTag.id, 'imageFacebook.url', tripTag.imageFacebook.url, nature)
+    }
+}
+
+export function createTagMigrationObject(tag, nature) {
+    if(tag.image) {
+        createEntityMigrationObject('tags', tag.id, 'image.url', tag.image.url, nature)
+    }
+}
+
+export function createTravelerMigrationObject(traveler, nature) {
+    const collection = 'travelers'
+    if(traveler.images) {
+        if(traveler.images.logo && !traveler.images.photo) {
+            createEntityMigrationObject(collection, traveler.id, 'images.logo.url', traveler.images.logo, nature)
+        } else if(traveler.images.photo && !traveler.images.logo) {
+            createEntityMigrationObject(collection, traveler.id, 'images.photo.url', traveler.images.photo, nature)
+        } else if(traveler.images.logo && traveler.images.photo) {
+            createEntityMigrationObject(collection, traveler.id, 'images.logo.url', traveler.images.logo, nature)
+            createEntityMigrationObject(collection, traveler.id, 'images.photo.url', traveler.images.photo, nature)
+        }
+    } else {
+        return;
+    }
+}
+
+export function createAdminMigrationObject(admin, nature) {
+    const collection = 'omtadmins'
+    if(admin.images) {
+        if(admin.images.logo && !admin.images.photo) {
+            createEntityMigrationObject(collection, admin.id, 'images.logo.url', admin.images.logo, nature)
+        } else if(admin.images.photo && !admin.images.logo) {
+            createEntityMigrationObject(collection, admin.id, 'images.photo.url', admin.images.photo, nature)
+        } else if(admin.images.logo && admin.images.photo) {
+            createEntityMigrationObject(collection, admin.id, 'images.logo.url', admin.images.logo, nature)
+            createEntityMigrationObject(collection, admin.id, 'images.photo.url', admin.images.photo, nature)
+        }
+    } else {
+        return;
+    }
+}
+
+export function createUserMigrationObject(user, nature) {
+    const collection = 'users'
+    if(user.image && user.image.url !== '') {
+        createEntityMigrationObject(collection, user.id, 'image.url', user.image.url, nature)
+    }
+}
+
+export function createDMCProductMigrationObject(dmcProduct, nature) {
+    const collection = 'dmcproducts'
+    if(dmcProduct.image) {
+        createEntityMigrationObject(collection, dmcProduct.id, 'image.url', dmcProduct.image.url, nature)
+    }
+
+    if(dmcProduct.itinerary && dmcProduct.itinerary.length > 0) {
+        dmcProduct.itinerary.forEach((itinerary, index) => {
+            if(itinerary.url) {
+                createEntityMigrationObject(collection, dmcProduct.id, `itinerary.${index}.image.url`, itinerary.url, nature)
+            }
+        })
+    }
+}
+
+export function createDMCImageMigrationObject(dmcProductImage, nature) {
+    const collection = 'dmcs'
+    
+    if(dmcProductImage.images) {
+        if(dmcProductImage.images.logo && !dmcProductImage.images.photo) {
+            createEntityMigrationObject(collection, dmcProductImage.id, 'images.logo.url', dmcProductImage.images.logo, nature)
+        } else if(dmcProductImage.images.photo && !dmcProductImage.images.logo) {
+            createEntityMigrationObject(collection, dmcProductImage.id, 'images.photo.url', dmcProductImage.images.photo, nature)
+        } else if(dmcProductImage.images.logo && dmcProductImage.images.photo) {
+            createEntityMigrationObject(collection, dmcProductImage.id, 'images.logo.url', dmcProductImage.images.logo, nature)
+            createEntityMigrationObject(collection, dmcProductImage.id, 'images.photo.url', dmcProductImage.images.photo, nature)
+        }
+    }
+
+    if(dmcProductImage.associateImages && dmcProductImage.associateImages.length > 0) {
+        dmcProductImage.associateImages.forEach((image, index) => {
+            if(image.url) {
+                createEntityMigrationObject(collection, dmcProductImage.id, `additionalinfo.associations.${index}.image.url`, image.url, nature)
+            }
+        })
+    }
+
+    if(dmcProductImage.tourEscorts && dmcProductImage.tourEscorts.length > 0) {
+        dmcProductImage.tourEscorts.forEach((tour, index) => {
+            if(tour.url) {
+                createEntityMigrationObject(collection, dmcProductImage.id, `tourEscorts.${index}.image.url`, tour.url, nature)
+            }
+        })
+    }
+}
+
+export function createDMCFAQMigrationObject(dmcFAQ, nature) {
+    const collection = 'dmc faqs'
+    if(dmcFAQ.images && dmcFAQ.images.length > 0) {
+        dmcFAQ.images.forEach(image => {
+            createEntityMigrationObject(collection, dmcFAQ.id, 'images.url', image.url, nature)
+        })
+    }
+
+    if(dmcFAQ.imageFacebook) {
+        createEntityMigrationObject(collection, dmcFAQ.id, 'imageFacebook.url', dmcFAQ.imageFacebook.url, nature)
+    }
+}

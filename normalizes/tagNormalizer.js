@@ -4,8 +4,10 @@ import { determineImageUrl } from "../utils/helper.js";
 function TagNormalizer() {}
 
 TagNormalizer.prototype = Object.create(Normalizer.prototype);
-TagNormalizer.prototype.normalize = function (image) {
-    const normalizedObject = {};
+TagNormalizer.prototype.normalize = function (id, image) {
+    const normalizedObject = {
+        id: String(id)
+    };
 
     if(image) {
         normalizedObject.image = {

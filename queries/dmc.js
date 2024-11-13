@@ -1,4 +1,5 @@
 async function findAllDMCImages(collection='dmcs', skip=0, limit=0, projection={
+    '_id': 1,
     'name': 1,
     'images': 1,
     'additionalinfo.associations': 1,
@@ -28,6 +29,7 @@ async function findAllDMCImages(collection='dmcs', skip=0, limit=0, projection={
 
 async function findAllDMCProductsImages(collection='dmcproducts', limit=50, projection=
     {
+        '_id': 1,
         'name': 1,
         'dmc': 1,
         'productimage': 1,

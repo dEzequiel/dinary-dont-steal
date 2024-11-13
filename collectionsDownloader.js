@@ -1,23 +1,40 @@
 import * as queries from "./queries/index.js";
 import * as utils from "./utils/index.js";
-import { createAffiliateFAQMigrationObject, createAffiliateMigrationObject, createBannerMigrationObject, createBookedProductMigrationObject, createBookingInvoiceMigrationObject, createBudgetFilesMigrationObject, createBudgetProductMigrationObject, createDestinationCityMigrationObject, createDestinationCountryMigrationObject, createDestinationCountryZoneMigrationObject, createManagementGroupMigrationObject, createPageCategoryMigrationObject, createPageMigrationObject, createProviderMigrationObject, migration_objects } from "./utils/migrations/createEntityMigrationObject.js";
+import { createAdminMigrationObject, createAffiliateFAQMigrationObject, createAffiliateMigrationObject, createBannerMigrationObject, createBookedProductMigrationObject, createBookingInvoiceMigrationObject, createBudgetFilesMigrationObject, createBudgetProductMigrationObject, createDestinationCityMigrationObject, createDestinationCountryMigrationObject, createDestinationCountryZoneMigrationObject, createDMCFAQMigrationObject, createDMCImageMigrationObject, createDMCProductMigrationObject, createManagementGroupMigrationObject, createPageCategoryMigrationObject, createPageMigrationObject, createProviderMigrationObject, createTagMigrationObject, createTravelerMigrationObject, createTripTagMigrationObject, createUserMigrationObject, migration_objects } from "./utils/migrations/createEntityMigrationObject.js";
 import  * as fetcher from "./utils/resourceFetchers.js";
 
 // #region DMC
 const downloadDMCImagesFromDMCProducts = async (dmcProductsCollection, skip, limit) => {
     const productsWithNonEmptyProductImageUrl = await queries.findAllDMCProductsImages(dmcProductsCollection);
     const productsNormalized = utils.normalizeDMCProduct(productsWithNonEmptyProductImageUrl)
-    fetcher.downloadImagesFromDMCProducts(productsNormalized)
+
+    productsNormalized.forEach(product => {
+        createDMCProductMigrationObject(product, 'public')
+    })
+    
+    //console.log(migration_objects)    
+    //fetcher.downloadImagesFromDMCProducts(productsNormalized)
 }
 const downloadImagesFromDMCProducts = async (dmcCollection, skip, limit) => {
     const dmcWithNonEmptyImages = await queries.findAllDMCImages(dmcCollection, skip, limit)
     const dmcsNormalized = utils.normalizeDMC(dmcWithNonEmptyImages) 
-    fetcher.downloadImagesFromDMC(dmcsNormalized)
+    dmcsNormalized.forEach(dmc => {
+        createDMCImageMigrationObject(dmc, 'public')
+    })
+
+    //console.log(migration_objects)    
+    //fetcher.downloadImagesFromDMC(dmcsNormalized)
 }
 const downloadImagesFromDMCFaqs = async (dmcFAQsCollection, skip, limit) => {
     const dmcFAQsWithNonEmptyImages = await queries.findAllDMCFAQImages(dmcFAQsCollection, skip, limit)
     const dmcFAQsWithNonEmptyImagesNormalized = utils.normalizeDMCFAQ(dmcFAQsWithNonEmptyImages)
-    fetcher.downloadImagesFromDMCFAQs(dmcFAQsWithNonEmptyImagesNormalized)
+    
+    dmcFAQsWithNonEmptyImagesNormalized.forEach(dmcFAQ => {
+        createDMCFAQMigrationObject(dmcFAQ, 'public')
+    })
+
+    //console.log(migration_objects)
+    //fetcher.downloadImagesFromDMCFAQs(dmcFAQsWithNonEmptyImagesNormalized)
 }
 
 async function downloadDMCRelatedImages(dmcProductsCollection, dmcCollection, dmcFAQsCollection, skip, limit) {
@@ -123,13 +140,25 @@ async function downloadDestinationCountryRelatedImages(destinationCountriesColle
 const downloadTagsImagesFromTripTags = async (tripTagsCollection, skip, limit) => {
     const tripTagsWithNonEmptyImages = await queries.findAllTripTagImages(tripTagsCollection, skip, limit)
     const tripTagsWithNonEmptyImagesNormalized = utils.normalizeTripTags(tripTagsWithNonEmptyImages)
-    fetcher.downloadImagesFromTripTags(tripTagsWithNonEmptyImagesNormalized)
+
+    tripTagsWithNonEmptyImagesNormalized.forEach(tripTag => {
+        createTripTagMigrationObject(tripTag, 'public')
+    })
+
+    //console.log(migration_objects)
+    //fetcher.downloadImagesFromTripTags(tripTagsWithNonEmptyImagesNormalized)
 }
 
 const downloadTagsImagesFromTags = async (tagsCollection, skip, limit) => {
     const tagsWithNonEmptyImages = await queries.findAllTagImages(tagsCollection, skip, limit)
     const tagsWithNonEmptyImagesNormalized = utils.normalizeTags(tagsWithNonEmptyImages)
-    fetcher.downloadImagesFromTags(tagsWithNonEmptyImagesNormalized)
+    
+    tagsWithNonEmptyImagesNormalized.forEach(tag => {
+        createTagMigrationObject(tag, 'public')
+    })
+
+    //console.log(migration_objects)
+    //fetcher.downloadImagesFromTags(tagsWithNonEmptyImagesNormalized)
 }
 
 async function downloadTagsRelatedImages(tagsCollection, tripTagsCollection, skip, limit) {
@@ -195,26 +224,44 @@ async function downloadProvidersRelatedImages(providersCollection, skip, limit) 
         createProviderMigrationObject(provider, 'public')
     })
 
-    console.log(migration_objects)
+    //console.log(migration_objects)
     //fetcher.downloadImagesFromProviders(providersWithNonEmptyImagesNormalized)
 }
 
 async function downloadAdminRelatedImages(adminsCollection, skip, limit) {
     const adminsWithNonEmptyImages = await queries.findAllAdminImages(adminsCollection, skip, limit)
     const adminsWithNonEmptyImagesNormalized = utils.normalizeAdmin(adminsWithNonEmptyImages)
-    fetcher.downloadImagesFromAdmins(adminsWithNonEmptyImagesNormalized)
+    
+    adminsWithNonEmptyImagesNormalized.forEach(admin => {
+        createAdminMigrationObject(admin, 'public')
+    })
+
+    //console.log(migration_objects)
+    //fetcher.downloadImagesFromAdmins(adminsWithNonEmptyImagesNormalized)
 }
 
 async function downloadUserRelatedImages(usersCollection, skip, limit) {
     const usersWithNonEmptyImages = await queries.findAllUserImages(usersCollection, skip, limit)
     const usersWithNonEmptyImagesNormalized = utils.normalizeUser(usersWithNonEmptyImages)
-    fetcher.downloadImagesFromUsers(usersWithNonEmptyImagesNormalized)
+
+    usersWithNonEmptyImagesNormalized.forEach(user => {
+        createUserMigrationObject(user, 'public')
+    })
+
+    //console.log(migration_objects)
+    //fetcher.downloadImagesFromUsers(usersWithNonEmptyImagesNormalized)
 }
 
 async function downloadTravelerRelatedImages(travelersCollection, skip, limit) {
     const travelersWithNonEmptyImages = await queries.findAllTravelerImages(travelersCollection, skip, limit)
     const travelersWithNonEmptyImagesNormalized = utils.normalizeTraveler(travelersWithNonEmptyImages)
-    fetcher.downloadImagesFromTraveler(travelersWithNonEmptyImagesNormalized)
+    
+    travelersWithNonEmptyImagesNormalized.forEach(traveler => {
+        createTravelerMigrationObject(traveler, 'public')
+    })
+
+    //console.log(migration_objects)
+    //fetcher.downloadImagesFromTraveler(travelersWithNonEmptyImagesNormalized)
 
 }
 
@@ -250,7 +297,7 @@ async function downloadDestinationCitiesImages(destinationCitiesCollection, skip
         createDestinationCityMigrationObject(destinationCity, 'public')
     })
     
-    console.log(migration_objects)
+    //console.log(migration_objects)
     //fetcher.downloadImagesFromDestinationCities(destinationCitiesNormalized)
 }
 
