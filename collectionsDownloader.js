@@ -1,5 +1,6 @@
 import * as queries from "./queries/index.js";
 import * as utils from "./utils/index.js";
+import { createAffiliateFAQMigrationObject, createAffiliateMigrationObject, createBannerMigrationObject, createBookedProductMigrationObject, createDestinationCountryMigrationObject, createDestinationCountryZoneMigrationObject, createPageCategoryMigrationObject, createPageMigrationObject, migration_objects } from "./utils/migrations/createEntityMigrationObject.js";
 import  * as fetcher from "./utils/resourceFetchers.js";
 
 // #region DMC
@@ -30,12 +31,24 @@ async function downloadDMCRelatedImages(dmcProductsCollection, dmcCollection, dm
 const downloadAffiliateImages = async (affiliatesCollection, skip, limit) => {
     const affiliatesWithNonEmptyImages = await queries.findAllAffiliatesImages(affiliatesCollection, skip, limit)
     const affiliatesNormalized = utils.normalizeAffilates(affiliatesWithNonEmptyImages)
-    fetcher.downloadAffiliatesImages(affiliatesNormalized)
+    
+    affiliatesNormalized.forEach(affiliate => {
+        createAffiliateMigrationObject(affiliate)
+        //console.log(migration_objects)
+    })
+    
+    //fetcher.downloadAffiliatesImages(affiliatesNormalized)
 }
 const downloadAffiliateFAQImages = async (affiliatesFAQsCollection) => {
     const affiliatesFAQsWithNonEmptyImages = await queries.findAllAffiliatesFAQImages(affiliatesFAQsCollection, 300)
     const affiliatesFAQsNormalized = utils.normalizeAffiliateFAQ(affiliatesFAQsWithNonEmptyImages)
-    fetcher.downloadAffiliatesFAQImages(affiliatesFAQsNormalized)
+
+    affiliatesFAQsNormalized.forEach(affiliateFAQ => {
+        createAffiliateFAQMigrationObject(affiliateFAQ)
+        //console.log(migration_objects)
+    })
+
+    //fetcher.downloadAffiliatesFAQImages(affiliatesFAQsNormalized)
 }
 
 async function downloadAffiliateRelatedImages(affiliatesCollection, affiliatesFAQsCollection, skip, limit) {
@@ -48,13 +61,24 @@ async function downloadAffiliateRelatedImages(affiliatesCollection, affiliatesFA
 const downloadPageImages = async (pagesCollection, skip, limit) => {
     const pagesWithNonEmptyImages = await queries.findAllPageImages(pagesCollection, skip, limit)
     const pagesWithNonEmptyImagesNormalized = utils.normalizePage(pagesWithNonEmptyImages)
-    fetcher.downloadImagesFromPages(pagesWithNonEmptyImagesNormalized)
+
+    pagesWithNonEmptyImagesNormalized.forEach(page => {
+        createPageMigrationObject(page, 'public')
+        //console.log(migration_objects)
+    })
+
+    //fetcher.downloadImagesFromPages(pagesWithNonEmptyImagesNormalized)
 }
 
 const downloadPageCategoryImages = async (pageCategoriesCollection, skip, limit) => {
     const pageCategoriesWithNonEmptyImages = await queries.findAllPageCategoryImages(pageCategoriesCollection, skip, limit)
     const pageCategoriesNormalized = utils.normalizePageCategories(pageCategoriesWithNonEmptyImages)
-    fetcher.downloadImagesFromPageCategories(pageCategoriesNormalized)
+    
+    pageCategoriesNormalized.forEach(pageCategory => {
+        createPageCategoryMigrationObject(pageCategory, 'public')
+        //console.log(migration_objects)
+    })
+    //fetcher.downloadImagesFromPageCategories(pageCategoriesNormalized)
 }
 
 async function downloadPageRelatedImages(pagesCollection, pageCategoriesCollection, skip, limit) {
@@ -68,13 +92,25 @@ async function downloadPageRelatedImages(pagesCollection, pageCategoriesCollecti
 const downloadDestinationCountryImages = async (destinationCountriesCollection, skip, limit) => {
     const destinationCountriesWithNonEmptyImages = await queries.findAllDestinationCountriesImages(destinationCountriesCollection, skip, limit)
     const destinationCountriesNormalized = utils.normalizeDestinationCountry(destinationCountriesWithNonEmptyImages)
-    fetcher.downloadImagesFromDestinationCountries(destinationCountriesNormalized)
+    
+    destinationCountriesNormalized.forEach(destinationCountry => {
+        createDestinationCountryMigrationObject(destinationCountry, 'public')
+        //console.log(migration_objects)
+    })
+    
+    //fetcher.downloadImagesFromDestinationCountries(destinationCountriesNormalized)
 }
 
 const downloadDestinationCountryZonesImages = async (destinationCountryZonesCollection, skip, limit) => {
     const destinationCountryZonesWithNonEmptyImages = await queries.findAllDestinationCountryZonesImages(destinationCountryZonesCollection, skip, limit)
     const destinationCountryZonesNormalized = utils.normalizeDestinationCountryZones(destinationCountryZonesWithNonEmptyImages)
-    fetcher.downloadImagesFromDestinationCountryZones(destinationCountryZonesNormalized) 
+    
+    destinationCountryZonesNormalized.forEach(destinationCountryZone => {
+        createDestinationCountryZoneMigrationObject(destinationCountryZone, 'public')
+        //console.log(migration_objects)
+    })
+    
+    //fetcher.downloadImagesFromDestinationCountryZones(destinationCountryZonesNormalized) 
 }
 
 async function downloadDestinationCountryRelatedImages(destinationCountriesCollection, destinationCountryZonesCollection, skip, limit) {
@@ -106,14 +142,24 @@ async function downloadTagsRelatedImages(tagsCollection, tripTagsCollection, ski
 async function downloadBannerRelatedImages(bannersCollection, skip, limit) {
     const bannersWithNonEmptyImages = await queries.findAllBannersWithImages(bannersCollection, skip, limit)
     const bannersNormalized = utils.normalizeBanner(bannersWithNonEmptyImages)
-    fetcher.downloadImagesFromBanners(bannersNormalized)
+
+    bannersNormalized.forEach(banner => {
+        createBannerMigrationObject(banner)
+        //console.log(migration_objects)
+    })
+
+    //fetcher.downloadImagesFromBanners(bannersNormalized)
 }
 
 async function downloadBookedProductsRelatedImages(bookedProductsCollection, skip, limit) {
     const bookedProductsWithNonEmptyImages = await queries.findAllBookedProductsImages(bookedProductsCollection, skip, limit)
     const bookedProductsNormalized = utils.normalizeBookedProduct(bookedProductsWithNonEmptyImages)
-    fetcher.downloadImagesFromBookedPoducts(bookedProductsNormalized)
+    bookedProductsNormalized.forEach(bookedProduct => {
+        createBookedProductMigrationObject(bookedProduct, 'public')
+        //console.log(migration_objects)
+    })
 
+    //fetcher.downloadImagesFromBookedPoducts(bookedProductsNormalized)
 }
 
 async function downloadBookingInvoices(bookingsCollection, skip, limit) {

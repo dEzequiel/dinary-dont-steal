@@ -4,8 +4,9 @@ import { determineImageUrl } from "../utils/helper.js";
 function DestinationCountryZoneNormalizer() {}
 
 DestinationCountryZoneNormalizer.prototype = Object.create(Normalizer.prototype);
-DestinationCountryZoneNormalizer.prototype.normalize = function (name, title, image, iconImage) {
+DestinationCountryZoneNormalizer.prototype.normalize = function (id, name, title, image, iconImage) {
     const normalizedObject = {
+        id: String(id),
         name,
         title,
     } 

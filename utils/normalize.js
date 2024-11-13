@@ -105,7 +105,7 @@ export function normalizeBanner(banners) {
 export function normalizeBookedProduct(bookedProducts) {
     let normalizedBookedProducts = []
     bookedProducts.forEach(bookedProduct => {
-        normalizedBookedProducts.push(bookedProductNormalizer.normalize(bookedProduct.slug, bookedProduct.productimage, bookedProduct.itinerary))
+        normalizedBookedProducts.push(bookedProductNormalizer.normalize(bookedProduct._id, bookedProduct.slug, bookedProduct.productimage, bookedProduct.itinerary))
     });
 
     return normalizedBookedProducts
@@ -141,7 +141,7 @@ export function normalizePage(pages) {
 export function normalizePageCategories(pageCategories) {
     let normalizedPageCategories = []
     pageCategories.forEach(pageCategory => {
-        normalizedPageCategories.push(pageCategoryNormalizer.normalize(pageCategory.name, pageCategory.mainImage, pageCategory.imageFacebook))
+        normalizedPageCategories.push(pageCategoryNormalizer.normalize(pageCategory._id, pageCategory.name, pageCategory.mainImage, pageCategory.imageFacebook))
     });
 
     return normalizedPageCategories
@@ -205,7 +205,7 @@ export function normalizeUser(users) {
 export function normalizeDestinationCountry(destinationCountries) {
     let normalizedDestinationCountries = []
     destinationCountries.forEach(destinationCountry => {
-        normalizedDestinationCountries.push(destinationCountryNormalizer.normalize(destinationCountry.slug, destinationCountry.title_es, destinationCountry.mainImage, destinationCountry.imageFacebook))
+        normalizedDestinationCountries.push(destinationCountryNormalizer.normalize(destinationCountry._id, destinationCountry.slug, destinationCountry.title_es, destinationCountry.mainImage, destinationCountry.imageFacebook))
     })
 
     return normalizedDestinationCountries
@@ -214,7 +214,7 @@ export function normalizeDestinationCountry(destinationCountries) {
 export function normalizeDestinationCountryZones(destinationCountryZones) {
     let normalizedDestinationContryZones = []
     destinationCountryZones.forEach(destinationCountryZone => {
-        normalizedDestinationContryZones.push(destinationCountryZoneNormalizer.normalize(destinationCountryZone.slug, destinationCountryZone.title_es, destinationCountryZone.mainImage, destinationCountryZone.iconImage))
+        normalizedDestinationContryZones.push(destinationCountryZoneNormalizer.normalize(destinationCountryZone._id, destinationCountryZone.slug, destinationCountryZone.title_es, destinationCountryZone.mainImage, destinationCountryZone.iconImage))
     });
 
     return normalizedDestinationContryZones

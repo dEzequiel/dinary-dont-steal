@@ -4,8 +4,9 @@ import { determineImageUrl } from "../utils/helper.js";
 function PageCategoryNormalizer() {}
 
 PageCategoryNormalizer.prototype = Object.create(Normalizer.prototype);
-PageCategoryNormalizer.prototype.normalize = function (name, image, imageFacebook) {
+PageCategoryNormalizer.prototype.normalize = function (id, name, image, imageFacebook) {
     const normalizedObject = {
+        id: String(id),
         name
     };
 

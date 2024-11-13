@@ -1,4 +1,5 @@
 async function findAllBookedProductsImages(collection='bookedproducts', skip=0, limit=0, projection={
+    '_id': 1,
     'slug': 1,
     'productimage':1,
     'image': 1,

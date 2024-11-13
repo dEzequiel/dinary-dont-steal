@@ -1,4 +1,5 @@
 async function findAllDestinationCountriesImages(collection='destinationcountries', skip=0, limit=0, projection={
+    '_id': 1,
     'slug': 1,
     'title_es': 1,
     'mainImage': 1,
@@ -25,6 +26,7 @@ async function findAllDestinationCountriesImages(collection='destinationcountrie
 }
 
 async function findAllDestinationCountryZonesImages(collection='destinationcountrieszones', skip=0, limit=0, projection={
+    '_id': 1,
     'slug': 1,
     'title_es': 1,
     'mainImage': 1,
