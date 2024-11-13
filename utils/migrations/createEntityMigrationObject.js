@@ -49,11 +49,9 @@ export function createBookedProductMigrationObject(bookedProduct, nature) {
     }
 
     if(bookedProduct.itinerary && bookedProduct.itinerary.length > 0) {
-        let itinerary_counter = 0;
-        bookedProduct.itinerary.forEach(itinerary => {
+        bookedProduct.itinerary.forEach((itinerary, index) => {
             if(itinerary.url) {
-                createEntityMigrationObject(collection, bookedProduct.id, `itinerary.${itinerary_counter}.image.url`, itinerary.url, nature)
-                itinerary_counter++;
+                createEntityMigrationObject(collection, bookedProduct.id, `itinerary.${index}.image.url`, itinerary.url, nature)
             }
         })
     }
@@ -154,11 +152,9 @@ export function createBudgetProductMigrationObject(budgetProduct, nature) {
     }
 
     if(budgetProduct.itinerary && budgetProduct.itinerary.length > 0) {
-        let itinerary_counter = 0;
-        budgetProduct.itinerary.forEach(itinerary => {
+        budgetProduct.itinerary.forEach((itinerary, index) => {
             if(itinerary.url) {
-                createEntityMigrationObject(collection, budgetProduct.id, `itinerary.${itinerary_counter}.image.url`, itinerary.url, nature)
-                itinerary_counter++;
+                createEntityMigrationObject(collection, budgetProduct.id, `itinerary.${index}.image.url`, itinerary.url, nature)
             }
         })
     }
@@ -172,5 +168,47 @@ export function createDestinationCityMigrationObject(destinationCity, nature) {
 
     if(destinationCity.imageFacebook) {
         createEntityMigrationObject(collection, destinationCity.id, 'imageFacebook.url', destinationCity.imageFacebook.url, nature)
+    }
+}
+
+export function createBookingInvoiceMigrationObject(booking, nature) {
+    if(booking.voucher) {
+        createEntityMigrationObject('bookings', booking.id, 'voucher.url', booking.voucher.url, nature)
+    }
+
+    if(booking.voucherflights) {
+        createEntityMigrationObject('bookings', booking.id, 'voucherflights.url', booking.voucherflights.url, nature)
+    }
+
+    if(booking.passport) {
+        createEntityMigrationObject('bookings', booking.id, 'passport.url', booking.passport.url, nature)
+    }
+
+    if(booking.visaletter) {
+        createEntityMigrationObject('bookings', booking.id, 'visaletter.url', booking.visaletter.url, nature)
+    }
+
+    if(booking.invoicesaerial) {
+        booking.invoicesaerial.forEach((invoice, index) => {
+            createEntityMigrationObject('bookings', booking.id, `invoicesaerial.${index}.url`, invoice.url, nature)
+        })
+    }
+
+    if(booking.invoicesagency) {
+        booking.invoicesagency.forEach((invoice, index) => {
+            createEntityMigrationObject('bookings', booking.id, `invoicesagency.${index}.url`, invoice.url, nature)
+        })
+    }
+
+    if(booking.invoicesprovider) {
+        booking.invoicesprovider.forEach((invoice, index) => {
+            createEntityMigrationObject('bookings', booking.id, `invoicesprovider.${index}.url`, invoice.url, nature)
+        })
+    }
+
+    if(booking.invoicestravelersense) {
+        booking.invoicestravelersense.forEach((invoice, index) => {
+            createEntityMigrationObject('bookings', booking.id, `invoicestravelersense.${index}.url`, invoice.url, nature)
+        })
     }
 }

@@ -74,7 +74,7 @@ export function normalizeManagementGroup(managementGroups) {
 export function normalizeBookings(bookings) {
     let normalizedBookings = []
     bookings.forEach(booking => {
-        normalizedBookings.push(bookingNormalizer.normalize(booking.idBooking, booking.voucher, booking.voucherflights, booking.passport, booking.visaletter, booking.invoicesaerial, booking.invoicesagency, booking.invoicesprovider, booking.invoicestravelersense))
+        normalizedBookings.push(bookingNormalizer.normalize(booking._id, booking.idBooking, booking.voucher, booking.voucherflights, booking.passport, booking.visaletter, booking.invoicesaerial, booking.invoicesagency, booking.invoicesprovider, booking.invoicestravelersense))
     });
 
     return normalizedBookings

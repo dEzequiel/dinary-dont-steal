@@ -1,4 +1,5 @@
 async function findAllBookingInvoices(collection='bookings', skip=0, limit=0, projection={
+    '_id': 1,
     'idBooking': 1,
     'voucher': 1,
     'voucherflights': 1,

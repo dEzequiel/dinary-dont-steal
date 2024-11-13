@@ -3,8 +3,9 @@ import { Normalizer } from "./base/base_normalizer.js";
 function BookingNormalizer() {}
 
 BookingNormalizer.prototype = Object.create(Normalizer.prototype);
-BookingNormalizer.prototype.normalize = function(idBooking, voucher, voucherflights, passport, visaletter, invoicesaerial, invoicesagency, invoicesprovider, invoicestravelersense) {
+BookingNormalizer.prototype.normalize = function(id, idBooking, voucher, voucherflights, passport, visaletter, invoicesaerial, invoicesagency, invoicesprovider, invoicestravelersense) {
     const normalizedObject = {
+        id: String(id),
         idBooking: idBooking
     }
 

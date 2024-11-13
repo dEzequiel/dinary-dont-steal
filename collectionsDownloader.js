@@ -1,6 +1,6 @@
 import * as queries from "./queries/index.js";
 import * as utils from "./utils/index.js";
-import { createAffiliateFAQMigrationObject, createAffiliateMigrationObject, createBannerMigrationObject, createBookedProductMigrationObject, createBudgetFilesMigrationObject, createBudgetProductMigrationObject, createDestinationCityMigrationObject, createDestinationCountryMigrationObject, createDestinationCountryZoneMigrationObject, createPageCategoryMigrationObject, createPageMigrationObject, migration_objects } from "./utils/migrations/createEntityMigrationObject.js";
+import { createAffiliateFAQMigrationObject, createAffiliateMigrationObject, createBannerMigrationObject, createBookedProductMigrationObject, createBookingInvoiceMigrationObject, createBudgetFilesMigrationObject, createBudgetProductMigrationObject, createDestinationCityMigrationObject, createDestinationCountryMigrationObject, createDestinationCountryZoneMigrationObject, createPageCategoryMigrationObject, createPageMigrationObject, migration_objects } from "./utils/migrations/createEntityMigrationObject.js";
 import  * as fetcher from "./utils/resourceFetchers.js";
 
 // #region DMC
@@ -165,7 +165,13 @@ async function downloadBookedProductsRelatedImages(bookedProductsCollection, ski
 async function downloadBookingInvoices(bookingsCollection, skip, limit) {
     const bookingWithNonEmptyImages = await queries.findAllBookingImages(bookingsCollection, skip, limit)
     const bookingsWithNonEmptyImagesNormalized = utils.normalizeBookings(bookingWithNonEmptyImages)
-    fetcher.downloadInvoicesFromBookings(bookingsWithNonEmptyImagesNormalized)
+    
+    bookingsWithNonEmptyImagesNormalized.forEach(booking => {
+        createBookingInvoiceMigrationObject(booking, 'public')
+    })
+    
+    console.log(migration_objects)
+    //fetcher.downloadInvoicesFromBookings(bookingsWithNonEmptyImagesNormalized)
 
 }
 
