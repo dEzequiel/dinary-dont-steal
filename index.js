@@ -87,7 +87,7 @@ import { migration_objects } from "./utils/migrations/createEntityMigrationObjec
 run().catch(console.error)
 const print = () => {
   const migration_objects_string = JSON.stringify(migration_objects, null, 2);
-  const markdownContent = `# Migration Objects\n\n\`\`\`json\n${migration_objects_string}\n\`\`\``;
+  const markdownContent = `${migration_objects_string}`;
   fs.writeFile('migration_objects.md', markdownContent, (err) => {
       if (err) {
           console.error('Error writing to file', err);

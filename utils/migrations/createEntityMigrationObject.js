@@ -1,4 +1,7 @@
 
+import dotenv from "dotenv";
+dotenv.config();
+
 export let migration_objects = []
 function createEntityMigrationObject(collection_name, entity_id, object_property, entity_path, nature) {
     const key = `${collection_name}-${entity_id}-${object_property}`
